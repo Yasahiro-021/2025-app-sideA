@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:web_browser/router/router.dart';
 import '../node/node.dart';
 import '../node/node_url.dart';
 import '../tree_view/treeview.dart';

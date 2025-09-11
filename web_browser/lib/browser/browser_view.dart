@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'browser_controller.dart';
@@ -49,6 +48,9 @@ class BrowserViewWidget extends HookConsumerWidget {
           ],
         ),
       ),
+      bottomNavigationBar: BrowserBottomBar(controller: controller),
     );
   }
 }
+
+
