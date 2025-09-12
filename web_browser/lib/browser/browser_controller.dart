@@ -1,9 +1,14 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../node/node.dart';
 import '../node/node_url.dart';
 import '../tree_view/treeview.dart';
+
+final browserControllerProvider = Provider<BrowserController>((ref) {
+  return BrowserController();
+});
 
 // ブラウザ画面の状態管理・ロジックを担当するコントローラークラス
 class BrowserController {
@@ -11,7 +16,7 @@ class BrowserController {
   late InAppWebViewController webViewController;
 
   // 子ノード（履歴ノード）を追加するかどうかのフラグ。trueなら履歴ツリーに追加する。
-  bool canAddChildNode = true;
+  bool canAddChildNode  = true;
 
   // WebViewの各種設定（JavaScript有効化、ダウンロードイベント有効化など）
   final InAppWebViewSettings settings = InAppWebViewSettings(
@@ -66,7 +71,7 @@ class BrowserController {
   }
 
   // 指定したURLにWebViewを遷移させる。履歴ツリーのノード名がURLになっている。
-  void navigateTo(String url) {
+  void navigateToParentNode() {
     webViewController.loadUrl(urlRequest: URLRequest(url: WebUri(url)));
   }
 
@@ -172,92 +177,4 @@ class BrowserController {
     return NavigationActionPolicy.ALLOW; // ページ遷移を許可
   }
 
-  // 親ノード（前のページ）へ戻るボタンのWidget生成
-  // ボタン押下で親ノードのURLへ遷移
-  Widget buildParentButton(BuildContext context) {
-    final parentNode = _currentNode.parent;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: GestureDetector(
-        onTap: () => navigateTo(parentNode!.name),
-        child: Container(
-          width: 160,
-          height: 40,
-          color: Colors.blue,
-          alignment: Alignment.center,
-          child: Text(
-            parentNode != null
-                ? (urlTitles[parentNode.name] ?? parentNode.name)
-                : '',
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  // 画面右下の各種操作ボタン（戻る・ノード追加切替）のWidget生成
-  // 戻るボタン：WebViewの履歴を戻る
-  // ノード追加切替：履歴ツリーへの追加ON/OFF
-  Widget buildFloatingButtons(
-    BuildContext context,
-    void Function(void Function()) setState,
-  ) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        // --- WebViewの履歴を戻るボタン ---
-        // FloatingActionButtonを押すとWebViewの「戻る」履歴があれば1つ戻る
-        FloatingActionButton(
-          heroTag: "backButton",
-          child: const Icon(Icons.arrow_back),
-          onPressed: () async {
-            // WebViewに戻れる履歴がある場合のみ戻る
-            if (await webViewController.canGoBack()) {
-              await webViewController.goBack();
-            }
-          },
-        ),
-        const SizedBox(height: 16),
-        // --- ノード追加切替スイッチ ---
-        // Rowで2つの操作（切替ボタンとスイッチ）を横並びに表示
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            // ノード追加切替用のFloatingActionButton
-            // アイコンはON/OFFでチェックボックス表示が変わる
-            FloatingActionButton(
-              heroTag: "addChildNodeSwitch",
-              onPressed: () {
-                // ボタン押下で履歴ノード追加のON/OFFを切り替える
-                setState(() {
-                  canAddChildNode = !canAddChildNode;
-                });
-              },
-              child: Icon(
-                canAddChildNode
-                    ? Icons.check_box
-                    : Icons.check_box_outline_blank,
-              ),
-            ),
-            const SizedBox(width: 12),
-            // ノード追加切替用のSwitch（ON/OFF状態を視覚的に表示・変更）
-            Switch(
-              value: canAddChildNode,
-              onChanged: (value) {
-                // スイッチ操作で履歴ノード追加のON/OFFを切り替える
-                setState(() {
-                  canAddChildNode = value;
-                });
-              },
-            ),
-          ],
-        ),
-      ],
-    );
-  }
 }
