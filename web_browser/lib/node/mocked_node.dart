@@ -34,6 +34,32 @@ Node mockedNode(int depth, int childCount, [bool ramdomChildCount = false]) {
   return rootNode;
 }
 
+/// URL表示テスト用のモックノードを生成
+Node mockedNodeWithUrls() {
+  Node rootNode = Node('Root');
+  
+  // いくつかのURL例を含む子ノードを作成
+  Node githubNode = Node('https://github.com/flutter/flutter', rootNode);
+  Node googleNode = Node('https://www.google.com', rootNode);
+  Node docsNode = Node('https://docs.flutter.dev/development', rootNode);
+  Node fileNode = Node('https://example.com/documents/readme.html', rootNode);
+  Node normalNode = Node('Regular Node', rootNode);
+  
+  rootNode.addChild(githubNode);
+  rootNode.addChild(googleNode);
+  rootNode.addChild(docsNode);
+  rootNode.addChild(fileNode);
+  rootNode.addChild(normalNode);
+  
+  // GitHubノードに子を追加
+  Node issuesNode = Node('https://github.com/flutter/flutter/issues', githubNode);
+  Node actionsNode = Node('https://github.com/flutter/flutter/actions', githubNode);
+  githubNode.addChild(issuesNode);
+  githubNode.addChild(actionsNode);
+  
+  return rootNode;
+}
+
 class _NodeDepth {
   ///mockedNodeを生成する際に、生成の待機列の要素となるクラス
   final Node node;

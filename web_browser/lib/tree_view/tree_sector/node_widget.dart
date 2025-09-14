@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../node/url_to_keyword.dart';
 import '../data/ui_widgets.dart';
 import 'tree_division.dart';
 
@@ -22,6 +23,9 @@ class NodeWidget extends ConsumerWidget {
       ref.watch(nodeHeightNotifier),
     );
 
+    // URLの場合はキーワードに変換して表示
+    final displayName = UrlToKeyword.convertNodeName(name);
+
     return SizedBox(
       height: size.height,
       width: size.width,
@@ -29,7 +33,7 @@ class NodeWidget extends ConsumerWidget {
         painter: NodePainter(nodePaint: paint, graphSize: size),
         child: Column(
           children: [
-            Text(name),
+            Text(displayName),
             ElevatedButton(
               onPressed: () => ref
                   .read(treeChildrenNotifier(parentTreeSector).notifier)

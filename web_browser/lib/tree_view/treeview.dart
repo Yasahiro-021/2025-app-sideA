@@ -18,6 +18,10 @@ class TreeView extends HookConsumerWidget {
     return TreeView(key: key, rootNode: mockedNode(20, 3));
   }
 
+  factory TreeView.mockingNodeWithUrls({Key? key}) {
+    return TreeView(key: key, rootNode: mockedNodeWithUrls());
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     log('Root node children count: ${rootNode.children.length}'); // ログを追加
