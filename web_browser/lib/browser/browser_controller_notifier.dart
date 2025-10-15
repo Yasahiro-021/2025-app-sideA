@@ -1,3 +1,6 @@
+// DEPRECATED: このファイルは旧アーキテクチャです。
+// 新しい実装は browser_controller.dart と notifiers/ ディレクトリを参照してください。
+// 
 // BrowserControllerをRiverpodで管理するためのNotifier。
 // 参照がなくなった場合は削除される。
 import 'dart:developer';
@@ -12,6 +15,8 @@ import '../tree_view/treeview.dart';
 import 'browser_current_node_notifier.dart';
 
 /// ブラウザの状態を表すクラス
+/// @deprecated 新しいアーキテクチャでは状態を個別のNotifierで管理します
+@Deprecated('Use individual notifiers in notifiers/ directory instead')
 class BrowserState {
   final Node rootNode;
   final Node currentNode;
@@ -53,6 +58,8 @@ class BrowserState {
 }
 
 /// BrowserControllerの状態管理を担当するNotifierクラス
+/// @deprecated 新しいアーキテクチャでは BrowserController を使用します
+@Deprecated('Use BrowserController from browser_controller.dart instead')
 class BrowserControllerNotifier extends AutoDisposeNotifier<BrowserState> {
   // WebViewの各種設定（JavaScript有効化、ダウンロードイベント有効化など）
   final InAppWebViewSettings settings = InAppWebViewSettings(
@@ -225,7 +232,8 @@ class BrowserControllerNotifier extends AutoDisposeNotifier<BrowserState> {
   }
 }
 
-final browserControllerProvider =
+@Deprecated('Use browserControllerProvider from browser_controller.dart instead')
+final browserControllerProviderOld =
     AutoDisposeNotifierProvider<BrowserControllerNotifier, BrowserState>(
       () => BrowserControllerNotifier(),
     );

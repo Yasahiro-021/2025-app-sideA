@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../node/node.dart';
-import '../node/node_url.dart';
-import 'browser_controller_notifier.dart';
-import 'browser_bottom_bar.dart';
+import '../node/node_with_path.dart';
+import 'browser_controller.dart';
+import 'notifiers/current_node_notifier.dart';
+import 'notifiers/root_node_notifier.dart';
+import 'notifiers/bottom_nodes_notifier.dart';
 
 ///Webブラウザ画面のメインWidget
 ///
@@ -14,48 +15,50 @@ class BrowserViewWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final browserState = ref.watch(browserControllerProvider);
-    final browserNotifier = ref.read(browserControllerProvider.notifier);
+    final controller = ref.watch(browserControllerProvider);
+    final currentNode = ref.watch(currentNodeNotifierProvider);
+    final rootNode = ref.watch(rootNodeNotifierProvider);
+    final bottomNodes = ref.watch(bottomNodesNotifierProvider);
     
     return Scaffold(
       appBar: AppBar(
         title: const Text('ブラウザ'), // 画面タイトル
         actions: [
-          // 履歴ツリー画面への遷移ボタン
+          // 履歴ツリー画面への遷移ボタン（UIは後ほど実装）
           IconButton(
             icon: const Icon(Icons.account_tree),
-            onPressed: () => browserNotifier.openTreeView(context),
+            onPressed: () {
+              // TODO: TreeView画面への遷移を実装
+            },
           ),
         ],
       ),
       body: SafeArea(
         child: Column(
           children: [
-            // 親ノードへ戻るボタン表示条件をgetRootNodeで統一
-            if (browserState.currentNode.parent != null &&
-                browserState.currentNode != browserState.rootNode)
-              ParentButton(parentNode: browserState.currentNode.parent),
+            // 親ノードへ戻るボタン表示条件
+            if (currentNode.parent != null && currentNode != rootNode)
+              ParentButton(parentNode: currentNode.parent as NodeWithPath?),
             // WebView本体（ページ表示）
             Expanded(
               child: InAppWebView(
                 initialUrlRequest: URLRequest(
-                  url: WebUri(browserNotifier.initialUrl),
+                  url: WebUri(controller.initialUrl),
                 ), // 初期URL
-                initialSettings: browserNotifier.settings, // WebView設定
+                initialSettings: controller.settings, // WebView設定
                 onWebViewCreated:
-                    browserNotifier.onWebViewCreated, // WebView生成時コールバック
-                onLoadStop: browserNotifier.onLoadStop, // ページ読み込み完了時コールバック
+                    controller.onWebViewCreated, // WebView生成時コールバック
+                onLoadStop: controller.onLoadStop, // ページ読み込み完了時コールバック
                 shouldOverrideUrlLoading:
-                    browserNotifier.shouldOverrideUrlLoadingRoot, // リンククリック時コールバック
+                    controller.shouldOverrideUrlLoading, // リンククリック時コールバック
               ),
             ),
             // 下部履歴ボタンバー（履歴ノードが存在する場合のみ表示）
-            if (browserState.bottomNodes.isNotEmpty)
-              BrowserBottomBar(browserState: browserState),
+            if (bottomNodes.isNotEmpty)
+              BrowserBottomBarNew(bottomNodes: bottomNodes),
           ],
         ),
       ),
-      floatingActionButton: const FloatingButtons(),
     );
   }
 }
@@ -67,22 +70,17 @@ class BrowserViewWidget extends HookConsumerWidget {
 /// 親ノードが渡されなかった場合はバツ印と灰色になり、タップできない
 class ParentButton extends ConsumerWidget {
   const ParentButton({super.key, this.parentNode});
-  final Node? parentNode;
+  final NodeWithPath? parentNode;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.read(browserControllerProvider);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: GestureDetector(
         onTap: () {
           if (parentNode != null) {
-            // parentNodeのURLを取得してナビゲート
-            String url = '';
-            if (parentNode is NodeWithURL) {
-              url = (parentNode as NodeWithURL).url;
-            } else {
-              url = parentNode!.name; // Nodeの場合はnameをURLとして使用
-            }
-            ref.read(browserControllerProvider.notifier).navigateToParentNode(url);
+            // 親ノードに戻る
+            controller.navigateToParentNode();
           }
         },
         child: Container(
@@ -92,8 +90,7 @@ class ParentButton extends ConsumerWidget {
           alignment: Alignment.center,
           child: parentNode != null
               ? Text(
-                  //前段でnullチェックしてるのでnullにはならないが、念のため。
-                  parentNode?.name ?? 'nullです',
+                  parentNode!.name,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     color: Colors.white,
@@ -108,49 +105,35 @@ class ParentButton extends ConsumerWidget {
   }
 }
 
-class FloatingButtons extends ConsumerWidget {
-  const FloatingButtons({super.key});
+/// 下部履歴ボタンバー（新アーキテクチャ用）
+class BrowserBottomBarNew extends StatelessWidget {
+  const BrowserBottomBarNew({super.key, required this.bottomNodes});
+  final List<NodeWithPath> bottomNodes;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final browserState = ref.watch(browserControllerProvider);
-    final browserNotifier = ref.read(browserControllerProvider.notifier);
-    
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        const SizedBox(height: 16),
-        // --- ノード追加切替スイッチ ---
-        // Rowで2つの操作（切替ボタンとスイッチ）を横並びに表示
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            // ノード追加切替用のFloatingActionButton
-            // アイコンはON/OFFでチェックボックス表示が変わる
-            FloatingActionButton(
-              heroTag: "addChildNodeSwitch",
+  Widget build(BuildContext context) {
+    return Container(
+      height: 60,
+      color: Colors.grey[200],
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: bottomNodes.length,
+        itemBuilder: (context, index) {
+          final node = bottomNodes[index];
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
               onPressed: () {
-                // ボタン押下で履歴ノード追加のON/OFFを切り替える
-                browserNotifier.canAddChildNodeSwitch();
+                // TODO: ノードタップ時の処理を実装
               },
-              child: Icon(
-                browserState.canAddChildNode
-                    ? Icons.check_box
-                    : Icons.check_box_outline_blank,
+              child: Text(
+                node.name,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-            const SizedBox(width: 12),
-            // ノード追加切替用のSwitch（ON/OFF状態を視覚的に表示・変更）
-            Switch(
-              value: browserState.canAddChildNode,
-              onChanged: (value) {
-                // スイッチ操作で履歴ノード追加のON/OFFを切り替える
-                browserNotifier.canAddChildNodeSwitch();
-              },
-            ),
-          ],
-        ),
-      ],
+          );
+        },
+      ),
     );
   }
 }

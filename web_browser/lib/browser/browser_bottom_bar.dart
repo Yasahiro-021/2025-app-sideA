@@ -3,7 +3,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'browser_controller_notifier.dart';
 import '../node/node.dart';
 
+// DEPRECATED: このファイルは旧アーキテクチャです。
+// 新しい実装は browser_view.dart の BrowserBottomBarNew を参照してください。
+
 // ブラウザ画面下部に表示する履歴ノードのボタンバーWidget
+@Deprecated('Use BrowserBottomBarNew from browser_view.dart instead')
 class BrowserBottomBar extends ConsumerWidget {
   // ブラウザの状態
   final BrowserState browserState;
@@ -32,7 +36,7 @@ class BrowserBottomBar extends ConsumerWidget {
   // 履歴ノード（Node）をボタンとして表示するWidget
   // ボタン押下で該当ノードのURLへWebViewを遷移
   Widget _buildBottomButton(BuildContext context, WidgetRef ref, Node node) {
-    final browserNotifier = ref.read(browserControllerProvider.notifier);
+    final browserNotifier = ref.read(browserControllerProviderOld.notifier);
     
     return GestureDetector(
       onTap: () => browserNotifier.changeNode(node), // 画面遷移

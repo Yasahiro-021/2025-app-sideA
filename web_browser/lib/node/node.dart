@@ -18,10 +18,16 @@ class Node {
 
   ///* `name`ノードの名前
   ///* `parent`親ノード（ルートノードの場合はnull）
-  Node(this._name, [this._parent]) : _children = [];
+  Node(this._name, [Node? parent]) : _children = [], _parent = parent {
+    // 親ノードが指定されている場合、親の子リストに自身を追加（重複チェック）
+    if (_parent != null && !_parent!._children.contains(this)) {
+      _parent!._children.add(this);
+    }
+  }
 
+  /// 子ノードを追加
   void addChild(Node childNode) {
-    _children.add(childNode);
+    if (!_children.contains(childNode)) _children.add(childNode);
   }
 
   int _serchDepth() {
