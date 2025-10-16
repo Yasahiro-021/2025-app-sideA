@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../node/node_with_path.dart';
-import 'browser_controller.dart';
-import 'notifiers/current_node_notifier.dart';
-import 'notifiers/root_node_notifier.dart';
-import 'notifiers/bottom_nodes_notifier.dart';
+import '../../node/node_with_path.dart';
+import '../browser_controller.dart';
+import '../notifiers/current_node_notifier.dart';
+import '../notifiers/root_node_notifier.dart';
+import '../notifiers/bottom_nodes_notifier.dart';
 
 ///Webブラウザ画面のメインWidget
 ///
