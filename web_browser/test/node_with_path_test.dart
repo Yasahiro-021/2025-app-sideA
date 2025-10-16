@@ -78,11 +78,6 @@ void main() {
         url: 'https://example.com',
         parent: root,
       );
-      final child = NodeWithPath(
-        name: 'child',
-        url: 'https://example.com',
-        parent: node,
-      );
 
       expect(node.path, '1-1');
       expect(node.generateChildPath(1), '1-1-1');

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:web_browser/home_page.dart';
 import 'package:web_browser/tree_view/treeview.dart';
-import 'package:web_browser/browser/browser_view.dart';
+import 'package:web_browser/browser/ui/browser_view.dart';
 
 import '../node/node.dart';
 

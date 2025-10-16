@@ -20,8 +20,8 @@ class Node {
   ///* `parent`親ノード（ルートノードの場合はnull）
   Node(this._name, [Node? parent]) : _children = [], _parent = parent {
     // 親ノードが指定されている場合、親の子リストに自身を追加（重複チェック）
-    if (_parent != null && !_parent!._children.contains(this)) {
-      _parent!._children.add(this);
+    if (_parent != null && !_parent._children.contains(this)) {
+      _parent._children.add(this);
     }
   }
 

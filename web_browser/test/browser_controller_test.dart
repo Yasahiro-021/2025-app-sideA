@@ -5,7 +5,6 @@ import 'package:web_browser/node/node_with_path.dart';
 import 'package:web_browser/browser/notifiers/root_node_notifier.dart';
 import 'package:web_browser/browser/notifiers/current_node_notifier.dart';
 import 'package:web_browser/browser/notifiers/url_titles_notifier.dart';
-import 'package:web_browser/browser/notifiers/bottom_nodes_notifier.dart';
 
 void main() {
   group('BrowserController', () {
