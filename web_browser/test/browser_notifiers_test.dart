@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:web_browser/node/node_with_path.dart';
+import 'package:web_browser/browser/model/node_with_path.dart';
 import 'package:web_browser/browser/notifiers/root_node_notifier.dart';
 import 'package:web_browser/browser/notifiers/current_node_notifier.dart';
 import 'package:web_browser/browser/notifiers/url_titles_notifier.dart';
@@ -25,10 +25,9 @@ void main() {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      final newRoot = NodeWithPath(
+      final newRoot = NodeWithPath.root(
         name: 'new root',
         url: 'https://example.com',
-        isRoot: true,
       );
 
       container.read(rootNodeNotifierProvider.notifier).setRootNode(newRoot);
@@ -54,10 +53,9 @@ void main() {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      final root = NodeWithPath(
+      final root = NodeWithPath.root(
         name: 'root',
         url: 'https://example.com',
-        isRoot: true,
       );
       final newNode = NodeWithPath(
         name: 'new node',
@@ -125,10 +123,9 @@ void main() {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      final root = NodeWithPath(
+      final root = NodeWithPath.root(
         name: 'root',
         url: 'https://example.com',
-        isRoot: true,
       );
       final node1 = NodeWithPath(
         name: 'test1',
@@ -153,10 +150,9 @@ void main() {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      final root = NodeWithPath(
+      final root = NodeWithPath.root(
         name: 'root',
         url: 'https://example.com',
-        isRoot: true,
       );
       final node = NodeWithPath(
         name: 'test',
@@ -175,10 +171,9 @@ void main() {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      final root = NodeWithPath(
+      final root = NodeWithPath.root(
         name: 'root',
         url: 'https://example.com',
-        isRoot: true,
       );
       final node = NodeWithPath(
         name: 'test',
@@ -197,10 +192,9 @@ void main() {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
-      final root = NodeWithPath(
+      final root = NodeWithPath.root(
         name: 'root',
         url: 'https://example.com',
-        isRoot: true,
       );
       final node = NodeWithPath(
         name: 'test',

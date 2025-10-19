@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:web_browser/browser/browser_controller.dart';
-import 'package:web_browser/node/node_with_path.dart';
+import 'package:web_browser/browser/model/node_with_path.dart';
 import 'package:web_browser/browser/notifiers/root_node_notifier.dart';
 import 'package:web_browser/browser/notifiers/current_node_notifier.dart';
 import 'package:web_browser/browser/notifiers/url_titles_notifier.dart';
