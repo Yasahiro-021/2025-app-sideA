@@ -30,20 +30,31 @@
 - `UrlTitlesNotifier urlTitlesNotifier` - URLタイトルマップ管理用Notifier
 - `BottomNodesNotifier bottomNodesNotifier` - 下部バー用ノードリスト管理用Notifier
 - `WebViewControllerNotifier webViewControllerNotifier` - WebViewコントローラー管理用Notifier
+- `MultiAddEnabledNotifier multiAddEnabledNotifier` - 複数ノード追加の有効/無効を管理するNotifier
+- `SearchWordNotifier searchWordNotifier` - 検索ワードを管理するNotifier
 - `InAppWebViewSettings settings` - WebViewの設定（JavaScript有効化等）
 - `String initialUrl` - アプリ起動時の初期URL（Google検索ページ）
+
+**状態取得用プロパティ**:
+- `NodeWithPath rootNode` - ルートノードの取得
+- `NodeWithPath currentNode` - 現在ノードの取得
+- `Map<String, String> urlTitles` - URLタイトルマップの取得
+- `List<NodeWithPath> bottomNodes` - 下部ノードリストの取得
+- `InAppWebViewController? webViewController` - WebViewコントローラーの取得
+- `bool multiAddEnabled` - 複数ノード追加の有効状態の取得
+- `String searchWord` - 検索ワードの取得
 
 **パブリックメソッド**:
 - `void initialize()` - コントローラーの初期化
 - `void setRootNode(NodeWithPath node)` - ルートノードの設定
-- `void openTreeView(BuildContext context)` - 履歴ツリー画面への遷移
 - `bool isGoogleUrl(String url)` - GoogleのURLか判定
-- `void addBottomNode(NodeWithPath node)` - 下部バーにノードを追加
+- `void addBottomNode(NodeWithPath node)` - 下部バーにノードを追加（multiAddEnabledがtrueの場合のみ）
+- `void toggleMultiAddEnabled()` - multiAddEnabledの切り替え
 - `void onWebViewCreated(InAppWebViewController controller)` - WebView生成時のコールバック
 - `void onLoadStop(InAppWebViewController controller, WebUri? loadedUrl)` - ページ読み込み完了時のコールバック
 - `Future<NavigationActionPolicy> shouldOverrideUrlLoading(...)` - リンククリック時のコールバック
 - `void changeNode(NodeWithPath node)` - 現在ノードの変更
-- `void navigateToParentNode(String url)` - 親ノードへの遷移
+- `void navigateToParentNode()` - 親ノードへの遷移
 
 ### 2. RootNodeNotifier
 
@@ -67,24 +78,27 @@
 
 ### 4. UrlTitlesNotifier
 
-**概要**: URLとタイトルのマッピングを管理するNotifierクラス
+**概要**: タイトルとURLのマッピングを管理するNotifierクラス
 
-**役割**: 各URLに対応するページタイトルの管理
+**役割**: 各タイトルに対応するページURLの管理
 
 **パブリックメソッド**:
+
 - `Map<String, String> build()` - 初期マップの構築
-- `void addUrlTitle(String url, String title)` - URLとタイトルを追加
-- `void updateUrlTitle(String url, String title)` - タイトルを更新
+- `void addTitleUrl(String title, String url)` - タイトルとURLを追加
+- `void updateTitleUrl(String title, String url)` - タイトルとURLを更新
 
 ### 5. BottomNodesNotifier
 
 **概要**: 下部バーに表示するノードリストを管理するNotifierクラス
 
-**役割**: 履歴として表示するノードリストの管理
+**役割**: 現在のノードの子ノードの状態管理
 
 **パブリックメソッド**:
+
 - `List<NodeWithPath> build()` - 初期リストの構築
-- `void addNode(NodeWithPath node)` - ノードを追加
+- `void setNodes(List<NodeWithPath> nodes)` - ノードリスト全体を設定
+- `void addNode(NodeWithPath node)` - ノードを追加（重複チェック）
 - `void removeNode(NodeWithPath node)` - ノードを削除
 
 ### 6. WebViewControllerNotifier
@@ -94,45 +108,84 @@
 **役割**: InAppWebViewControllerの保持と提供
 
 **パブリックメソッド**:
+
 - `InAppWebViewController? build()` - 初期状態（null）の構築
 - `void setController(InAppWebViewController controller)` - コントローラーの設定
 
-### 7. Node
+### 7. MultiAddEnabledNotifier
+
+**概要**: 複数ノード追加の有効/無効を管理するNotifierクラス
+
+**役割**: リンククリック時に自動的に新しいノードを追加するかを制御
+
+**パブリックメソッド**:
+
+- `bool build()` - 初期状態（true）の構築
+- `void toggle()` - 状態を切り替え
+- `void setEnabled(bool enabled)` - 明示的に設定
+
+### 8. SearchWordNotifier
+
+**概要**: 検索ワードを管理するNotifierクラス
+
+**役割**: 検索バーの入力値の状態管理
+
+**パブリックメソッド**:
+
+- `String build()` - 初期状態（空文字列）の構築
+- `void setSearchWord(String word)` - 検索ワードを設定
+- `void clear()` - 検索ワードをクリア
+
+### 9. SearchBarExpandedNotifier
+
+**概要**: 検索バーの展開状態を管理するNotifierクラス
+
+**役割**: 検索バーのUI展開状態の管理
+
+**パブリックメソッド**:
+
+- `bool build()` - 初期状態（false）の構築
+- `void toggle()` - 展開状態を切り替え
+- `void expand()` - 検索バーを展開
+- `void collapse()` - 検索バーを折りたたむ
+
+### 10. Node
 
 **概要**: ツリー構造のノードを表すデータモデル
 
 **役割**: 履歴ツリーの各要素を表現し、親子関係を管理
 
 **パブリックメンバ**:
+
 - `String name` - ノードの名前（getter）
 - `List<Node> children` - 子ノードのリスト（getter）
 - `Node? parent` - 親ノード（getter、nullはルートノードを示す）
-- `int maxDepth` - ノードの最大深さ（lazy初期化、getter）
 
 **パブリックメソッド**:
+
 - `Node(String name, [Node? parent])` - コンストラクタ
 - `void addChild(Node childNode)` - 子ノードの追加
 - `String toString()` - 文字列表現（名前を返す）
 
-### 8. NodeWithPath
+### 11. NodeWithPath
 
-**概要**: パスIDを持つイミュータブルなノードクラス
+**概要**: パスIDを持つノードクラス
 
-**役割**: ツリー構造内でのノードの位置を一意に識別するパスIDを持つノード
+**役割**: ツリー構造内でのノードの位置を一意に識別するパスIDを持つノード。Nodeクラスを継承
 
 **パブリックメンバ**:
+
 - `String name` - ノードの名前
 - `String path` - ノードのパスID（例: "0", "1-1", "1-2", "2-1-3"）
 - `String url` - ノードに紐づくURL
 - `NodeWithPath? parent` - 親ノード
-- `List<NodeWithPath> children` - 子ノードのリスト
+- `List<NodeWithPath> children` - 子ノードのリスト（NodeWithPathにキャスト）
 
 **パブリックメソッド**:
-- `NodeWithPath({required String name, required String path, required String url, NodeWithPath? parent, List<NodeWithPath> children = const []})` - コンストラクタ
-- `NodeWithPath copyWith({...})` - イミュータブルなコピーメソッド
-- `NodeWithPath addChild(NodeWithPath child)` - 子ノードを追加した新しいインスタンスを返す
+
+- `NodeWithPath({required String name, required String url, required NodeWithPath parent})` - 通常のコンストラクタ（パスは親から自動計算）
+- `NodeWithPath.root({required String name, required String url, required String path})` - ルートノード用コンストラクタ
 - `String generateChildPath(int childIndex)` - 子ノードのパスIDを生成（例: "1-1" の子は "1-1-1", "1-1-2"...）
-- `int get depth` - ノードの深さを取得（ルートは0）
 - `String toString()` - 文字列表現（名前とパスを返す）
 
 ## Riverpod Providerの定義
@@ -159,7 +212,7 @@
 
 **型**: `NotifierProvider<UrlTitlesNotifier, Map<String, String>>`
 
-**役割**: URLとタイトルのマッピングを提供
+**役割**: タイトルとURLのマッピングを提供
 
 ### bottomNodesNotifierProvider
 
@@ -173,6 +226,24 @@
 
 **役割**: WebViewコントローラーを提供
 
+### multiAddEnabledNotifierProvider
+
+**型**: `NotifierProvider<MultiAddEnabledNotifier, bool>`
+
+**役割**: 複数ノード追加の有効/無効状態を提供
+
+### searchWordNotifierProvider
+
+**型**: `NotifierProvider<SearchWordNotifier, String>`
+
+**役割**: 検索ワードを提供
+
+### searchBarExpandedNotifierProvider
+
+**型**: `NotifierProvider<SearchBarExpandedNotifier, bool>`
+
+**役割**: 検索バーの展開状態を提供
+
 ## UMLクラス図
 
 ```mermaid
@@ -183,18 +254,27 @@ classDiagram
         +UrlTitlesNotifier urlTitlesNotifier
         +BottomNodesNotifier bottomNodesNotifier
         +WebViewControllerNotifier webViewControllerNotifier
+        +MultiAddEnabledNotifier multiAddEnabledNotifier
+        +SearchWordNotifier searchWordNotifier
         +InAppWebViewSettings settings
         +String initialUrl
+        +NodeWithPath rootNode
+        +NodeWithPath currentNode
+        +Map~String,String~ urlTitles
+        +List~NodeWithPath~ bottomNodes
+        +InAppWebViewController? webViewController
+        +bool multiAddEnabled
+        +String searchWord
         +initialize() void
         +setRootNode(NodeWithPath) void
-        +openTreeView(BuildContext) void
         +isGoogleUrl(String) bool
         +addBottomNode(NodeWithPath) void
+        +toggleMultiAddEnabled() void
         +onWebViewCreated(InAppWebViewController) void
         +onLoadStop(InAppWebViewController, WebUri) void
         +shouldOverrideUrlLoading(...) Future~NavigationActionPolicy~
         +changeNode(NodeWithPath) void
-        +navigateToParentNode(String) void
+        +navigateToParentNode() void
     }
 
     class RootNodeNotifier {
@@ -212,13 +292,14 @@ classDiagram
     class UrlTitlesNotifier {
         <<Notifier~Map~String,String~~>>
         +build() Map~String,String~
-        +addUrlTitle(String, String) void
-        +updateUrlTitle(String, String) void
+        +addTitleUrl(String, String) void
+        +updateTitleUrl(String, String) void
     }
 
     class BottomNodesNotifier {
         <<Notifier~List~NodeWithPath~~>>
         +build() List~NodeWithPath~
+        +setNodes(List~NodeWithPath~) void
         +addNode(NodeWithPath) void
         +removeNode(NodeWithPath) void
     }
@@ -229,29 +310,43 @@ classDiagram
         +setController(InAppWebViewController) void
     }
 
+    class MultiAddEnabledNotifier {
+        <<Notifier~bool~>>
+        +build() bool
+        +toggle() void
+        +setEnabled(bool) void
+    }
+
+    class SearchWordNotifier {
+        <<Notifier~String~>>
+        +build() String
+        +setSearchWord(String) void
+        +clear() void
+    }
+
+    class SearchBarExpandedNotifier {
+        <<Notifier~bool~>>
+        +build() bool
+        +toggle() void
+        +expand() void
+        +collapse() void
+    }
+
     class Node {
         -String _name
         -List~Node~ _children
         -Node? _parent
-        -int _maxDepth
         +String name
         +List~Node~ children
         +Node? parent
-        +int maxDepth
         +addChild(Node) void
         +toString() String
     }
 
     class NodeWithPath {
-        +String name
-        +String path
         +String url
-        +NodeWithPath? parent
-        +List~NodeWithPath~ children
-        +copyWith(...) NodeWithPath
-        +addChild(NodeWithPath) NodeWithPath
+        +String path
         +generateChildPath(int) String
-        +int depth
         +toString() String
     }
 
@@ -260,6 +355,8 @@ classDiagram
     BrowserController --> UrlTitlesNotifier : uses
     BrowserController --> BottomNodesNotifier : uses
     BrowserController --> WebViewControllerNotifier : uses
+    BrowserController --> MultiAddEnabledNotifier : uses
+    BrowserController --> SearchWordNotifier : uses
     RootNodeNotifier --> NodeWithPath : manages
     CurrentNodeNotifier --> NodeWithPath : manages
     BottomNodesNotifier --> NodeWithPath : manages
@@ -270,55 +367,70 @@ classDiagram
 
 ### 1. ページ読み込み完了時の処理
 
-```
+```text
 ユーザー操作（ページ遷移）
     ↓
 onLoadStop() コールバック発火
     ↓
 ページタイトル取得
     ↓
-UrlTitlesNotifierでurlTitlesマップを更新
+UrlTitlesNotifierでurlTitlesマップを更新（addTitleUrl）
     ↓
-新規NodeWithPathを作成（パスIDを生成）
-    ↓
-CurrentNodeNotifierで現在ノードを更新
-    ↓
-Google以外のURL → BottomNodesNotifierでbottomNodesに追加
+UIレイヤーが自動的に再描画
 ```
 
-### 2. リンククリック時の処理
+### 2. リンククリック時の処理（multiAddEnabled=trueの場合）
 
-```
+```text
 ユーザー操作（リンククリック）
     ↓
 shouldOverrideUrlLoading() コールバック発火
     ↓
 クリックされたURLを取得
     ↓
-新規NodeWithPathを作成し、currentNodeの子として追加
+新規NodeWithPathを作成（パスは親から自動計算）
     ↓
 CurrentNodeNotifierで現在ノードを更新
     ↓
-Google以外のURL → BottomNodesNotifierでbottomNodesに追加
+BrowserControllerのlistenにより自動的にbottomNodesが更新
+    （Google以外のURLの子ノードのみが抽出される）
     ↓
 NavigationActionPolicy.ALLOW を返却（遷移を許可）
 ```
 
 ### 3. ノード変更時の処理
 
-```
+```text
 ユーザー操作（履歴ノード選択）
     ↓
 changeNode(node) 呼び出し
     ↓
 CurrentNodeNotifierで現在ノードを更新
     ↓
+BrowserControllerのlistenにより自動的にbottomNodesが更新
+    ↓
 UIレイヤーが自動的に再描画
 ```
 
-### 4. NodeWithPathのパスID生成例
+### 4. 親ノードへの遷移
 
+```text
+ユーザー操作（戻るボタン押下）
+    ↓
+navigateToParentNode() 呼び出し
+    ↓
+親ノードのURLを取得
+    ↓
+WebViewで親ノードのURLを読み込み
+    ↓
+CurrentNodeNotifierで親ノードに変更
+    ↓
+UIレイヤーが自動的に再描画
 ```
+
+### 5. NodeWithPathのパスID生成例
+
+```text
 ルートノード: path = "0"
 ├─ 第1子: path = "1-1"
 │  ├─ 第1子の第1子: path = "1-1-1"
@@ -333,15 +445,15 @@ UIレイヤーが自動的に再描画
 
 ### 1. 状態項目ごとの分離管理
 
-- 各状態項目（ルートノード、現在ノード、URLタイトル、下部ノード、WebViewコントローラー）を個別のNotifierで管理
+- 各状態項目（ルートノード、現在ノード、タイトルURL、下部ノード、WebViewコントローラー、複数追加設定、検索ワード、検索バー展開状態）を個別のNotifierで管理
 - BrowserControllerがこれらを統合して提供することで、状態と操作を分離
 - 無駄な再初期化コストを削減し、必要な状態のみが更新される
 
-### 2. イミュータビリティ
+### 2. 自動関係管理
 
-- `NodeWithPath`はイミュータブルな設計
-- 状態変更は常に`copyWith()`や`addChild()`で新しいインスタンスを生成
-- これによりRiverpodの変更検知が確実に動作し、予測可能な状態管理を実現
+- `NodeWithPath`はNodeクラスを継承し、親子関係を自動管理
+- コンストラクタで親ノードを指定すると、自動的に親の子リストに追加される
+- パスIDも親ノードから自動計算され、手動でのパス管理が不要
 
 ### 3. コールバックベースのイベント処理
 
@@ -349,16 +461,22 @@ UIレイヤーが自動的に再描画
 - 各コールバックメソッドは適切な状態更新とビジネスロジックを実行
 - 各Notifierを通じて状態を更新することで、関心の分離を実現
 
-### 4. パスIDによるノード識別
+### 4. リアクティブな状態連動
+
+- BrowserControllerのコンストラクタでcurrentNodeの変更を監視（ref.listen）
+- currentNodeが変更されると、自動的にbottomNodesが更新される
+- Google以外のURLの子ノードのみがbottomNodesに反映される
+
+### 5. パスIDによるノード識別
 
 - `NodeWithPath`はツリー構造内での位置を一意に識別するパスIDを持つ
 - パスID（例: "0", "1-1", "1-2-3"）により、ノードの階層的な位置が明確
 - 履歴の追跡、階層的なナビゲーション、ノードの検索が容易
 
-### 5. 拡張性と保守性
+### 6. 拡張性と保守性
 
 - 状態項目ごとのNotifierにより、新しい状態の追加が容易
-- イミュータブルなNodeWithPathにより、データの整合性を保証
+- NodeクラスによるOOP設計により、データの整合性を保証
 - BrowserControllerを介した統一的なアクセスにより、UIレイヤーからの利用が簡潔
 
 ## Flutterアーキテクチャガイドラインへの準拠
@@ -382,5 +500,5 @@ UIレイヤーが自動的に再描画
 
 ---
 
-**作成日**: 2025年
-**バージョン**: 1.0
+**作成日**: 2025年10月
+**バージョン**: 2.1
