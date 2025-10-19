@@ -9,7 +9,7 @@ class ChildNode extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       nodeName,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 14,
       ),
       overflow: TextOverflow.ellipsis,
