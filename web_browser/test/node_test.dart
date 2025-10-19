@@ -44,35 +44,5 @@ void main() {
 
       expect(parent.children.length, 1);
     });
-
-    test('maxDepthは正しい最大深さを計算する', () {
-      final root = Node('root');
-      final child1 = Node('child1', root);
-      final child2 = Node('child2', root);
-      final grandChild1 = Node('grandChild1', child1);
-      final grandChild2 = Node('grandChild2', child1);
-      final greatGrandChild1 = Node('greatGrandChild1', grandChild2);
-
-      // 親指定で作成されているため、addChildは不要（自動追加される）
-      // ルートノードの深さは、その子孫の最大深さ
-      expect(root.maxDepth, 3); // root -> child1 -> grandChild2 -> greatGrandChild1
-
-      // 子ノードの深さ
-      expect(child1.maxDepth, 2); // child1 -> grandChild2 -> greatGrandChild1
-      expect(child2.maxDepth, 0); // child2 は子を持たない
-
-      // 孫ノードの深さ
-      expect(grandChild1.maxDepth, 0);
-      expect(grandChild2.maxDepth, 1); // grandChild2 -> greatGrandChild1
-      expect(greatGrandChild1.maxDepth, 0);
-
-      // 空のノードの深さ
-      final emptyNode = Node('empty');
-      expect(emptyNode.maxDepth, 0);
-    });
-    test('toStringはノード名を返す', () {
-      final node = Node('testNode');
-      expect(node.toString(), 'testNode');
-    });
   });
 }

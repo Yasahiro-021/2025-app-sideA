@@ -14,9 +14,10 @@
 ## 主要クラス
 
 ### データモデル
-- **NodeWithPath** (`../node/node_with_path.dart`)
-  - パスIDを持つイミュータブルなノードクラス
+- **NodeWithPath** (`model/node_with_path.dart`)
+  - パスIDを持つノードクラス。Nodeクラスを継承
   - ツリー構造内での位置を一意に識別
+  - 親子関係を自動管理
 
 ### 状態管理 (Notifiers)
 - **RootNodeNotifier** (`notifiers/root_node_notifier.dart`)
@@ -24,13 +25,17 @@
 - **CurrentNodeNotifier** (`notifiers/current_node_notifier.dart`)
   - 現在のノードの状態管理
 - **UrlTitlesNotifier** (`notifiers/url_titles_notifier.dart`)
-  - URLとタイトルのマッピング管理
+  - タイトルとURLのマッピング管理
 - **BottomNodesNotifier** (`notifiers/bottom_nodes_notifier.dart`)
   - 下部バー用ノードリストの管理
 - **WebViewControllerNotifier** (`notifiers/webview_controller_notifier.dart`)
   - WebViewコントローラーの管理
 - **MultiAddEnabledNotifier** (`notifiers/multi_add_enabled_notifier.dart`)
   - 複数ノード追加の有効/無効を管理
+- **SearchWordNotifier** (`notifiers/search_word_notifier.dart`)
+  - 検索ワードを管理
+- **SearchBarExpandedNotifier** (`notifiers/search_bar_expanded_notifier.dart`)
+  - 検索バーの展開状態を管理
 
 ### コントローラー
 - **BrowserController** (`browser_controller.dart`)
@@ -38,7 +43,7 @@
   - WebViewイベントの処理とナビゲーション制御
 
 ### UIレイヤー
-- **BrowserViewWidget** (`browser_view.dart`)
+- **BrowserViewWidget** (`ui/browser_view_widget.dart`)
   - ブラウザ画面のメインWidget
   - UIの描画を担当
 
@@ -47,8 +52,9 @@
 1. **関心の分離**: UI、ロジック、データの各層を明確に分離
 2. **状態項目ごとの管理**: 各状態項目を個別のNotifierで管理し、無駄な再初期化を削減
 3. **自動関係管理**: Nodeクラスが親子関係を自動管理し、整合性を保証
-4. **単一責任の原則**: 各Notifierは明確な責任を持つ
-5. **テスト容易性**: 各コンポーネントが独立しており、ユニットテストが容易
+4. **リアクティブな状態連動**: ref.listenによる自動的な状態更新
+5. **単一責任の原則**: 各Notifierは明確な責任を持つ
+6. **テスト容易性**: 各コンポーネントが独立しており、ユニットテストが容易
 
 ## 旧アーキテクチャからの移行
 
@@ -81,16 +87,18 @@ final currentNode = ref.watch(currentNodeNotifierProvider);
 final rootNode = ref.watch(rootNodeNotifierProvider);
 final bottomNodes = ref.watch(bottomNodesNotifierProvider);
 final multiAddEnabled = ref.watch(multiAddEnabledNotifierProvider);
+final searchWord = ref.watch(searchWordNotifierProvider);
+final searchBarExpanded = ref.watch(searchBarExpandedNotifierProvider);
 
 // コントローラーのメソッドを呼び出し
 controller.setRootNode(newRootNode);
-controller.openTreeView(context);
 controller.changeNode(newNode);
 controller.toggleMultiAddEnabled();
+controller.navigateToParentNode();
 
 // 親子関係は自動管理される
-final parent = NodeWithPath(name: 'parent', path: '0', url: 'https://example.com');
-final child = NodeWithPath(name: 'child', path: '1-1', url: 'https://example.com/child', parent: parent);
+final parent = NodeWithPath.root(name: 'parent', path: '0', url: 'https://example.com');
+final child = NodeWithPath(name: 'child', url: 'https://example.com/child', parent: parent);
 // childは自動的にparentのchildrenに追加される
 ```
 

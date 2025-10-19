@@ -43,10 +43,9 @@ void main() {
       addTearDown(container.dispose);
 
       final controller = container.read(browserControllerProvider);
-      final newRoot = NodeWithPath(
+      final newRoot = NodeWithPath.root(
         name: 'Test Root',
         url: 'https://example.com',
-        isRoot: true,
       );
 
       controller.setRootNode(newRoot);
@@ -85,10 +84,9 @@ void main() {
       addTearDown(container.dispose);
 
       final controller = container.read(browserControllerProvider);
-      final root = NodeWithPath(
+      final root = NodeWithPath.root(
         name: 'Root',
         url: 'https://example.com',
-        isRoot: true,
       );
 
       controller.setRootNode(root);
@@ -117,10 +115,9 @@ void main() {
       addTearDown(container.dispose);
 
       final controller = container.read(browserControllerProvider);
-      final root = NodeWithPath(
+      final root = NodeWithPath.root(
         name: 'Root',
         url: 'https://example.com',
-        isRoot: true,
       );
       final newNode = NodeWithPath(
         name: 'New Node',
