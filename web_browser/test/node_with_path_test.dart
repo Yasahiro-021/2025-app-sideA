@@ -1,13 +1,12 @@
 import 'package:test/test.dart';
-import 'package:web_browser/node/node_with_path.dart';
+import 'package:web_browser/browser/model/node_with_path.dart';
 
 void main() {
   group('NodeWithPath', () {
     test('コンストラクタは名前、パス、URL、親を正しく設定する', () {
-      final root = NodeWithPath(
+      final root = NodeWithPath.root(
         name: 'root',
         url: 'https://example.com',
-        isRoot: true,
       );
 
       expect(root.name, 'root');
@@ -18,10 +17,9 @@ void main() {
     });
 
     test('親ノードを持つNodeWithPathを正しく作成できる', () {
-      final root = NodeWithPath(
+      final root = NodeWithPath.root(
         name: 'root',
         url: 'https://example.com',
-        isRoot: true,
       );
       final child = NodeWithPath(
         name: 'child',
@@ -38,14 +36,14 @@ void main() {
     });
 
     test('addChildで子ノードを追加できる', () {
-      final parent = NodeWithPath(
+      final parent = NodeWithPath.root(
         name: 'parent',
         url: 'https://example.com',
-        isRoot: true,
       );
       final child = NodeWithPath(
         name: 'child',
         url: 'https://example.com/child',
+        parent: parent,
       );
 
       parent.addChild(child);
@@ -56,10 +54,9 @@ void main() {
     });
 
     test('generateChildPathでルートノードの子のパスを正しく生成する', () {
-      final root = NodeWithPath(
+      final root = NodeWithPath.root(
         name: 'root',
         url: 'https://example.com',
-        isRoot: true,
       );
 
       expect(root.generateChildPath(1), '1-1');
@@ -68,10 +65,9 @@ void main() {
     });
 
     test('generateChildPathで通常ノードの子のパスを正しく生成する', () {
-      final root = NodeWithPath(
+      final root = NodeWithPath.root(
         name: 'root',
         url: 'https://example.com',
-        isRoot: true,
       );
       final node = NodeWithPath(
         name: 'node',
@@ -86,20 +82,18 @@ void main() {
     });
 
     test('depthでルートノードの深さは0を返す', () {
-      final root = NodeWithPath(
+      final root = NodeWithPath.root(
         name: 'root',
         url: 'https://example.com',
-        isRoot: true,
       );
 
       expect(root.depth, 0);
     });
 
     test('depthで第1階層のノードの深さは1を返す', () {
-      final root = NodeWithPath(
+      final root = NodeWithPath.root(
         name: 'root',
         url: 'https://example.com',
-        isRoot: true,
       );
       final node = NodeWithPath(
         name: 'node',
@@ -111,10 +105,9 @@ void main() {
     });
 
     test('depthで第2階層のノードの深さは2を返す', () {
-      final root = NodeWithPath(
+      final root = NodeWithPath.root(
         name: 'root',
         url: 'https://example.com',
-        isRoot: true,
       );
       final node1 = NodeWithPath(
         name: 'node1',
@@ -131,10 +124,9 @@ void main() {
     });
 
     test('depthで第3階層のノードの深さは3を返す', () {
-      final root = NodeWithPath(
+      final root = NodeWithPath.root(
         name: 'root',
         url: 'https://example.com',
-        isRoot: true,
       );
       final node1 = NodeWithPath(
         name: 'node1',
@@ -156,10 +148,9 @@ void main() {
     });
 
     test('toStringで名前とパスを含む文字列を返す', () {
-      final root = NodeWithPath(
+      final root = NodeWithPath.root(
         name: 'root',
         url: 'https://example.com',
-        isRoot: true,
       );
       final node = NodeWithPath(
         name: 'test',
@@ -172,10 +163,9 @@ void main() {
     });
 
     test('親子関係が自動的に管理される', () {
-      final parent = NodeWithPath(
+      final parent = NodeWithPath.root(
         name: 'parent',
         url: 'https://example.com',
-        isRoot: true,
       );
       final child = NodeWithPath(
         name: 'child',
