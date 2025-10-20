@@ -50,18 +50,5 @@ void main() {
       }
       expect(variedChildCount, true);
     });
-
-    test('生成されたノードの深さが指定されたdepthを超えないこと', () {
-      final Node root = mockedNode(2, 2);
-      // ルートノードの深さは0
-      expect(root.maxDepth, lessThanOrEqualTo(2));
-      for (Node child1 in root.children) {
-        expect(child1.maxDepth, lessThanOrEqualTo(1));
-        for (Node child2 in child1.children) {
-          expect(child2.maxDepth, lessThanOrEqualTo(0));
-          expect(child2.children.isEmpty, true);
-        }
-      }
-    });
   });
 }

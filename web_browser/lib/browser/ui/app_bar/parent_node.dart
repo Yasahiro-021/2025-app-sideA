@@ -9,7 +9,6 @@ class ParentNode extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentNode = ref.watch(currentNodeNotifierProvider);
-    final controller = ref.watch(browserControllerProvider);
     
     // 親ノードが存在するかチェック
     final parentNode = currentNode.parent;
@@ -24,7 +23,9 @@ class ParentNode extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12),
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
-        onPressed: hasParent ? () => controller.navigateToParentNode() : null,
+        onPressed: hasParent ? () {
+          ref.read(browserControllerProvider).navigateToParentNode();
+        } : null,
         child: Text(
           hasParent ? (parentNode.name.isEmpty ? '(root)' : parentNode.name) : '(なし)',
           style: const TextStyle(fontSize: 13),

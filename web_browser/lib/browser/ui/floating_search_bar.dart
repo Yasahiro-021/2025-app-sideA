@@ -16,9 +16,10 @@ class FloatingSearchBar extends ConsumerWidget {
 
     if (!isExpanded) {
       // アイコンのみ（枠なし）
-      return SizedBox(
+      return Container(
         width: 56,
         height: 56,
+          margin: const EdgeInsets.only(bottom: 57), // ボトムバーの高さ(56) + 1px
         child: FloatingActionButton(
           heroTag: 'searchBarFab',
           backgroundColor: Theme.of(context).colorScheme.primary,
@@ -32,7 +33,7 @@ class FloatingSearchBar extends ConsumerWidget {
     // 展開時は枠付きバー
     return Container(
       height: 56,
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+        margin: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 57), // ボトムバーの高さ(56) + 1px
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(16),
@@ -48,7 +49,7 @@ class FloatingSearchBar extends ConsumerWidget {
       ),
       child: Row(
         children: [
-          Container(
+          SizedBox(
             width: 56,
             height: 56,
             child: IconButton(

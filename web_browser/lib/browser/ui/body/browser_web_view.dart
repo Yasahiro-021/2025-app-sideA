@@ -9,7 +9,8 @@ class BrowserWebView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.watch(browserControllerProvider);
+    // 定数的なプロパティは一度だけ読み取る
+    final controller = ref.read(browserControllerProvider);
     
     return InAppWebView(
       initialUrlRequest: URLRequest(
@@ -17,13 +18,13 @@ class BrowserWebView extends ConsumerWidget {
       ),
       initialSettings: controller.settings,
       onWebViewCreated: (webViewController) {
-        controller.onWebViewCreated(webViewController);
+        ref.read(browserControllerProvider).onWebViewCreated(webViewController);
       },
       onLoadStop: (webViewController, url) {
-        controller.onLoadStop(webViewController, url);
+        ref.read(browserControllerProvider).onLoadStop(webViewController, url);
       },
       shouldOverrideUrlLoading: (webViewController, navigationAction) {
-        return controller.shouldOverrideUrlLoading(
+        return ref.read(browserControllerProvider).shouldOverrideUrlLoading(
           webViewController,
           navigationAction,
         );
