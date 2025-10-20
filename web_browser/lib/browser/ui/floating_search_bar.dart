@@ -12,7 +12,7 @@ class FloatingSearchBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isExpanded = ref.watch(searchBarExpandedNotifierProvider);
-    final TextEditingController _searchController = TextEditingController();
+    final TextEditingController searchController = TextEditingController();
 
     if (!isExpanded) {
       // アイコンのみ（枠なし）
@@ -66,7 +66,7 @@ class FloatingSearchBar extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: TextField(
-                      controller: _searchController,
+                      controller: searchController,
                       decoration: const InputDecoration(
                         hintText: '検索ワードを入力',
                         border: InputBorder.none,
@@ -85,7 +85,7 @@ class FloatingSearchBar extends ConsumerWidget {
                   const SizedBox(width: 8),
                   ElevatedButton(
                     onPressed: () {
-                      _performSearch(context, ref, _searchController.text);
+                      _performSearch(context, ref, searchController.text);
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
