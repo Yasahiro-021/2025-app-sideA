@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:web_browser/browser/ui/child_node.dart';
+import 'package:web_browser/browser/ui/buttom_bar/child_node.dart';
 
 void main() {
   group('ChildNode Tests', () {

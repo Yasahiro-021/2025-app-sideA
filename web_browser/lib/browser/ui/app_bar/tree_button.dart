@@ -12,20 +12,31 @@ class TreeButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final rootNode = ref.watch(rootNodeNotifierProvider);
-    
+
     return Container(
-      width: 56,
-      height: 56,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: IconButton(
-        icon: const Icon(Icons.account_tree),
-        tooltip: 'ツリー表示',
-        onPressed: () {
-          // ツリー画面への遷移
-          TreeViewRoute($extra: rootNode).push(context);
-        },
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
+      child: Column(
+        children: [
+          Container(
+            color: Colors.red,
+            child: Text('ツリー', style: Theme.of(context).textTheme.labelSmall),
+          ),
+          Container(
+            color: Colors.blue,
+            child: IconButton(
+              padding: EdgeInsets.zero,
+              icon: const Icon(Icons.account_tree),
+              style: IconButton.styleFrom(
+                foregroundColor: Colors.white,
+              ) ,
+              tooltip: 'ツリー画面へ移動',
+              onPressed: () {
+                // ツリー画面への遷移
+                TreeViewRoute($extra: rootNode).push(context);
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
