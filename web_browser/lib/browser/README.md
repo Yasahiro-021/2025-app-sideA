@@ -14,12 +14,14 @@
 ## 主要クラス
 
 ### データモデル
+
 - **NodeWithPath** (`model/node_with_path.dart`)
   - パスIDを持つノードクラス。Nodeクラスを継承
   - ツリー構造内での位置を一意に識別
   - 親子関係を自動管理
 
 ### 状態管理 (Notifiers)
+
 - **RootNodeNotifier** (`notifiers/root_node_notifier.dart`)
   - ルートノードの状態管理
 - **CurrentNodeNotifier** (`notifiers/current_node_notifier.dart`)
@@ -38,11 +40,13 @@
   - 検索バーの展開状態を管理
 
 ### コントローラー
+
 - **BrowserController** (`browser_controller.dart`)
   - 各Notifierを統合し、ビジネスロジックを提供
   - WebViewイベントの処理とナビゲーション制御
 
 ### UIレイヤー
+
 - **BrowserViewWidget** (`ui/browser_view_widget.dart`)
   - ブラウザ画面のメインWidget
   - UIの描画を担当
@@ -65,6 +69,7 @@
 - `browser_bottom_bar.dart` (BrowserBottomBar)
 
 新しい実装では：
+
 - BrowserState → 個別のNotifierに分離
 - BrowserControllerNotifier → BrowserController
 - BrowserBottomBar → BrowserBottomBarNew (browser_view.dart内)
@@ -72,6 +77,7 @@
 ## テスト
 
 テストファイル：
+
 - `test/node_with_path_test.dart` - NodeWithPathのテスト
 - `test/browser_notifiers_test.dart` - 各Notifierのテスト
 - `test/browser_controller_test.dart` - BrowserControllerのテスト

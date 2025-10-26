@@ -8,12 +8,13 @@ class ParentNode extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentNode = ref.watch(currentNodeNotifierProvider);
-    
-    // 親ノードが存在するかチェック
-    final parentNode = currentNode.parent;
-    final hasParent = parentNode != null;
-    
+    //状態の取得
+
+    //TODO: 後ほど状態クラスを作成して統合する
+    final bool isEmpty = true; // 仮の値
+    final String parentName = "親ノード"; // 仮の値。空になりうる。
+    final Function() buttonAction = () {}; // 仮の値
+
     return SizedBox(
       height: 36,
       child: ElevatedButton(
@@ -23,11 +24,13 @@ class ParentNode extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12),
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
-        onPressed: hasParent ? () {
-          ref.read(browserControllerProvider).navigateToParentNode();
-        } : null,
+        onPressed: hasParent
+            ? () {
+                ref.read(browserControllerProvider).navigateToParentNode();
+              }
+            : null,
         child: Text(
-          hasParent ? (parentNode.name.isEmpty ? '(root)' : parentNode.name) : '(なし)',
+          isEmpty ? '(root)' : parentName,
           style: const TextStyle(fontSize: 13),
         ),
       ),

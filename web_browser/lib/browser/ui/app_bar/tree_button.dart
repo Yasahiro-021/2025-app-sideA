@@ -21,7 +21,7 @@ class TreeButton extends ConsumerWidget {
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
       child: Column(
         children: [
-          Text('ツリー', style: Theme.of(context).textTheme.labelSmall),
+          Text('ROOT', style: Theme.of(context).textTheme.labelSmall),//TODO テキストをプロバイダーと接続
 
           IconButton.filled(
             iconSize: 35,
