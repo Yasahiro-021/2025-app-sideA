@@ -13,10 +13,9 @@ class CenterNodeDisplay extends StatelessWidget {
       children: const [
         ParentNode(),
         SizedBox(
-          height: 1,
+          height: 10,
           child: VerticalDivider(
-            thickness: 1,
-            width: 20,
+            thickness: 15,
           ),
         ),
         CurrentNodeText(),
