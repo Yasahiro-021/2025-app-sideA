@@ -5,20 +5,16 @@ class MenuButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 56,
-      height: 56,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
+    return IconButton.filledTonal(
+      icon: const Icon(Icons.menu),
+      style: IconButton.styleFrom(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
-      child: IconButton(
-        icon: const Icon(Icons.menu),
-        onPressed: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('メニュー機能は未実装です')),
-          );
-        },
-      ),
+      onPressed: () {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('メニュー機能は未実装です')));
+      },
     );
   }
 }
