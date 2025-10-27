@@ -16,18 +16,23 @@ class BrowserBottomBar extends ConsumerWidget {
     
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.all(3),
-        child: Row(
-          children: [
-            StaySwitch(multiAddEnabled: multiAddEnabled),
-            Expanded(
-              child: BottomNodeList(bottomNodes: bottomNodes),
-            ),
-          ],
+        padding: const EdgeInsets.all(5.0),
+        child: Container(
+          constraints: const BoxConstraints(
+            minHeight: 32,
+            maxHeight: 60,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              StaySwitch(multiAddEnabled: multiAddEnabled),
+              Expanded(
+                child: BottomNodeList(bottomNodes: bottomNodes),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
-
-// ...existing code...

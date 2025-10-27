@@ -16,7 +16,12 @@ class CurrentNodeText extends ConsumerWidget {
       padding: const EdgeInsets.only(bottom: 2.0),
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: colorScheme.onPrimaryContainer,width: 1),
+          border: Border(
+            top: BorderSide(color: colorScheme.onPrimaryContainer, width: 1),
+            bottom: BorderSide(color: colorScheme.onPrimaryContainer, width: 0.1), //下部は非表示  
+            left: BorderSide(color: colorScheme.onPrimaryContainer, width: 1),
+            right: BorderSide(color: colorScheme.onPrimaryContainer, width: 1),
+          ),
           borderRadius: BorderRadius.circular(2),
         ),
         child: Text(

@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:web_browser/browser/ui/buttom_bar/child_node.dart';
 import 'package:web_browser/browser/browser_controller.dart';
+import 'package:web_browser/node/node.dart';
 
 class BottomNodeList extends ConsumerWidget {
   final List bottomNodes;
@@ -10,7 +11,15 @@ class BottomNodeList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (bottomNodes.isEmpty) {
+    final List mockBottomNodes = [
+      Node('Node 1aaaaaaaaaaaaaaa'),
+      Node('Node 2'),
+      Node('Node 3'),
+      Node('Node 4'),
+      Node('Node 5'),
+    ];
+    // if (bottomNodes.isEmpty) {
+    if(mockBottomNodes.isEmpty) {
       return SizedBox(
         height: 32, // 子ノードが無い場合は縮小した高さ
         child: Center(
@@ -26,31 +35,10 @@ class BottomNodeList extends ConsumerWidget {
     }
     return ListView.builder(
       scrollDirection: Axis.horizontal,
-      itemCount: bottomNodes.length,
+      itemCount: mockBottomNodes.length,
       itemBuilder: (context, index) {
-        final node = bottomNodes[index];
-        return GestureDetector(
-          onTap: () {
-            final controller = ref.read(browserControllerProvider);
-            controller.changeNode(node);
-            controller.webViewController?.loadUrl(
-              urlRequest: URLRequest(url: WebUri(node.url)),
-            );
-          },
-          child: Container(
-            width: 150,
-            margin: const EdgeInsets.only(right: 16),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              border: Border.all(
-                color: Theme.of(context).colorScheme.outline,
-              ),
-            ),
-            child: Center(
-              child: ChildNode(nodeName: node.name),
-            ),
-          ),
-        );
+        final node = mockBottomNodes[index];
+        return ChildNode(nodeName: node.name);
       },
     );
   }
