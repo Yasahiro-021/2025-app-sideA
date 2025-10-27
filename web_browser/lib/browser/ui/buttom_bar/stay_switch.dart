@@ -16,10 +16,10 @@ class StaySwitch extends ConsumerWidget {
           Switch(
             value: multiAddEnabled,
             onChanged: (v) {
-              ref.read(browserControllerProvider).toggleMultiAddEnabled();
+              ref.read(browserControllerProvider).toggleMultiAddEnabled();//TODO　Providerとの整合確認
             },
           ),
-          const Text('STAY'),
+          const Text('ADD'),
         ],
       ),
     );
