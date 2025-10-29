@@ -17,3 +17,5 @@ build/
 ios/.symlinks/
 android/.gradle/
 android/local.properties
+.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
