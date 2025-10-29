@@ -1,30 +1,46 @@
-import 'node.dart';
+import '../../node/node.dart';
 
 /// パスIDを持つノードクラス
 ///
 /// ツリー構造内でのノードの位置を一意に識別するパスIDを持つ
 class NodeWithPath extends Node {
+  /// 階層（ルート:0, 1階層:1, ...）
+  int get depth {
+    int d = 0;
+    NodeWithPath? p = parent as NodeWithPath?;
+    while (p != null) {
+      d++;
+      p = p.parent as NodeWithPath?;
+    }
+    return d;
+  }
   final String url;
   final String path;
 
   /// コンストラクタ
   ///
   /// [name] ノードの名前
+  ///
   /// [url] ノードに紐づくURL
+  ///
   /// [parent] 親ノード
-  /// [isRoot] ルートノードかどうか（デフォルト: false）
   NodeWithPath({
     required String name,
     required this.url,
-    NodeWithPath? parent,
-    bool isRoot = false,
-  })  : path = isRoot ? "0" : _calculatePath(parent),
-        super(name, parent);
+    required NodeWithPath parent,
+  }) : path = _calculatePath(parent),
+       super(name, parent);
+
+  NodeWithPath.root({
+    required String name,
+    required this.url,
+  }) : path = "0",
+       super(name);
 
   /// 親ノードからパスを計算
   static String _calculatePath(NodeWithPath? parent) {
     if (parent == null) return "";
-    
+
     // 親の子ノードの数に基づいてパスを計算
     final childIndex = parent.children.length + 1;
     if (parent.path == "0") {
@@ -48,15 +64,9 @@ class NodeWithPath extends Node {
     }
   }
 
-  /// ノードの深さを取得（ルートは0）
-  int get depth {
-    if (path == "0") return 0;
-    return path.split('-').length - 1;
-  }
-
   /// NodeWithPathの子ノードリストを取得
   @override
-  List<NodeWithPath> get children => 
+  List<NodeWithPath> get children =>
       super.children.whereType<NodeWithPath>().toList();
 
   @override

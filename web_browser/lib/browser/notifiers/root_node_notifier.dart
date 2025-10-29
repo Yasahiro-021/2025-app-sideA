@@ -1,5 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../../node/node_with_path.dart';
+import '../model/node_with_path.dart';
 
 /// ルートノードを管理するNotifierクラス
 ///
@@ -8,10 +8,9 @@ class RootNodeNotifier extends Notifier<NodeWithPath> {
   @override
   NodeWithPath build() {
     // 初期ルートノード（空のルートノード）
-    return NodeWithPath(
+    return NodeWithPath.root(
       name: "      ",
       url: "",
-      isRoot: true,
     );
   }
 

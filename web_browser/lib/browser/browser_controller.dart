@@ -1,13 +1,14 @@
 import 'dart:developer';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../node/node_with_path.dart';
+import 'model/node_with_path.dart';
 import 'notifiers/root_node_notifier.dart';
 import 'notifiers/current_node_notifier.dart';
 import 'notifiers/url_titles_notifier.dart';
 import 'notifiers/bottom_nodes_notifier.dart';
 import 'notifiers/webview_controller_notifier.dart';
 import 'notifiers/multi_add_enabled_notifier.dart';
+import 'notifiers/search_word_notifier.dart';
 
 /// ブラウザの状態と操作を集約して提供するコントローラークラス
 ///
@@ -35,6 +36,8 @@ class BrowserController {
       ref.read(webViewControllerNotifierProvider.notifier);
   MultiAddEnabledNotifier get multiAddEnabledNotifier =>
       ref.read(multiAddEnabledNotifierProvider.notifier);
+  SearchWordNotifier get searchWordNotifier =>
+      ref.read(searchWordNotifierProvider.notifier);
 
   /// 状態の取得
   NodeWithPath get rootNode => ref.read(rootNodeNotifierProvider);
@@ -45,6 +48,7 @@ class BrowserController {
   InAppWebViewController? get webViewController =>
       ref.read(webViewControllerNotifierProvider);
   bool get multiAddEnabled => ref.read(multiAddEnabledNotifierProvider);
+  String get searchWord => ref.read(searchWordNotifierProvider);
 
   /// WebViewの各種設定（JavaScript有効化など）
   final InAppWebViewSettings settings = InAppWebViewSettings(
