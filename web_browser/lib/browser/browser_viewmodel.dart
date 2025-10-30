@@ -13,10 +13,10 @@ import 'notifiers/search_word_notifier.dart';
 /// ブラウザの状態と操作を集約して提供するコントローラークラス
 ///
 /// 各状態管理Notifierを統合し、WebViewイベントの処理とナビゲーション制御を行う
-class BrowserController {
+class BrowserViewModel {
   final Ref ref;
 
-  BrowserController(this.ref) {
+  BrowserViewModel(this.ref) {
     // currentNodeの変更を監視してbottomNodesを更新
     ref.listen<NodeWithPath>(currentNodeNotifierProvider, (previous, next) {
       _updateBottomNodesFromCurrentNode(next);
@@ -170,7 +170,7 @@ class BrowserController {
   }
 }
 
-/// BrowserControllerのProvider
-final browserControllerProvider = Provider<BrowserController>((ref) {
-  return BrowserController(ref);
+/// BrowserViewModelのProvider
+final browserViewModelProvider = Provider<BrowserViewModel>((ref) {
+  return BrowserViewModel(ref);
 });
