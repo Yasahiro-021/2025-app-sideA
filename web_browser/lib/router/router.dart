@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:web_browser/browser/ui/browser_view_widget.dart';
+import 'package:web_browser/browser/view/browser_view.dart';
 import 'package:web_browser/home_page.dart';
 import 'package:web_browser/tree_view/treeview.dart';
 
@@ -42,5 +42,5 @@ class BrowserViewRoute extends GoRouteData with $BrowserViewRoute {
   const BrowserViewRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => BrowserViewWidget();
+  Widget build(BuildContext context, GoRouterState state) => const BrowserView();
 }

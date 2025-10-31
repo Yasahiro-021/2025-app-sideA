@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:web_browser/browser/notifiers/current_node_notifier.dart';
+import 'package:web_browser/browser/view/components/app_bar/current_node_text/current_node_text_viewmodel.dart';
 
-class CurrentNodeText extends ConsumerWidget {
-  const CurrentNodeText({super.key});
+/// 現在のノード名を表示
+class CurrentNodeTextView extends ConsumerWidget {
+  const CurrentNodeTextView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ColorScheme colorScheme = Theme.of(context).colorScheme;
-    
-    final currentNodeName = "current";//TODO 後ほど状態クラスを作成して統合する
+    final colorScheme = Theme.of(context).colorScheme;
+    final viewModel = ref.watch(currentNodeTextViewModelProvider);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 2.0),
@@ -18,14 +17,14 @@ class CurrentNodeText extends ConsumerWidget {
         decoration: BoxDecoration(
           border: Border(
             top: BorderSide(color: colorScheme.onPrimaryContainer, width: 1),
-            bottom: BorderSide(color: colorScheme.onPrimaryContainer, width: 0.1), //下部は非表示  
+            bottom: BorderSide(color: colorScheme.onPrimaryContainer, width: 0.1),
             left: BorderSide(color: colorScheme.onPrimaryContainer, width: 1),
             right: BorderSide(color: colorScheme.onPrimaryContainer, width: 1),
           ),
           borderRadius: BorderRadius.circular(2),
         ),
         child: Text(
-          currentNodeName,
+          viewModel.currentNodeName,
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
           style: const TextStyle(fontSize: 13),

@@ -2,13 +2,13 @@ import 'dart:developer';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'model/node_with_path.dart';
-import 'notifiers/root_node_notifier.dart';
-import 'notifiers/current_node_notifier.dart';
-import 'notifiers/url_titles_notifier.dart';
-import 'notifiers/bottom_nodes_notifier.dart';
-import 'notifiers/webview_controller_notifier.dart';
-import 'notifiers/multi_add_enabled_notifier.dart';
-import 'notifiers/search_word_notifier.dart';
+import 'view_model/notifiers/root_node_notifier.dart';
+import 'view_model/notifiers/current_node_notifier.dart';
+import 'view_model/notifiers/url_titles_notifier.dart';
+import 'view_model/notifiers/bottom_nodes_notifier.dart';
+import 'view_model/notifiers/webview_controller_notifier.dart';
+import 'view_model/notifiers/multi_add_enabled_notifier.dart';
+import 'view_model/notifiers/search_word_notifier.dart';
 
 /// ブラウザの状態と操作を集約して提供するコントローラークラス
 ///

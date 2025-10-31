@@ -1,39 +1,37 @@
-
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:web_browser/browser/browser_controller.dart';
-import 'package:web_browser/browser/notifiers/search_bar_expanded_notifier.dart';
-import 'package:web_browser/browser/model/node_with_path.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:web_browser/browser/view/components/body/floating_search_bar/floating_search_bar_viewmodel.dart';
 
-class FloatingSearchBar extends ConsumerWidget {
-  const FloatingSearchBar({super.key});
+/// フローティング検索バー
+class FloatingSearchBarView extends ConsumerWidget {
+  const FloatingSearchBarView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isExpanded = ref.watch(searchBarExpandedNotifierProvider);
+    final viewModel = ref.watch(floatingSearchBarViewModelProvider);
     final TextEditingController searchController = TextEditingController();
 
-    if (!isExpanded) {
+    if (!viewModel.isExpanded) {
       // アイコンのみ（枠なし）
       return Container(
         width: 56,
         height: 56,
-          margin: const EdgeInsets.only(bottom: 57), // ボトムバーの高さ(56) + 1px
+        margin: const EdgeInsets.only(bottom: 57), // ボトムバーの高さ(56) + 1px
         child: FloatingActionButton(
           heroTag: 'searchBarFab',
           backgroundColor: Theme.of(context).colorScheme.primary,
           child: const Icon(Icons.search),
           onPressed: () {
-            ref.read(searchBarExpandedNotifierProvider.notifier).toggle();
+            viewModel.toggleExpanded();
           },
         ),
       );
     }
+
     // 展開時は枠付きバー
     return Container(
       height: 56,
-        margin: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 57), // ボトムバーの高さ(56) + 1px
+      margin: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 57), // ボトムバーの高さ(56) + 1px
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(16),
@@ -55,7 +53,7 @@ class FloatingSearchBar extends ConsumerWidget {
             child: IconButton(
               icon: const Icon(Icons.search),
               onPressed: () {
-                ref.read(searchBarExpandedNotifierProvider.notifier).toggle();
+                viewModel.toggleExpanded();
               },
             ),
           ),
@@ -73,19 +71,17 @@ class FloatingSearchBar extends ConsumerWidget {
                         contentPadding: EdgeInsets.symmetric(horizontal: 8),
                       ),
                       onChanged: (value) {
-                        ref.read(browserControllerProvider)
-                            .searchWordNotifier
-                            .setSearchWord(value);
+                        viewModel.setSearchWord(value);
                       },
                       onSubmitted: (value) {
-                        _performSearch(context, ref, value);
+                        viewModel.performSearch(value);
                       },
                     ),
                   ),
                   const SizedBox(width: 8),
                   ElevatedButton(
                     onPressed: () {
-                      _performSearch(context, ref, searchController.text);
+                      viewModel.performSearch(searchController.text);
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -106,20 +102,5 @@ class FloatingSearchBar extends ConsumerWidget {
         ],
       ),
     );
-  }
-
-  void _performSearch(BuildContext context, WidgetRef ref, String searchWord) {
-    if (searchWord.trim().isEmpty) return;
-    final controller = ref.read(browserControllerProvider);
-    final searchUrl = 'https://www.google.com/search?q=${Uri.encodeComponent(searchWord)}';
-    final newRootNode = NodeWithPath.root(
-      name: searchWord,
-      url: searchUrl,
-    );
-    controller.setRootNode(newRootNode);
-    controller.webViewController?.loadUrl(
-      urlRequest: URLRequest(url: WebUri(searchUrl)),
-    );
-    ref.read(searchBarExpandedNotifierProvider.notifier).collapse();
   }
 }

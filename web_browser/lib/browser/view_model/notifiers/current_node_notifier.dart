@@ -1,5 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../model/node_with_path.dart';
+import '../../model/node_with_path.dart';
 
 /// 現在のノードを管理するNotifierクラス
 ///

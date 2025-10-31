@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:web_browser/browser/view/components/bottom_bar/child_node/child_node_viewmodel.dart';
+import 'package:web_browser/browser/model/node_with_path.dart';
 
-class ChildNode extends StatelessWidget {
-  final String nodeName;
+/// 子ノードを表示するボタン
+class ChildNodeView extends ConsumerWidget {
+  final NodeWithPath node;
 
-  const ChildNode({super.key, required this.nodeName});
+  const ChildNodeView({
+    super.key,
+    required this.node,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.watch(childNodeViewModelProvider(node));
+
     return Padding(
       padding: const EdgeInsets.all(3.0),
       child: Container(
@@ -16,7 +24,6 @@ class ChildNode extends StatelessWidget {
           maxWidth: 120,
         ),
         child: OutlinedButton(
-
           style: OutlinedButton.styleFrom(
             padding: const EdgeInsets.symmetric(horizontal: 6),
             side: BorderSide(
@@ -26,10 +33,12 @@ class ChildNode extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            viewModel.navigateToNode();
+          },
           child: Center(
             child: Text(
-              nodeName,
+              viewModel.nodeName,
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 14),
               overflow: TextOverflow.ellipsis,

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:web_browser/browser/ui/browser_app_bar.dart';
-import 'package:web_browser/browser/ui/browser_bottom_bar.dart';
-import 'package:web_browser/browser/ui/body/browser_floating_action_button.dart';
-import 'package:web_browser/browser/ui/body/browser_web_view.dart';
+import 'package:web_browser/browser/view/components/app_bar/browser_app_bar_view.dart';
+import 'package:web_browser/browser/view/components/bottom_bar/browser_bottom_bar_view.dart';
+import 'package:web_browser/browser/view/components/body/browser_web_view/browser_web_view_view.dart';
+import 'package:web_browser/browser/view/components/body/floating_search_bar/floating_search_bar_view.dart';
 
-///ブラウザ画面のエントリーポイント
-class BrowserViewWidget extends StatelessWidget {
-  const BrowserViewWidget({super.key});
+/// ブラウザ画面のエントリーポイント
+class BrowserView extends StatelessWidget {
+  const BrowserView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +35,12 @@ class _BrowserScaffold extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: const BrowserAppBar(),
-      body: const BrowserWebView(),
+    return const Scaffold(
+      appBar: BrowserAppBarView(),
+      body: BrowserWebViewView(),
       floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
-      floatingActionButton: const BrowserFloatingActionButton(),
-      bottomNavigationBar: const BrowserBottomBar(),
+      floatingActionButton: FloatingSearchBarView(),
+      bottomNavigationBar: BrowserBottomBarView(),
     );
   }
 }
