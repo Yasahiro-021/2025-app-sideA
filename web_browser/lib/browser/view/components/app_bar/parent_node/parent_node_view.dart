@@ -96,11 +96,13 @@ class _ParentNodeText extends StatelessWidget {
             maxLines: maxLines,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: isEmpty ? TextStyle(
               fontSize: fontSize,
-              color: isEmpty
-                  ? colorScheme.onSurface.withOpacity(0.5)
-                  : colorScheme.onSurface,
+              color: colorScheme.onSurface.withValues(alpha: .38),
+            ) : 
+            TextStyle(
+              fontSize: fontSize,
+              color: colorScheme.onSurface,
             ),
           );
         },
