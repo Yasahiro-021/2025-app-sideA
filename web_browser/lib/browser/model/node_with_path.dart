@@ -42,7 +42,7 @@ class NodeWithPath extends Node {
     if (parent == null) return "";
 
     // 親の子ノードの数に基づいてパスを計算
-    final childIndex = parent.children.length + 1;
+    final childIndex = parent.children.length + 1;//TODO 競合が発生するため、親ノードに空いている番号を問い合わせる様に変更
     if (parent.path == "0") {
       return "1-$childIndex";
     } else {
