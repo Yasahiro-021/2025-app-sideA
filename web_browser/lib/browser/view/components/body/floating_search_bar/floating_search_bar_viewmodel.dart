@@ -3,6 +3,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:web_browser/browser/browser_viewmodel.dart';
 import 'package:web_browser/browser/view_model/notifiers/search_bar_expanded_notifier.dart';
 import 'package:web_browser/browser/view_model/notifiers/search_word_notifier.dart';
+import 'package:web_browser/browser/view_model/notifiers/root_node_notifier.dart';
+import 'package:web_browser/browser/view_model/notifiers/current_node_notifier.dart';
+import 'package:web_browser/browser/view_model/notifiers/url_titles_notifier.dart';
 import 'package:web_browser/browser/model/node_with_path.dart';
 
 /// FloatingSearchBarのViewModel
@@ -46,8 +49,12 @@ class FloatingSearchBarViewModel {
       url: searchUrl,
     );
 
-    // ルートノードを設定
-    _browserViewModel.setRootNode(newRootNode);
+    // ルートノードと現在ノードを設定
+    ref.read(rootNodeNotifierProvider.notifier).setRootNode(newRootNode);
+    ref.read(currentNodeNotifierProvider.notifier).changeNode(newRootNode);
+    
+    // タイトルとURLを登録
+    ref.read(urlTitlesNotifierProvider.notifier).addTitleUrl(searchWord, searchUrl);
 
     // WebViewで検索URLを読み込み
     _browserViewModel.webViewController?.loadUrl(

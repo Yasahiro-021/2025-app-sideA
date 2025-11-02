@@ -1,6 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:web_browser/browser/view_model/notifiers/multi_add_enabled_notifier.dart';
-import 'package:web_browser/browser/browser_viewmodel.dart';
 
 /// StaySwitchのViewModel
 /// 
@@ -15,7 +14,7 @@ class StaySwitchViewModel {
 
   /// 複数追加モードの切り替え
   void toggleMultiAddEnabled() {
-    ref.read(browserViewModelProvider).toggleMultiAddEnabled();
+    ref.read(multiAddEnabledNotifierProvider.notifier).toggle();
   }
 }
 

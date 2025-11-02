@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:web_browser/browser/browser_viewmodel.dart';
 import 'package:web_browser/browser/model/node_with_path.dart';
+import 'package:web_browser/browser/view_model/notifiers/current_node_notifier.dart';
 
 /// ChildNodeのViewModel
 /// 
@@ -16,7 +16,7 @@ class ChildNodeViewModel {
 
   /// 子ノードに遷移
   void navigateToNode() {
-    ref.read(browserViewModelProvider).changeNode(node);
+    ref.read(currentNodeNotifierProvider.notifier).changeNode(node);
   }
 }
 
