@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$NodeChildren {
 
- UnmodifiableListView<NodeWithPath> get children;
+ List<NodeWithPath> get children;
 /// Create a copy of NodeChildren
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -45,7 +45,7 @@ abstract mixin class $NodeChildrenCopyWith<$Res>  {
   factory $NodeChildrenCopyWith(NodeChildren value, $Res Function(NodeChildren) _then) = _$NodeChildrenCopyWithImpl;
 @useResult
 $Res call({
- UnmodifiableListView<NodeWithPath> children
+ List<NodeWithPath> children
 });
 
 
@@ -65,7 +65,7 @@ class _$NodeChildrenCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? children = null,}) {
   return _then(_self.copyWith(
 children: null == children ? _self.children : children // ignore: cast_nullable_to_non_nullable
-as UnmodifiableListView<NodeWithPath>,
+as List<NodeWithPath>,
   ));
 }
 
@@ -150,7 +150,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( UnmodifiableListView<NodeWithPath> children)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<NodeWithPath> children)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _NodeChildren() when $default != null:
 return $default(_that.children);case _:
@@ -171,7 +171,7 @@ return $default(_that.children);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( UnmodifiableListView<NodeWithPath> children)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<NodeWithPath> children)  $default,) {final _that = this;
 switch (_that) {
 case _NodeChildren():
 return $default(_that.children);case _:
@@ -191,7 +191,7 @@ return $default(_that.children);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( UnmodifiableListView<NodeWithPath> children)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<NodeWithPath> children)?  $default,) {final _that = this;
 switch (_that) {
 case _NodeChildren() when $default != null:
 return $default(_that.children);case _:
@@ -206,10 +206,16 @@ return $default(_that.children);case _:
 
 
 class _NodeChildren implements NodeChildren {
-  const _NodeChildren({required this.children});
+  const _NodeChildren({required final  List<NodeWithPath> children}): _children = children;
   
 
-@override final  UnmodifiableListView<NodeWithPath> children;
+ final  List<NodeWithPath> _children;
+@override List<NodeWithPath> get children {
+  if (_children is EqualUnmodifiableListView) return _children;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_children);
+}
+
 
 /// Create a copy of NodeChildren
 /// with the given fields replaced by the non-null parameter values.
@@ -221,12 +227,12 @@ _$NodeChildrenCopyWith<_NodeChildren> get copyWith => __$NodeChildrenCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NodeChildren&&const DeepCollectionEquality().equals(other.children, children));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NodeChildren&&const DeepCollectionEquality().equals(other._children, _children));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(children));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_children));
 
 @override
 String toString() {
@@ -241,7 +247,7 @@ abstract mixin class _$NodeChildrenCopyWith<$Res> implements $NodeChildrenCopyWi
   factory _$NodeChildrenCopyWith(_NodeChildren value, $Res Function(_NodeChildren) _then) = __$NodeChildrenCopyWithImpl;
 @override @useResult
 $Res call({
- UnmodifiableListView<NodeWithPath> children
+ List<NodeWithPath> children
 });
 
 
@@ -260,8 +266,8 @@ class __$NodeChildrenCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? children = null,}) {
   return _then(_NodeChildren(
-children: null == children ? _self.children : children // ignore: cast_nullable_to_non_nullable
-as UnmodifiableListView<NodeWithPath>,
+children: null == children ? _self._children : children // ignore: cast_nullable_to_non_nullable
+as List<NodeWithPath>,
   ));
 }
 
