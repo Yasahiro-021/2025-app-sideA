@@ -23,7 +23,7 @@ sealed class NodeWithPath with _$NodeWithPath {
     required String title,
     required String url,
     required NodePath path,
-    required NodeWithPath parent,
+    required NodePath parentPath,
   }) = NormalNode;
 
   const factory NodeWithPath.root({

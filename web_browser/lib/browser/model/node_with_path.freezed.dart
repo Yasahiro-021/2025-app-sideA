@@ -167,10 +167,10 @@ return root(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String url,  NodePath path,  NodeWithPath parent)?  $default,{TResult Function( String title,  String url,  NodePath path)?  root,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String url,  NodePath path,  NodePath parentPath)?  $default,{TResult Function( String title,  String url,  NodePath path)?  root,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case NormalNode() when $default != null:
-return $default(_that.title,_that.url,_that.path,_that.parent);case RootNode() when root != null:
+return $default(_that.title,_that.url,_that.path,_that.parentPath);case RootNode() when root != null:
 return root(_that.title,_that.url,_that.path);case _:
   return orElse();
 
@@ -189,10 +189,10 @@ return root(_that.title,_that.url,_that.path);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String url,  NodePath path,  NodeWithPath parent)  $default,{required TResult Function( String title,  String url,  NodePath path)  root,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String url,  NodePath path,  NodePath parentPath)  $default,{required TResult Function( String title,  String url,  NodePath path)  root,}) {final _that = this;
 switch (_that) {
 case NormalNode():
-return $default(_that.title,_that.url,_that.path,_that.parent);case RootNode():
+return $default(_that.title,_that.url,_that.path,_that.parentPath);case RootNode():
 return root(_that.title,_that.url,_that.path);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -207,10 +207,10 @@ return root(_that.title,_that.url,_that.path);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String url,  NodePath path,  NodeWithPath parent)?  $default,{TResult? Function( String title,  String url,  NodePath path)?  root,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String url,  NodePath path,  NodePath parentPath)?  $default,{TResult? Function( String title,  String url,  NodePath path)?  root,}) {final _that = this;
 switch (_that) {
 case NormalNode() when $default != null:
-return $default(_that.title,_that.url,_that.path,_that.parent);case RootNode() when root != null:
+return $default(_that.title,_that.url,_that.path,_that.parentPath);case RootNode() when root != null:
 return root(_that.title,_that.url,_that.path);case _:
   return null;
 
@@ -223,13 +223,13 @@ return root(_that.title,_that.url,_that.path);case _:
 
 
 class NormalNode with DiagnosticableTreeMixin implements NodeWithPath {
-  const NormalNode({required this.title, required this.url, required this.path, required this.parent});
+  const NormalNode({required this.title, required this.url, required this.path, required this.parentPath});
   
 
 @override final  String title;
 @override final  String url;
 @override final  NodePath path;
- final  NodeWithPath parent;
+ final  NodePath parentPath;
 
 /// Create a copy of NodeWithPath
 /// with the given fields replaced by the non-null parameter values.
@@ -242,21 +242,21 @@ $NormalNodeCopyWith<NormalNode> get copyWith => _$NormalNodeCopyWithImpl<NormalN
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'NodeWithPath'))
-    ..add(DiagnosticsProperty('title', title))..add(DiagnosticsProperty('url', url))..add(DiagnosticsProperty('path', path))..add(DiagnosticsProperty('parent', parent));
+    ..add(DiagnosticsProperty('title', title))..add(DiagnosticsProperty('url', url))..add(DiagnosticsProperty('path', path))..add(DiagnosticsProperty('parentPath', parentPath));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NormalNode&&(identical(other.title, title) || other.title == title)&&(identical(other.url, url) || other.url == url)&&(identical(other.path, path) || other.path == path)&&(identical(other.parent, parent) || other.parent == parent));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NormalNode&&(identical(other.title, title) || other.title == title)&&(identical(other.url, url) || other.url == url)&&(identical(other.path, path) || other.path == path)&&(identical(other.parentPath, parentPath) || other.parentPath == parentPath));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,title,url,path,parent);
+int get hashCode => Object.hash(runtimeType,title,url,path,parentPath);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'NodeWithPath(title: $title, url: $url, path: $path, parent: $parent)';
+  return 'NodeWithPath(title: $title, url: $url, path: $path, parentPath: $parentPath)';
 }
 
 
@@ -267,11 +267,11 @@ abstract mixin class $NormalNodeCopyWith<$Res> implements $NodeWithPathCopyWith<
   factory $NormalNodeCopyWith(NormalNode value, $Res Function(NormalNode) _then) = _$NormalNodeCopyWithImpl;
 @override @useResult
 $Res call({
- String title, String url, NodePath path, NodeWithPath parent
+ String title, String url, NodePath path, NodePath parentPath
 });
 
 
-@override $NodePathCopyWith<$Res> get path;$NodeWithPathCopyWith<$Res> get parent;
+@override $NodePathCopyWith<$Res> get path;$NodePathCopyWith<$Res> get parentPath;
 
 }
 /// @nodoc
@@ -284,13 +284,13 @@ class _$NormalNodeCopyWithImpl<$Res>
 
 /// Create a copy of NodeWithPath
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? url = null,Object? path = null,Object? parent = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? url = null,Object? path = null,Object? parentPath = null,}) {
   return _then(NormalNode(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,path: null == path ? _self.path : path // ignore: cast_nullable_to_non_nullable
-as NodePath,parent: null == parent ? _self.parent : parent // ignore: cast_nullable_to_non_nullable
-as NodeWithPath,
+as NodePath,parentPath: null == parentPath ? _self.parentPath : parentPath // ignore: cast_nullable_to_non_nullable
+as NodePath,
   ));
 }
 
@@ -307,10 +307,10 @@ $NodePathCopyWith<$Res> get path {
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$NodeWithPathCopyWith<$Res> get parent {
+$NodePathCopyWith<$Res> get parentPath {
   
-  return $NodeWithPathCopyWith<$Res>(_self.parent, (value) {
-    return _then(_self.copyWith(parent: value));
+  return $NodePathCopyWith<$Res>(_self.parentPath, (value) {
+    return _then(_self.copyWith(parentPath: value));
   });
 }
 }
