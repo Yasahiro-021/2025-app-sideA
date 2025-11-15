@@ -4,9 +4,9 @@ part 'node_path.freezed.dart';
 
 @freezed
 abstract class NodePath with _$NodePath {
-  const factory NodePath({required List<int> path}) = Normal;
+  const factory NodePath({required List<int> path}) = NormalPath;
 
-  const factory NodePath.root() = Root;
+  const factory NodePath.root() = RootPath;
 }
 
 

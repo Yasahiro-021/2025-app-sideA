@@ -103,11 +103,11 @@ extension NodeWithPathPatterns on NodeWithPath {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( Normal value)?  $default,{TResult Function( Root value)?  root,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( NormalNode value)?  $default,{TResult Function( RootNode value)?  root,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case Normal() when $default != null:
-return $default(_that);case Root() when root != null:
+case NormalNode() when $default != null:
+return $default(_that);case RootNode() when root != null:
 return root(_that);case _:
   return orElse();
 
@@ -126,11 +126,11 @@ return root(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( Normal value)  $default,{required TResult Function( Root value)  root,}){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( NormalNode value)  $default,{required TResult Function( RootNode value)  root,}){
 final _that = this;
 switch (_that) {
-case Normal():
-return $default(_that);case Root():
+case NormalNode():
+return $default(_that);case RootNode():
 return root(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -145,11 +145,11 @@ return root(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( Normal value)?  $default,{TResult? Function( Root value)?  root,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( NormalNode value)?  $default,{TResult? Function( RootNode value)?  root,}){
 final _that = this;
 switch (_that) {
-case Normal() when $default != null:
-return $default(_that);case Root() when root != null:
+case NormalNode() when $default != null:
+return $default(_that);case RootNode() when root != null:
 return root(_that);case _:
   return null;
 
@@ -169,8 +169,8 @@ return root(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String url,  NodePath path,  NodeWithPath parent)?  $default,{TResult Function( String title,  String url,  NodePath path)?  root,required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case Normal() when $default != null:
-return $default(_that.title,_that.url,_that.path,_that.parent);case Root() when root != null:
+case NormalNode() when $default != null:
+return $default(_that.title,_that.url,_that.path,_that.parent);case RootNode() when root != null:
 return root(_that.title,_that.url,_that.path);case _:
   return orElse();
 
@@ -191,8 +191,8 @@ return root(_that.title,_that.url,_that.path);case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String url,  NodePath path,  NodeWithPath parent)  $default,{required TResult Function( String title,  String url,  NodePath path)  root,}) {final _that = this;
 switch (_that) {
-case Normal():
-return $default(_that.title,_that.url,_that.path,_that.parent);case Root():
+case NormalNode():
+return $default(_that.title,_that.url,_that.path,_that.parent);case RootNode():
 return root(_that.title,_that.url,_that.path);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -209,8 +209,8 @@ return root(_that.title,_that.url,_that.path);}
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String url,  NodePath path,  NodeWithPath parent)?  $default,{TResult? Function( String title,  String url,  NodePath path)?  root,}) {final _that = this;
 switch (_that) {
-case Normal() when $default != null:
-return $default(_that.title,_that.url,_that.path,_that.parent);case Root() when root != null:
+case NormalNode() when $default != null:
+return $default(_that.title,_that.url,_that.path,_that.parent);case RootNode() when root != null:
 return root(_that.title,_that.url,_that.path);case _:
   return null;
 
@@ -222,8 +222,8 @@ return root(_that.title,_that.url,_that.path);case _:
 /// @nodoc
 
 
-class Normal with DiagnosticableTreeMixin implements NodeWithPath {
-  const Normal({required this.title, required this.url, required this.path, required this.parent});
+class NormalNode with DiagnosticableTreeMixin implements NodeWithPath {
+  const NormalNode({required this.title, required this.url, required this.path, required this.parent});
   
 
 @override final  String title;
@@ -235,7 +235,7 @@ class Normal with DiagnosticableTreeMixin implements NodeWithPath {
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$NormalCopyWith<Normal> get copyWith => _$NormalCopyWithImpl<Normal>(this, _$identity);
+$NormalNodeCopyWith<NormalNode> get copyWith => _$NormalNodeCopyWithImpl<NormalNode>(this, _$identity);
 
 
 @override
@@ -247,7 +247,7 @@ void debugFillProperties(DiagnosticPropertiesBuilder properties) {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Normal&&(identical(other.title, title) || other.title == title)&&(identical(other.url, url) || other.url == url)&&(identical(other.path, path) || other.path == path)&&(identical(other.parent, parent) || other.parent == parent));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NormalNode&&(identical(other.title, title) || other.title == title)&&(identical(other.url, url) || other.url == url)&&(identical(other.path, path) || other.path == path)&&(identical(other.parent, parent) || other.parent == parent));
 }
 
 
@@ -263,8 +263,8 @@ String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
 }
 
 /// @nodoc
-abstract mixin class $NormalCopyWith<$Res> implements $NodeWithPathCopyWith<$Res> {
-  factory $NormalCopyWith(Normal value, $Res Function(Normal) _then) = _$NormalCopyWithImpl;
+abstract mixin class $NormalNodeCopyWith<$Res> implements $NodeWithPathCopyWith<$Res> {
+  factory $NormalNodeCopyWith(NormalNode value, $Res Function(NormalNode) _then) = _$NormalNodeCopyWithImpl;
 @override @useResult
 $Res call({
  String title, String url, NodePath path, NodeWithPath parent
@@ -275,17 +275,17 @@ $Res call({
 
 }
 /// @nodoc
-class _$NormalCopyWithImpl<$Res>
-    implements $NormalCopyWith<$Res> {
-  _$NormalCopyWithImpl(this._self, this._then);
+class _$NormalNodeCopyWithImpl<$Res>
+    implements $NormalNodeCopyWith<$Res> {
+  _$NormalNodeCopyWithImpl(this._self, this._then);
 
-  final Normal _self;
-  final $Res Function(Normal) _then;
+  final NormalNode _self;
+  final $Res Function(NormalNode) _then;
 
 /// Create a copy of NodeWithPath
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? url = null,Object? path = null,Object? parent = null,}) {
-  return _then(Normal(
+  return _then(NormalNode(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,path: null == path ? _self.path : path // ignore: cast_nullable_to_non_nullable
@@ -318,8 +318,8 @@ $NodeWithPathCopyWith<$Res> get parent {
 /// @nodoc
 
 
-class Root with DiagnosticableTreeMixin implements NodeWithPath {
-  const Root({required this.title, required this.url, required this.path});
+class RootNode with DiagnosticableTreeMixin implements NodeWithPath {
+  const RootNode({required this.title, required this.url, required this.path});
   
 
 @override final  String title;
@@ -330,7 +330,7 @@ class Root with DiagnosticableTreeMixin implements NodeWithPath {
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$RootCopyWith<Root> get copyWith => _$RootCopyWithImpl<Root>(this, _$identity);
+$RootNodeCopyWith<RootNode> get copyWith => _$RootNodeCopyWithImpl<RootNode>(this, _$identity);
 
 
 @override
@@ -342,7 +342,7 @@ void debugFillProperties(DiagnosticPropertiesBuilder properties) {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Root&&(identical(other.title, title) || other.title == title)&&(identical(other.url, url) || other.url == url)&&(identical(other.path, path) || other.path == path));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RootNode&&(identical(other.title, title) || other.title == title)&&(identical(other.url, url) || other.url == url)&&(identical(other.path, path) || other.path == path));
 }
 
 
@@ -358,8 +358,8 @@ String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
 }
 
 /// @nodoc
-abstract mixin class $RootCopyWith<$Res> implements $NodeWithPathCopyWith<$Res> {
-  factory $RootCopyWith(Root value, $Res Function(Root) _then) = _$RootCopyWithImpl;
+abstract mixin class $RootNodeCopyWith<$Res> implements $NodeWithPathCopyWith<$Res> {
+  factory $RootNodeCopyWith(RootNode value, $Res Function(RootNode) _then) = _$RootNodeCopyWithImpl;
 @override @useResult
 $Res call({
  String title, String url, NodePath path
@@ -370,17 +370,17 @@ $Res call({
 
 }
 /// @nodoc
-class _$RootCopyWithImpl<$Res>
-    implements $RootCopyWith<$Res> {
-  _$RootCopyWithImpl(this._self, this._then);
+class _$RootNodeCopyWithImpl<$Res>
+    implements $RootNodeCopyWith<$Res> {
+  _$RootNodeCopyWithImpl(this._self, this._then);
 
-  final Root _self;
-  final $Res Function(Root) _then;
+  final RootNode _self;
+  final $Res Function(RootNode) _then;
 
 /// Create a copy of NodeWithPath
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? url = null,Object? path = null,}) {
-  return _then(Root(
+  return _then(RootNode(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,path: null == path ? _self.path : path // ignore: cast_nullable_to_non_nullable

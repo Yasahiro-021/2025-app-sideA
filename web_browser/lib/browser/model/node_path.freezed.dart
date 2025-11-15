@@ -55,11 +55,11 @@ extension NodePathPatterns on NodePath {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( Normal value)?  $default,{TResult Function( Root value)?  root,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( NormalPath value)?  $default,{TResult Function( RootPath value)?  root,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case Normal() when $default != null:
-return $default(_that);case Root() when root != null:
+case NormalPath() when $default != null:
+return $default(_that);case RootPath() when root != null:
 return root(_that);case _:
   return orElse();
 
@@ -78,11 +78,11 @@ return root(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( Normal value)  $default,{required TResult Function( Root value)  root,}){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( NormalPath value)  $default,{required TResult Function( RootPath value)  root,}){
 final _that = this;
 switch (_that) {
-case Normal():
-return $default(_that);case Root():
+case NormalPath():
+return $default(_that);case RootPath():
 return root(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -100,11 +100,11 @@ return root(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( Normal value)?  $default,{TResult? Function( Root value)?  root,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( NormalPath value)?  $default,{TResult? Function( RootPath value)?  root,}){
 final _that = this;
 switch (_that) {
-case Normal() when $default != null:
-return $default(_that);case Root() when root != null:
+case NormalPath() when $default != null:
+return $default(_that);case RootPath() when root != null:
 return root(_that);case _:
   return null;
 
@@ -124,8 +124,8 @@ return root(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<int> path)?  $default,{TResult Function()?  root,required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case Normal() when $default != null:
-return $default(_that.path);case Root() when root != null:
+case NormalPath() when $default != null:
+return $default(_that.path);case RootPath() when root != null:
 return root();case _:
   return orElse();
 
@@ -146,8 +146,8 @@ return root();case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<int> path)  $default,{required TResult Function()  root,}) {final _that = this;
 switch (_that) {
-case Normal():
-return $default(_that.path);case Root():
+case NormalPath():
+return $default(_that.path);case RootPath():
 return root();case _:
   throw StateError('Unexpected subclass');
 
@@ -167,8 +167,8 @@ return root();case _:
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<int> path)?  $default,{TResult? Function()?  root,}) {final _that = this;
 switch (_that) {
-case Normal() when $default != null:
-return $default(_that.path);case Root() when root != null:
+case NormalPath() when $default != null:
+return $default(_that.path);case RootPath() when root != null:
 return root();case _:
   return null;
 
@@ -180,8 +180,8 @@ return root();case _:
 /// @nodoc
 
 
-class Normal implements NodePath {
-  const Normal({required final  List<int> path}): _path = path;
+class NormalPath implements NodePath {
+  const NormalPath({required final  List<int> path}): _path = path;
   
 
  final  List<int> _path;
@@ -196,13 +196,13 @@ class Normal implements NodePath {
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$NormalCopyWith<Normal> get copyWith => _$NormalCopyWithImpl<Normal>(this, _$identity);
+$NormalPathCopyWith<NormalPath> get copyWith => _$NormalPathCopyWithImpl<NormalPath>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Normal&&const DeepCollectionEquality().equals(other._path, _path));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NormalPath&&const DeepCollectionEquality().equals(other._path, _path));
 }
 
 
@@ -218,8 +218,8 @@ String toString() {
 }
 
 /// @nodoc
-abstract mixin class $NormalCopyWith<$Res> implements $NodePathCopyWith<$Res> {
-  factory $NormalCopyWith(Normal value, $Res Function(Normal) _then) = _$NormalCopyWithImpl;
+abstract mixin class $NormalPathCopyWith<$Res> implements $NodePathCopyWith<$Res> {
+  factory $NormalPathCopyWith(NormalPath value, $Res Function(NormalPath) _then) = _$NormalPathCopyWithImpl;
 @useResult
 $Res call({
  List<int> path
@@ -230,17 +230,17 @@ $Res call({
 
 }
 /// @nodoc
-class _$NormalCopyWithImpl<$Res>
-    implements $NormalCopyWith<$Res> {
-  _$NormalCopyWithImpl(this._self, this._then);
+class _$NormalPathCopyWithImpl<$Res>
+    implements $NormalPathCopyWith<$Res> {
+  _$NormalPathCopyWithImpl(this._self, this._then);
 
-  final Normal _self;
-  final $Res Function(Normal) _then;
+  final NormalPath _self;
+  final $Res Function(NormalPath) _then;
 
 /// Create a copy of NodePath
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? path = null,}) {
-  return _then(Normal(
+  return _then(NormalPath(
 path: null == path ? _self._path : path // ignore: cast_nullable_to_non_nullable
 as List<int>,
   ));
@@ -252,8 +252,8 @@ as List<int>,
 /// @nodoc
 
 
-class Root implements NodePath {
-  const Root();
+class RootPath implements NodePath {
+  const RootPath();
   
 
 
@@ -263,7 +263,7 @@ class Root implements NodePath {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Root);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RootPath);
 }
 
 
