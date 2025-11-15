@@ -20,7 +20,7 @@ void main() {
         title: 'example title',
         url: 'https://example.com/hoge',
         path: examplePath,
-        parent: rootNode,
+        parentPath: rootNode.path,
       );
     });
 
@@ -29,8 +29,8 @@ void main() {
       expect(rootNode.url, 'https://example.com');
       expect(rootNode.path, exampleRootPath);
       expect(switch (rootNode) {
-        Root() => null,
-        Normal(:final parent) => parent,
+        RootNode() => null,
+        NormalNode(:final parentPath) => parentPath,
       }, isNull);
     });
 
@@ -39,23 +39,30 @@ void main() {
       expect(node.url, 'https://example.com/hoge');
       expect(node.path, examplePath);
       expect(switch (node) {
-        Normal(:final parent) => parent,
-        Root() => null,
-      }, rootNode);
+        NormalNode(:final parentPath) => parentPath,
+        RootNode() => null,
+      }, rootNode.path);
     });
 
     test('ノードの比較が正しく動作すること', () {
-      NodePath path1 = NodePath(path: [0, 1]);
-      NodePath path2 = NodePath(path: [0, 1]);
-      NodePath path3 = NodePath(path: [0, 2]);
+      expect(node == node, isTrue);
+      expect(node == rootNode, isFalse);
 
-      expect(path1, equals(path2));
-      expect(path1.hashCode, equals(path2.hashCode));
-      expect(path1, isNot(equals(path3)));
-      expect(path1.hashCode, isNot(equals(path3.hashCode)));
+      final anotherNode = node.copyWith();
+
+      expect(anotherNode == node, isTrue);
+
     });
 
-    test('親パスの取得が正しく動作すること', () {
+    test('copyWithが正しく動くこと', () {
+      final modifiedNode = node.copyWith(title: 'Modified Title');
+      expect(modifiedNode.title, 'Modified Title');
+      expect(modifiedNode.url, node.url);
+      expect(modifiedNode.path, node.path);
+    });
+
+    test('親のパスを正しく取得できること', () {
+      //TODO pathの実装後に実装
       NodePath childPath = NodePath(path: [0, 1, 2, 3]);
       NodePath parentPath = NodePath(path: [0, 1, 2]);
     }, skip: "Not implemented yet");
