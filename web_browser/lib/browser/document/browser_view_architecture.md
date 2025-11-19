@@ -1,7 +1,5 @@
 # ブラウザ画面のアーキテクチャ
 
-Not viewed
-
 最終更新: 2025-11-13
 
 ## 設計思想
@@ -19,11 +17,11 @@ Flutterの状態管理では、Modelはイミュータブル(不変)である必
 - **子ノードのコレクション**: `NodeChildren` - 特定ノードの子リストを管理
 - これにより、子の追加時にノード本体を再構築せず、子リストのみを更新可能
 
-## アーキテクチャ図
+## アーキテクチャ図（View層は省略
 
 ```mermaid
 classDiagram
-    direction TB
+    direction LR
 
     %% Model層の定義
     namespace Model {
@@ -74,25 +72,6 @@ classDiagram
         }
     }
 
-    %% View層の定義
-    namespace View {
-        class BrowserView {
-            <<ConsumerWidget>>
-            +build(BuildContext, WidgetRef)
-        }
-
-        class TreeView {
-            <<ConsumerWidget>>
-            +NodePath rootPath
-            +build(BuildContext, WidgetRef)
-        }
-
-        class NodeWidget {
-            <<ConsumerWidget>>
-            +NodePath nodePath
-            +build(BuildContext, WidgetRef)
-        }
-    }
 
     %% Model層の関連
     NodeWithPath --> NodePath : has
@@ -103,17 +82,13 @@ classDiagram
     NodeChildrenNotifier --> NodeChildren : manages
     NodeChildrenNotifier --> NodePath : keyed by
 
-    %% View - ViewModel の関連
-    BrowserView ..> CurrentNodeNotifier : watches
-    BrowserView ..> RootNodeNotifier : watches
-    TreeView ..> NodeChildrenNotifier : watches
-    NodeWidget ..> CurrentNodeNotifier : watches
-    NodeWidget ..> NodeChildrenNotifier : watches
-
     %% 凡例用のノート
     note for NodeChildren "イミュータブルなコレクション
         子の追加・削除時は新しい
         インスタンスを返す"
+
+    note for NodePath "イミュータブルな整数リスト
+        ツリー内の位置を一意に識別"
 
     note for NodeChildrenNotifier "Family Notifierとして実装
         各NodePathごとに
@@ -168,21 +143,6 @@ classDiagram
   - 他のノードには影響を与えない
 
 ### View層
-
-#### `BrowserView`
-
-- **責務**: ブラウザ画面全体のレイアウト
-- **監視**: `CurrentNodeNotifier`でWebView表示を制御
-
-#### `TreeView`
-
-- **責務**: ノードツリーの表示
-- **監視**: `NodeChildrenNotifier`で子リストの変更を検知
-
-#### `NodeWidget`
-
-- **責務**: 個別ノードのUI表示
-- **監視**: 自身のパスに対応する`NodeChildrenNotifier`
 
 ## データフローの例
 
