@@ -21,7 +21,7 @@ Flutterの状態管理では、Modelはイミュータブル(不変)である必
 
 ```mermaid
 classDiagram
-    direction LR
+    direction TB
 
     %% Model層の定義
     namespace Model {
@@ -29,7 +29,7 @@ classDiagram
             +String title
             +String url
             +NodePath path
-            +NodeWithPath? parent
+            +NodePath parentPath
         }
 
         class NodePath {
@@ -57,10 +57,10 @@ classDiagram
             +navigateToChild(NodePath)
         }
 
-        class RootNodeNotifier {
-            <<Notifier~NodeWithPath~>>
+        class NodeWithPathNotifier {
+            <<Family~NodePath~>>
             +state: NodeWithPath
-            +setRootNode(NodeWithPath)
+            +updateNode(NodeWithPath)
         }
 
         class NodeChildrenNotifier {
@@ -77,10 +77,13 @@ classDiagram
     NodeWithPath --> NodePath : has
 
     %% ViewModel層の関連
-    CurrentNodeNotifier --> NodeWithPath : manages
-    RootNodeNotifier --> NodeWithPath : manages
+    CurrentNodeNotifier --> NodePath : uses
+    CurrentNodeNotifier --> NodeWithPathNotifier : watches
     NodeChildrenNotifier --> NodeChildren : manages
     NodeChildrenNotifier --> NodePath : keyed by
+    NodeWithPathNotifier --> NodePath : keyed by
+    NodeWithPathNotifier --> NodeWithPath : manages
+
 
     %% 凡例用のノート
     note for NodeChildren "イミュータブルなコレクション
@@ -129,10 +132,10 @@ classDiagram
 - **責務**: 現在表示中のノードを管理
 - **用途**: WebViewの表示制御、UI状態の同期
 
-#### `RootNodeNotifier`
+#### `NodeWithPathNotifier`
 
-- **責務**: 履歴ツリーのルートノードを管理
-- **用途**: ツリー全体の起点
+- **責務**: 各パスに対応するノード情報を保持。
+- **用途**: ノード情報の更新・取得
 
 #### `NodeChildrenNotifier` (Family)
 
