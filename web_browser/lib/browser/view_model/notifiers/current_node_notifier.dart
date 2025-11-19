@@ -1,4 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:web_browser/browser/model/node_path.dart';
 import '../../model/node_with_path.dart';
 
 /// 現在のノードを管理するNotifierクラス
@@ -9,7 +10,11 @@ class CurrentNodeNotifier extends Notifier<NodeWithPath> {
   @override
   NodeWithPath build() {
     // 初期状態はルートノードと同じ
-    return NodeWithPath.root(name: "ROOT", url: "URL"); //TODO ROOTノードをNotifierから取得するようにする。
+    return NodeWithPath.root(
+      url: "",
+      title: '',
+      path: NodePath(path: []),
+    ); //TODO ROOTノードをProviderから取得するようにする。
   }
 
   /// 現在ノードの変更
@@ -20,5 +25,5 @@ class CurrentNodeNotifier extends Notifier<NodeWithPath> {
 
 final currentNodeNotifierProvider =
     NotifierProvider<CurrentNodeNotifier, NodeWithPath>(
-  () => CurrentNodeNotifier(),
-);
+      () => CurrentNodeNotifier(),
+    );
