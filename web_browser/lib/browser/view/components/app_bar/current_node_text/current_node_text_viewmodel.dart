@@ -12,7 +12,7 @@ class CurrentNodeTextViewModel {
   /// 現在のノード名を取得
   String get currentNodeName {
     final currentNode = ref.watch(currentNodeNotifierProvider);
-    return currentNode.name;
+    return currentNode.title;
   }
 }
 
