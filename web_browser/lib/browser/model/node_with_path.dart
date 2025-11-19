@@ -15,7 +15,7 @@ sealed class NodeWithPath with _$NodeWithPath {
   ///
   /// `url` ノードに紐づくURL
   ///
-  /// `parent` 親ノード
+  /// `parentPath` 親ノードのパス
   ///
   /// `children` 子ノードのリスト
   ///
