@@ -34,6 +34,11 @@ void main() {
           expect(path.parentPath, expectedParentPath);
         });
 
+        test('ルートパスの親はnullであること', () {
+          NodePath rootPath = NodePath(path: []);
+          expect(rootPath.parentPath, isNull);
+        });
+
         test('インデックスから子パスを作成できること', () {
           NodePath path = NodePath(path: [0, 1, 2]);
           NodePath expectedChildPath = NodePath(path: [0, 1, 2, 3]);
