@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:web_browser/browser/model/node_children.dart';
 import 'package:web_browser/browser/model/node_path.dart';
 import 'package:web_browser/browser/model/node_with_path.dart';
-import 'package:web_browser/node/node.dart';
 
 void main() {
   group('NodeChildren', () {
