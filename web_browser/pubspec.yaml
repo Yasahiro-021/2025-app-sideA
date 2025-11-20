@@ -46,7 +46,8 @@ dependencies:
   freezed:
   freezed_annotation:
   collection:
-  riverpod_generator: ^3.0.3
+  riverpod_generator: 
+  riverpod_annotation: 
 
 dev_dependencies:
   flutter_test:
