@@ -29,7 +29,7 @@ classDiagram
             +String title
             +String url
             +NodePath path
-            +NodePath parentPath
+            +NodePath? parentPath
         }
 
         class NodePath {
