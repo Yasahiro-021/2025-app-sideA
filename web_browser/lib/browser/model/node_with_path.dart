@@ -15,7 +15,7 @@ sealed class NodeWithPath with _$NodeWithPath {
   ///
   /// `url` ノードに紐づくURL
   ///
-  /// `parentPath` 親ノードのパス
+  /// `parentPath` 親ノードのパス。nullable
   ///
   /// `children` 子ノードのリスト
   ///
@@ -23,12 +23,7 @@ sealed class NodeWithPath with _$NodeWithPath {
     required String title,
     required String url,
     required NodePath path,
-    required NodePath parentPath,
-  }) = NormalNode;
+    required NodePath? parentPath,
+  }) = _NodeWithPath;
 
-  const factory NodeWithPath.root({
-    required String title,
-    required String url,
-    required NodePath path,
-  }) = RootNode;
 }

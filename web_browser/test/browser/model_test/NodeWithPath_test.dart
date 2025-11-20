@@ -4,16 +4,17 @@ import 'package:web_browser/browser/model/node_with_path.dart';
 
 void main() {
   group('NodeWithPath', () {
-    final exampleRootPath = NodePath(path: [0]);
+    final exampleRootPath = NodePath(path: []);
     final examplePath = NodePath(path: [0, 1]);
     late NodeWithPath rootNode;
     late NodeWithPath node;
 
     setUp(() {
-      rootNode = NodeWithPath.root(
+      rootNode = NodeWithPath(
         title: 'Example',
         url: 'https://example.com',
         path: exampleRootPath,
+        parentPath: null,
       );
 
       node = NodeWithPath(
@@ -28,20 +29,14 @@ void main() {
       expect(rootNode.title, 'Example');
       expect(rootNode.url, 'https://example.com');
       expect(rootNode.path, exampleRootPath);
-      expect(switch (rootNode) {
-        RootNode() => null,
-        NormalNode(:final parentPath) => parentPath,
-      }, isNull);
+      expect(rootNode.parentPath, isNull);
     });
 
     test('正常に通常のノードが作成できること', () {
       expect(node.title, 'example title');
       expect(node.url, 'https://example.com/hoge');
       expect(node.path, examplePath);
-      expect(switch (node) {
-        NormalNode(:final parentPath) => parentPath,
-        RootNode() => null,
-      }, rootNode.path);
+      expect(node.parentPath, rootNode.path);
     });
 
     test('ノードの比較が正しく動作すること', () {
