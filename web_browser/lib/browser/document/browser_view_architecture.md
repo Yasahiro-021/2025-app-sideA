@@ -132,7 +132,7 @@ classDiagram
 - **責務**: 現在表示中のノードを管理
 - **用途**: WebViewの表示制御、UI状態の同期
 
-#### `NodeWithPathNotifier`
+#### `NodeWithPathNotifier`(Family)
 
 - **責務**: 各パスに対応するノード情報を保持。
 - **用途**: ノード情報の更新・取得
