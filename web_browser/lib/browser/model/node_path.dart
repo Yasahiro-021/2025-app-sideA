@@ -74,7 +74,7 @@ class NodePath with _$NodePath {
       //第１階層の親はルートパス。
       return NodePath(path: []);
     } else if (path.isEmpty) {
-      //ルートパスの親を求められた場合は例外
+      //ルートパスの親を求められた場合はnull
       return null;
     } else {
       return NodePath(path: path.sublist(0, path.length - 1));
