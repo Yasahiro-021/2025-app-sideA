@@ -1,42 +1,51 @@
+import 'dart:math';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:web_browser/browser/model/node_path.dart';
 import 'package:web_browser/browser/model/node_with_path.dart';
 
 void main() {
   group('NodeWithPath', () {
-    final exampleRootPath = NodePath(path: []);
-    final examplePath = NodePath(path: [0, 1]);
     late NodeWithPath rootNode;
+    late NodeWithPath firstChildNode;
     late NodeWithPath node;
 
     setUp(() {
       rootNode = NodeWithPath(
         title: 'Example',
         url: 'https://example.com',
-        path: exampleRootPath,
+        path: NodePath(path: []),
         parentPath: null,
+      );
+
+      firstChildNode = NodeWithPath(
+        title: 'First Child',
+        url: 'https://example.com/child',
+        path: NodePath(path: [0]),
+        parentPath: rootNode.path,
       );
 
       node = NodeWithPath(
         title: 'example title',
         url: 'https://example.com/hoge',
-        path: examplePath,
-        parentPath: rootNode.path,
+        path: NodePath(path: [0, 1]),
+        parentPath: firstChildNode.path,
       );
+
     });
 
     test('正常にルートのインスタンスが作成できること', () {
       expect(rootNode.title, 'Example');
       expect(rootNode.url, 'https://example.com');
-      expect(rootNode.path, exampleRootPath);
+      expect(rootNode.path, NodePath(path: []));
       expect(rootNode.parentPath, isNull);
     });
 
     test('正常に通常のノードが作成できること', () {
       expect(node.title, 'example title');
       expect(node.url, 'https://example.com/hoge');
-      expect(node.path, examplePath);
-      expect(node.parentPath, rootNode.path);
+      expect(node.path, NodePath(path: [0, 1]));
+      expect(node.parentPath, firstChildNode.path);
     });
 
     test('ノードの比較が正しく動作すること', () {
@@ -57,9 +66,17 @@ void main() {
     });
 
     test('親のパスを正しく取得できること', () {
-      //TODO pathの実装後に実装
-      NodePath childPath = NodePath(path: [0, 1, 2, 3]);
-      NodePath parentPath = NodePath(path: [0, 1, 2]);
-    }, skip: "Not implemented yet");
+      expect(node.parentPath,firstChildNode.path);
+    });
+
+    test('１層目の親のパスが正しく取得できること', () {
+
+      // firstChildNodeの親パスはrootNodeのパスであること
+      expect(firstChildNode.parentPath, rootNode.path);
+
+    });
+    test('ルートノードの親パスはnullであること', () {
+      expect(rootNode.parentPath, isNull);
+    });
   });
 }
