@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:web_browser/browser/view/components/app_bar/tree_button/tree_button_viewmodel.dart';
-import 'package:web_browser/router/router.dart';
 
 /// ツリー画面への遷移ボタン
 ///

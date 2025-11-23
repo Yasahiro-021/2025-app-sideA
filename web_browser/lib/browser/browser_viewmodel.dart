@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'browser_viewmodel.g.dart';

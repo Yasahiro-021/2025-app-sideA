@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:web_browser/browser/model/node_path.dart';
-import 'package:web_browser/node/node.dart';
 
 part 'browser_node.freezed.dart';
 

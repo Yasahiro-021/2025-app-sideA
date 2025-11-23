@@ -1,6 +1,4 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:web_browser/browser/model/browser_node.dart';
 import 'package:web_browser/browser/model/node_path.dart';
 import 'package:web_browser/browser/view_model/notifiers/browser_node_from_path_notifier.dart';
 import 'package:web_browser/browser/view_model/notifiers/current_path_notifier.dart';

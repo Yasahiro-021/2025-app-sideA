@@ -1,15 +1,10 @@
 import 'dart:developer';
 
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:web_browser/browser/model/node_path.dart';
 import 'package:web_browser/browser/model/browser_node.dart';
 import 'package:web_browser/browser/view_model/notifiers/browser_node_from_path_notifier.dart';
-import 'package:web_browser/browser/view_model/notifiers/current_node_provider.dart';
 import 'package:web_browser/browser/view_model/notifiers/current_path_notifier.dart';
-import 'package:web_browser/browser/view_model/notifiers/webview_controller_notifier.dart';
-import 'package:web_browser/node/node.dart';
 
 part 'parent_node_viewmodel.g.dart';
 
