@@ -1,44 +1,25 @@
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'dart:developer';
+
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:web_browser/browser/browser_viewmodel.dart';
+import 'package:web_browser/browser/view_model/notifiers/current_node_provider.dart';
+
+import 'web_view_state.dart';
+
+part 'browser_web_view_viewmodel.g.dart';
 
 /// BrowserWebViewのViewModel
-/// 
-/// WebViewの設定と各種イベントハンドラを提供
-class BrowserWebViewViewModel {
-  final Ref ref;
+@riverpod
+class BrowserWebViewViewModel extends _$BrowserWebViewViewModel {
+  @override
+  WebViewState build() {
+    log("BrowserWebViewViewModel: build called");
 
-  BrowserWebViewViewModel(this.ref);
-
-  /// BrowserViewModelを取得
-  BrowserViewModel get _browserViewModel => ref.read(browserViewModelProvider);
-
-  /// WebViewの設定
-  InAppWebViewSettings get settings => _browserViewModel.settings;
-
-  /// 初期URL
-  String get initialUrl => _browserViewModel.initialUrl;
-
-  /// WebView生成時のコールバック
-  void onWebViewCreated(InAppWebViewController controller) {
-    _browserViewModel.onWebViewCreated(controller);
+    WebViewState state = ref.watch(currentNodeProviderProvider).url.isEmpty
+        ? WebViewState(url: ref.read(browserViewModelProvider).searchUrl)
+        : WebViewState(url: ref.watch(currentNodeProviderProvider).url);
+    return state;
   }
 
-  /// ページ読み込み完了時のコールバック
-  void onLoadStop(InAppWebViewController controller, WebUri? url) {
-    _browserViewModel.onLoadStop(controller, url);
-  }
-
-  /// URL読み込み前のコールバック
-  Future<NavigationActionPolicy> shouldOverrideUrlLoading(
-    InAppWebViewController controller,
-    NavigationAction navigationAction,
-  ) {
-    return _browserViewModel.shouldOverrideUrlLoading(controller, navigationAction);
-  }
+  BrowserViewModel get browserViewModel => ref.read(browserViewModelProvider);
 }
-
-/// BrowserWebViewViewModelのProvider
-final browserWebViewViewModelProvider = Provider((ref) {
-  return BrowserWebViewViewModel(ref);
-});

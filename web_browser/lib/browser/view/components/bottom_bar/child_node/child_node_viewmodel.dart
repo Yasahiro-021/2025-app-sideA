@@ -1,26 +1,28 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:web_browser/browser/model/node_with_path.dart';
-import 'package:web_browser/browser/view_model/notifiers/current_node_notifier.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:web_browser/browser/model/browser_node.dart';
+import 'package:web_browser/browser/model/node_path.dart';
+import 'package:web_browser/browser/view_model/notifiers/browser_node_from_path_notifier.dart';
+import 'package:web_browser/browser/view_model/notifiers/current_path_notifier.dart';
+
+part 'child_node_viewmodel.g.dart';
 
 /// ChildNodeのViewModel
 /// 
 /// 子ノードへの遷移処理を管理
-class ChildNodeViewModel {
-  final Ref ref;
-  final NodeWithPath node;
+@riverpod
+class ChildNodeViewModel extends _$ChildNodeViewModel {
 
-  ChildNodeViewModel(this.ref, this.node);
+  @override
+  ChildNodeViewModel build(NodePath nodePath) {
+    return this;
+  }
 
   /// ノード名を取得
-  String get nodeName => node.name;
-
-  /// 子ノードに遷移
+  String get nodeName => ref.watch(browserNodeFromPathProvider(nodePath)).title;
+  
+  /// 現在パスを自身に変更（ノードへ遷移）
   void navigateToNode() {
-    ref.read(currentNodeNotifierProvider.notifier).changeNode(node);
+    ref.read(currentPathProvider.notifier).changePath(nodePath);
   }
 }
-
-/// ChildNodeViewModelのProvider（パラメータ付き）
-final childNodeViewModelProvider = Provider.family<ChildNodeViewModel, NodeWithPath>((ref, node) {
-  return ChildNodeViewModel(ref, node);
-});

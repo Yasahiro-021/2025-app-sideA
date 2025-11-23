@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:web_browser/browser/model/node_path.dart';
 import 'package:web_browser/browser/view/components/bottom_bar/child_node/child_node_viewmodel.dart';
-import 'package:web_browser/browser/model/node_with_path.dart';
+
 
 /// 子ノードを表示するボタン
 class ChildNodeView extends ConsumerWidget {
-  final NodeWithPath node;
+  final NodePath nodePath;
 
   const ChildNodeView({
     super.key,
-    required this.node,
+    required this.nodePath,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(childNodeViewModelProvider(node));
+    final viewModel = ref.watch(childNodeViewModelProvider(nodePath));
 
     return Padding(
       padding: const EdgeInsets.all(3.0),

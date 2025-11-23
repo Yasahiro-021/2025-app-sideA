@@ -1,23 +1,35 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:web_browser/browser/view_model/notifiers/root_node_notifier.dart';
-import 'package:web_browser/browser/model/node_with_path.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:web_browser/browser/domain/usecase/node_path_to_node_function.dart';
+import 'package:web_browser/browser/model/node_path.dart';
+import 'package:web_browser/browser/view_model/notifiers/browser_node_from_path_notifier.dart';
+import 'package:web_browser/browser/view_model/notifiers/root_path_provider.dart';
+import 'package:web_browser/browser/model/browser_node.dart';
+import 'package:web_browser/node/node.dart';
 
+part 'tree_button_viewmodel.g.dart';
 /// TreeButtonのViewModel
 /// 
 /// ルートノードの状態を管理し、ツリー画面への遷移に必要なデータを提供する
-class TreeButtonViewModel {
-  final Ref ref;
+@riverpod
+class TreeButtonViewModel extends _$TreeButtonViewModel {
+  @override
+  TreeButtonViewModel build() {
+    return this;
+  }
 
-  TreeButtonViewModel(this.ref);
+  //ルートのパスを取得
+  NodePath get rootPath => ref.read(rootPathProvider);
 
   /// ルートノードを取得
-  NodeWithPath get rootNode => ref.watch(rootNodeNotifierProvider);
+  BrowserNode get rootNode => ref.watch(browserNodeFromPathProvider(rootPath));
 
   /// ルートノードの名前を取得
-  String get rootNodeName => rootNode.name;
-}
+  String get rootNodeName => rootNode.title;
 
-/// TreeButtonViewModelのProvider
-final treeButtonViewModelProvider = Provider((ref) {
-  return TreeButtonViewModel(ref);
-});
+  Node get rootNodeAsNode{
+    return ref.read(nodeWithPathToNodeProvider)(rootPath);
+  }
+
+
+}

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -9,25 +11,13 @@ class BrowserWebViewView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.read(browserWebViewViewModelProvider);
-    
+    log("BrowserWebViewView: build called");
+    final viewModel = ref.watch(browserWebViewViewModelProvider);
+
     return InAppWebView(
-      initialUrlRequest: URLRequest(
-        url: WebUri(viewModel.initialUrl),
-      ),
-      initialSettings: viewModel.settings,
-      onWebViewCreated: (webViewController) {
-        viewModel.onWebViewCreated(webViewController);
-      },
-      onLoadStop: (webViewController, url) {
-        viewModel.onLoadStop(webViewController, url);
-      },
-      shouldOverrideUrlLoading: (webViewController, navigationAction) {
-        return viewModel.shouldOverrideUrlLoading(
-          webViewController,
-          navigationAction,
-        );
-      },
+      key: ValueKey(viewModel.url), // URLが変わるたびにWebViewを再作成
+      initialUrlRequest: URLRequest(url: WebUri(viewModel.url)),
+      //TODO 画面遷移時の処理を追加
     );
   }
 }

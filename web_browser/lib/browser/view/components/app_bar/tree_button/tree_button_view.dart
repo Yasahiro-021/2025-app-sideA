@@ -41,7 +41,8 @@ class TreeButtonView extends ConsumerWidget {
             tooltip: 'ツリー画面へ移動',
             onPressed: () {
               // ツリー画面への遷移
-              TreeViewRoute($extra: viewModel.rootNode).push(context);
+              //エラーにつき封鎖
+              // TreeViewRoute($extra: viewModel.rootNodeAsNode).push(context);
             },
           ),
         ],

@@ -1,23 +1,20 @@
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'dart:math';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:web_browser/browser/browser_viewmodel.dart';
+import 'package:web_browser/browser/domain/usecase/create_node_usecase.dart';
+import 'package:web_browser/browser/model/node_path.dart';
+import 'package:web_browser/browser/view_model/notifiers/current_path_notifier.dart';
 import 'package:web_browser/browser/view_model/notifiers/search_bar_expanded_notifier.dart';
 import 'package:web_browser/browser/view_model/notifiers/search_word_notifier.dart';
-import 'package:web_browser/browser/view_model/notifiers/root_node_notifier.dart';
-import 'package:web_browser/browser/view_model/notifiers/current_node_notifier.dart';
-import 'package:web_browser/browser/view_model/notifiers/url_titles_notifier.dart';
-import 'package:web_browser/browser/model/node_with_path.dart';
+import 'package:web_browser/browser/model/browser_node.dart';
 
 /// FloatingSearchBarのViewModel
-/// 
+///
 /// 検索バーの展開状態と検索処理を管理
 class FloatingSearchBarViewModel {
   final Ref ref;
 
   FloatingSearchBarViewModel(this.ref);
-
-  /// BrowserViewModelを取得
-  BrowserViewModel get _browserViewModel => ref.read(browserViewModelProvider);
 
   /// 検索バーが展開されているか
   bool get isExpanded => ref.watch(searchBarExpandedNotifierProvider);
@@ -41,25 +38,27 @@ class FloatingSearchBarViewModel {
   void performSearch(String searchWord) {
     if (searchWord.trim().isEmpty) return;
 
-    final searchUrl = 'https://www.google.com/search?q=${Uri.encodeComponent(searchWord)}';
-    
-    // 新しいルートノードを作成
-    final newRootNode = NodeWithPath.root(
-      name: searchWord,
-      url: searchUrl,
+    final searchUrl =
+        'https://www.google.com/search?q=${Uri.encodeComponent(searchWord)}';
+
+    // 新しいノードを作成
+    final BrowserNode newNode = BrowserNode(title: searchWord, url: searchUrl
     );
 
-    // ルートノードと現在ノードを設定
-    ref.read(rootNodeNotifierProvider.notifier).setRootNode(newRootNode);
-    ref.read(currentNodeNotifierProvider.notifier).changeNode(newRootNode);
-    
-    // タイトルとURLを登録
-    ref.read(urlTitlesNotifierProvider.notifier).addTitleUrl(searchWord, searchUrl);
+    //現在のpath（新しいノードの親）を取得
+    NodePath currentPath = ref.read(currentPathProvider);
 
-    // WebViewで検索URLを読み込み
-    _browserViewModel.webViewController?.loadUrl(
-      urlRequest: URLRequest(url: WebUri(searchUrl)),
-    );
+    //新しいノードを追加
+    final NodePath resultPath = ref
+        .read(createNodeUsecaseProvider)
+        .create(
+          parentPath: currentPath,
+          node: newNode,
+        );
+
+    
+    // 新しいノードに遷移
+    ref.read(currentPathProvider.notifier).changePath(resultPath);
 
     // 検索バーを折りたたむ
     collapse();

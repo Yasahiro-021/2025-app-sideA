@@ -47,7 +47,7 @@ class ParentNodeView extends ConsumerWidget {
           ),
           _ParentNodeText(
             key: const Key('parentNodeText'),
-            parentName: viewModel.parentName,
+            parentName: viewModel.parentTitle,
             isEmpty: !viewModel.hasParent,
             colorScheme: colorScheme,
           ),

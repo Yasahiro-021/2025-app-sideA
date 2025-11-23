@@ -1,44 +1,59 @@
+import 'dart:developer';
+
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:web_browser/browser/model/node_with_path.dart';
-import 'package:web_browser/browser/view_model/notifiers/current_node_notifier.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:web_browser/browser/model/node_path.dart';
+import 'package:web_browser/browser/model/browser_node.dart';
+import 'package:web_browser/browser/view_model/notifiers/browser_node_from_path_notifier.dart';
+import 'package:web_browser/browser/view_model/notifiers/current_node_provider.dart';
+import 'package:web_browser/browser/view_model/notifiers/current_path_notifier.dart';
 import 'package:web_browser/browser/view_model/notifiers/webview_controller_notifier.dart';
+import 'package:web_browser/node/node.dart';
+
+part 'parent_node_viewmodel.g.dart';
 
 /// ParentNodeのViewModel
-/// 
+///
 /// 親ノードの情報と親ノードへの遷移処理を管理
-class ParentNodeViewModel {
-  final Ref ref;
+///
+@riverpod
+class ParentNodeViewModel extends _$ParentNodeViewModel {
+  @override
+  ParentNodeViewModel build() {
+    return this;
+  }
 
-  ParentNodeViewModel(this.ref);
-
-  /// 現在のノードを取得
-  NodeWithPath get currentNode => ref.watch(currentNodeNotifierProvider);
+  /// 親のパスを取得
+  NodePath get _currentPath => ref.watch(currentPathProvider);
 
   /// 親ノードの名前を取得
-  String get parentName {
-    final parent = currentNode.parent;
-    return parent?.name ?? '';
+  String get parentTitle {
+    //親ノードを取得
+    NodePath? parentPath = _currentPath.parentPath;
+    if (parentPath == null) {
+      // 親ノードが存在しない場合は空文字を返す（ルートノードの場合）
+      return '';
+    } else {
+      //親ノードのタイトルを返す
+      final BrowserNode parent = ref.watch(
+        browserNodeFromPathProvider(parentPath),
+      );
+      return parent.title;
+    }
   }
 
   /// 親ノードが存在するかどうか
-  bool get hasParent => currentNode.parent != null;
+  bool get hasParent => _currentPath.parentPath != null;
 
   /// 親ノードへ遷移
   void navigateToParent() {
-    final parentNode = currentNode.parent as NodeWithPath?;
-    if (parentNode == null) return;
-    
-    // 親ノードのURLにWebViewを遷移
-    final webViewController = ref.read(webViewControllerNotifierProvider);
-    webViewController?.loadUrl(urlRequest: URLRequest(url: WebUri(parentNode.url)));
-    
+    final NodePath? parentPath = _currentPath.parentPath;
+    // 親ノードが存在しない場合は何もしない
+    log("navigate to parent node: $parentPath");
+    if (parentPath == null) return;
+
     // 現在ノードを親ノードに変更
-    ref.read(currentNodeNotifierProvider.notifier).changeNode(parentNode);
+    ref.read(currentPathProvider.notifier).changePath(parentPath);
   }
 }
-
-/// ParentNodeViewModelのProvider
-final parentNodeViewModelProvider = Provider((ref) {
-  return ParentNodeViewModel(ref);
-});
