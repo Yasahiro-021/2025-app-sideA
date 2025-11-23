@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:web_browser/browser/model/node_path.dart';
 import 'package:web_browser/browser/model/browser_node.dart';
 
 void main() {
