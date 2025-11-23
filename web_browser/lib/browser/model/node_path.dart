@@ -69,6 +69,7 @@ class NodePath with _$NodePath {
   }
 
   /// 親パスを返す。
+  /// ルートのノードの場合は null。
   NodePath? get parentPath {
     if (path.length == 1) {
       //第１階層の親はルートパス。
