@@ -60,7 +60,7 @@ final class BrowserNodeChildrenNotifierProvider
 }
 
 String _$browserNodeChildrenNotifierHash() =>
-    r'dd7db82d59468d817912b6a8fe45ff4e2ac404ce';
+    r'6d5f996a59cbd7d5a2b3dbb57a3f1621d40715fa';
 
 final class BrowserNodeChildrenNotifierFamily extends $Family
     with
