@@ -29,7 +29,7 @@ class BrowserNodeChildrenNotifier extends _$BrowserNodeChildrenNotifier {
     state = NodeChildren(children: [...state.children, newPath]);
 
     log(
-      "provideNewChildPath called. parentPath: ${state}, lastIndex: $_lastIndex",
+      "provideNewChildPath called. parentPath: $state, lastIndex: $_lastIndex",
     );
     return newPath;
   }
