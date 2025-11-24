@@ -1,23 +1,19 @@
 # ブラウザ画面のアーキテクチャ
 
-最終更新: 2025-11-13
+最終更新: 2025-11-24
 
 ## 設計思想
 
-### イミュータブル性の重要性
+### イミュータブルなツリー 
+Flutterの状態管理ではModelはイミュータブル(不変)の必要があるが、動的に変化するツリー構造を無理矢理にイミュータブルにすると、１箇所の変更でツリー全体の再構築が行われ、不要な計算が発生する。
 
-Flutterの状態管理では、Modelはイミュータブル(不変)である必要があります。
-`NodeWithPath`に`NodeChildren`を含めると、子ノードの追加・削除のたびに親ノード全体が再構築され、
-ツリー全体の再レンダリングが発生します。そのため、ノード自体の情報と子ノードリストを分離し、
-必要な部分のみを更新できるようにしています。
+そのため、ツリー構造を以下の3つの要素に分離する。これによって、部分的な更新が可能となり、効率的な状態管理を実現する。
 
 ### 状態管理の粒度
 
-- **ノード単体の情報**: `NodeWithPath` - ノード自身のタイトル、URL、パス
-- **子ノードのコレクション**: `NodeChildren` - 特定ノードの子リストを管理
-- これにより、子の追加時にノード本体を再構築せず、子リストのみを更新可能
-
-## アーキテクチャ図（View層は省略
+- **ノード単体の情報**: `BrowserNode` - ノード自身のタイトル・URL。描画に直接必要な情報。
+- **ノードのパス**: `NodePath` - ツリー内の位置。親子の関係を表したり、BrowserNodeのIDとなる。
+- **子ノードのコレクション**: `NodeChildren` - 子ノードのパスをリストで保持する。子から親へはパスを辿ることでアクセス可能だが、親から単一の子へはパスを知っていないとアクセスできない。子ノードをリストとして管理することで、親から子へのアクセスが容易になる。
 
 ```mermaid
 classDiagram
@@ -25,141 +21,157 @@ classDiagram
 
     %% Model層の定義
     namespace Model {
-        class NodeWithPath {
+        class BrowserNode {
             +String title
             +String url
-            +NodePath path
-            +NodePath? parentPath
         }
 
         class NodePath {
-            +UnmodifiableListView~int~ path
+            +List~int~ path
             +int get depth
-            +bool isRoot()
-            +NodePath? getParentPath()
+            +NodePath? get parentPath
+            +NodePath createChildPath(int)
+            +bool isParentOf(NodePath)
+            +bool isChildOf(NodePath)
         }
 
         class NodeChildren {
-            +UnmodifiableListView~NodeWithPath~ children
+            +List~NodePath~ children
             +int get length
-            +NodeChildren addChild(NodeWithPath)
-            +NodeChildren removeChild(NodePath)
         }
     }
 
     %% ViewModel層の定義
     namespace ViewModel {
-        class CurrentNodeNotifier {
-            <<Notifier~NodeWithPath~>>
-            +state: NodeWithPath
-            +changeNode(NodeWithPath)
-            +navigateToParent()
-            +navigateToChild(NodePath)
+        class CurrentPathNotifier {
+            <<Notifier>>
+            +state: NodePath
+            +changePath(NodePath)
         }
 
-        class NodeWithPathNotifier {
-            <<Family~NodePath~>>
-            +state: NodeWithPath
-            +updateNode(NodeWithPath)
+        class BrowserNodeFromPathNotifier {
+            <<Family(NodePath)>>
+            +state: BrowserNode
+            +setNode(BrowserNode)
         }
 
-        class NodeChildrenNotifier {
-            <<Family~NodePath~>>
+        class BrowserNodeChildrenNotifier {
+            <<Family(NodePath)>>
             +state: NodeChildren
-            +addChild(NodeWithPath)
-            +removeChild(NodePath)
-            +updateChild(NodeWithPath)
+            +provideNewChildPath() NodePath
+            +removeChildNode(NodePath)
+        }
+
+        class CurrentNodeProvider {
+            <<Provider>>
+            +BrowserNode
         }
     }
 
+    %% Domain層の定義
+    namespace Domain {
+        class CreateNodeUsecase {
+            +create(NodePath, BrowserNode?) NodePath
+        }
+    }
 
     %% Model層の関連
-    NodeWithPath --> NodePath : has
+    NodeChildren --> NodePath : contains
 
     %% ViewModel層の関連
-    CurrentNodeNotifier --> NodePath : uses
-    CurrentNodeNotifier --> NodeWithPathNotifier : watches
-    NodeChildrenNotifier --> NodeChildren : manages
-    NodeChildrenNotifier --> NodePath : keyed by
-    NodeWithPathNotifier --> NodePath : keyed by
-    NodeWithPathNotifier --> NodeWithPath : manages
+    CurrentPathNotifier --> NodePath : state
+    CurrentNodeProvider --> CurrentPathNotifier : watches
+    CurrentNodeProvider --> BrowserNodeFromPathNotifier : watches
+    BrowserNodeChildrenNotifier --> NodeChildren : state
+    BrowserNodeChildrenNotifier ..> NodePath : keyed by
+    BrowserNodeFromPathNotifier ..> NodePath : keyed by
+    BrowserNodeFromPathNotifier --> BrowserNode : state
 
-
-    %% 凡例用のノート
-    note for NodeChildren "イミュータブルなコレクション
-        子の追加・削除時は新しい
-        インスタンスを返す"
-
-    note for NodePath "イミュータブルな整数リスト
-        ツリー内の位置を一意に識別"
-
-    note for NodeChildrenNotifier "Family Notifierとして実装
-        各NodePathごとに
-        独立した子リストを管理"
-
+    %% Domain層の関連
+    CreateNodeUsecase ..> BrowserNodeChildrenNotifier : uses
+    CreateNodeUsecase ..> BrowserNodeFromPathNotifier : uses
+    CreateNodeUsecase ..> BrowserNode : uses
+    CreateNodeUsecase ..> NodePath : uses
 ```
 
 ## 主要コンポーネントの責務
 
 ### Model層
 
-#### `NodeWithPath`
+#### `BrowserNode`
 
 - **責務**: ノード単体の情報を保持
 - **特徴**:
   - Freezedでイミュータブルに実装
-  - 子ノードのリストは持たない(分離により部分更新を実現)
-  - パスにより親子関係を識別
+  - title（ページタイトル）とurl（URL）を保持
+  - 子ノードのリストや親情報は持たない
 
 #### `NodePath`
 
 - **責務**: ツリー内の位置を一意に識別
 - **特徴**:
-  - インデックスのリストでパスを表現
-  - 深さや親パスの算出が可能
+  - 整数のリストでパスを表現（例: [0, 2, 1] = ルート→0番目の子→2番目の子→1番目の子）
+  - 深さ（depth）や親パス（parentPath）の算出が可能
+  - パス比較メソッド（`isParentOf`, `isChildOf`）を提供
+  - 文字列変換（`toString`）と文字列からの復元（`fromString`）をサポート
 
 #### `NodeChildren`
 
-- **責務**: 特定ノードの子ノードリストを保持
+- **責務**: 特定ノードの子ノードパスのリストを保持
 - **特徴**:
-  - イミュータブルなコレクション
-  - 追加・削除時は新しいインスタンスを生成
+  - Freezedでイミュータブルに実装
+  - 子ノードのパスのリストを管理
+  - リストではあるが、イミュータブル
 
 ### ViewModel層
 
-#### `CurrentNodeNotifier`
+#### `CurrentPathNotifier`
 
-- **責務**: 現在表示中のノードを管理
-- **用途**: WebViewの表示制御、UI状態の同期
+- **責務**: 現在表示中のノードのパスを管理
+- **用途**:
+  - WebViewの表示制御
+  - UI状態の同期
 
-#### `NodeWithPathNotifier`(Family)
+#### `BrowserNodeFromPathNotifier` (Family)
 
-- **責務**: 各パスに対応するノード情報を保持。
-- **用途**: ノード情報の更新・取得
-
-#### `NodeChildrenNotifier` (Family)
-
-- **責務**: 各ノードの子リストを独立して管理
+- **責務**: 各パスに対応するノード情報を保持
 - **特徴**:
   - `NodePath`をキーとしたFamily Notifier
-  - 子の追加・削除時、該当ノードの子リストのみ更新
-  - 他のノードには影響を与えない
+  - パスごとのノード情報を管理
+  - `setNode()`でノード情報を設定・更新
 
-### View層
+#### `BrowserNodeChildrenNotifier` (Family)
 
-## データフローの例
+- **責務**: 各ノードの子パスを管理
+- **特徴**:
+  - `NodePath`をキーとしたFamily Notifier
+  - 子の追加（`provideNewChildPath`）
 
-### 子ノード追加時
+#### `CurrentNodeProvider`
 
-1. ユーザーが新しいURLに移動
-2. ViewModelが`NodeChildrenNotifier(currentPath)`に新しい`NodeWithPath`を追加
-3. `NodeChildren`の新しいインスタンスが生成される
-4. 該当する`TreeView`/`NodeWidget`のみが再レンダリング
-5. 他のノードは影響を受けない(イミュータブル性 + 粒度の細かい状態管理)
+- **責務**: 現在のノードの情報を提供
+- **特徴**:
+  - `CurrentPathNotifier`が示しているパスを`BrowserNodeFromPathNotifier`から取得
+  - 自動的に最新のノード情報を提供
 
-### ノード移動時
+### Domain層
 
-1. ユーザーがノードを選択
-2. `CurrentNodeNotifier.changeNode()`が呼ばれる
-3. `NodeWithPath`が更新される
-4. WebViewと関連UIのみが再レンダリング
+#### `CreateNodeUsecase`
+
+- **責務**: 新しいノードの作成ロジックをカプセル化
+- **処理フロー**:ブラウザ機能全体のReadMeに記載
+
+## 実装のポイント
+
+### パス管理
+
+- ルートパスは空のリスト `[]` で表現
+- 第1階層のパスは `[0]`, `[1]`, `[2]` ...
+- 第2階層のパスは `[0, 0]`, `[0, 1]`...
+
+### Family Notifierの活用
+
+- `BrowserNodeFromPathNotifier`と`BrowserNodeChildrenNotifier`はFamily Notifier
+- パスごとに独立したインスタンスを持つ
+- `keepAlive: true`でキャッシュを維持
+
