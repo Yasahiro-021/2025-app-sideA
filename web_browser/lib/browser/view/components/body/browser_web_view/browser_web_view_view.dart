@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -11,7 +12,9 @@ class BrowserWebViewView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    log("BrowserWebViewView: build called");
+    if (kDebugMode) {
+      log("BrowserWebViewView: build called");
+    }
     final viewModel = ref.watch(browserWebViewViewModelProvider);
 
     return InAppWebView(

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:web_browser/browser/model/node_path.dart';
 import 'package:web_browser/browser/model/browser_node.dart';
@@ -45,7 +46,9 @@ class ParentNodeViewModel extends _$ParentNodeViewModel {
   void navigateToParent() {
     final NodePath? parentPath = _currentPath.parentPath;
     // 親ノードが存在しない場合は何もしない
-    log("navigate to parent node: $parentPath");
+    if (kDebugMode) {
+      log("navigate to parent node: $parentPath");
+    }
     if (parentPath == null) return;
 
     // 現在ノードを親ノードに変更

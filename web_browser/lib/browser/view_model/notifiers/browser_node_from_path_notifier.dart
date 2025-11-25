@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:web_browser/browser/model/node_path.dart';
 
@@ -12,8 +13,9 @@ class BrowserNodeFromPathNotifier extends _$BrowserNodeFromPathNotifier {
 
   @override
   BrowserNode build(NodePath path) {
-
-    log("build BrowserNodeFromPathNotifier || path: $path");
+    if (kDebugMode) {
+      log("build BrowserNodeFromPathNotifier || path: $path");
+    }
     //ノードがnull場合は空のノードで作成する。
     return BrowserNode(
       title: '',

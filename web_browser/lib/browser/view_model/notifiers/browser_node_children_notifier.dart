@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:web_browser/browser/model/node_children.dart';
 
@@ -28,9 +29,11 @@ class BrowserNodeChildrenNotifier extends _$BrowserNodeChildrenNotifier {
     //childrenを展開し、末尾に新しいパスを追加後、stateを更新
     state = NodeChildren(children: [...state.children, newPath]);
 
-    log(
-      "provideNewChildPath called. parentPath: $state, lastIndex: $_lastIndex",
-    );
+    if (kDebugMode) {
+      log(
+        "provideNewChildPath called. parentPath: $state, lastIndex: $_lastIndex",
+      );
+    }
     return newPath;
   }
 

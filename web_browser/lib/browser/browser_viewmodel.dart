@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -37,7 +38,9 @@ class BrowserViewModel extends _$BrowserViewModel {
     String? title = await controller.getTitle();
     final pageTitle = (title != null && title.isNotEmpty) ? title : urlStr;
 
-    log('ページ読み込み完了: $urlStr (タイトル: $pageTitle)');
+    if (kDebugMode) {
+      log('ページ読み込み完了: $urlStr (タイトル: $pageTitle)');
+    }
   }
 
   /// リンククリック時に呼ばれるコールバック
@@ -46,7 +49,9 @@ class BrowserViewModel extends _$BrowserViewModel {
     NavigationAction navigationAction,
   ) async {
     final urlStr = navigationAction.request.url.toString();
-    log('リンククリック: $urlStr');
+    if (kDebugMode) {
+      log('リンククリック: $urlStr');
+    }
 
     //TODO multiAddEnabledNotifierに応じて、戻り値のALLOWとDENYを切り替える。
 
