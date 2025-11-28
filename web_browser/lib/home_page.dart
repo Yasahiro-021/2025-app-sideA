@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:web_browser/node/mocked_node.dart';
-import 'package:web_browser/router/router.dart';
+import 'package:go_router/go_router.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
@@ -14,13 +13,15 @@ class MyHomePage extends StatelessWidget {
       body: Column(
         children: [
           ElevatedButton(
-            onPressed: () => BrowserViewRoute().go(context),
+            onPressed: () => context.go('/browser'),
             child: Text("to browser!"),
           ),
-          ElevatedButton(
-            onPressed: () => TreeViewRoute($extra: mockedNode(10, 3)).go(context),
-            child: Text("to treeview!")
-          ),
+
+          //エラー中なので封鎖
+          // ElevatedButton(
+          //   onPressed: () => TreeViewRoute($extra: mockedNode(10, 3)).go(context),
+          //   child: Text("to treeview!")
+          // ),
         ],
       ),
     );
