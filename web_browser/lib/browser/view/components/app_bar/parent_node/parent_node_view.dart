@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:web_browser/browser/view/components/app_bar/parent_node/parent_node_viewmodel.dart';
@@ -9,7 +12,9 @@ class ParentNodeView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
-    final viewModel = ref.watch(parentNodeViewModelProvider);
+    final state = ref.watch(parentNodeViewModelProvider);
+
+    if(kDebugMode) log("ParentNodeView built with state: $state");
 
     return Container(
       decoration: BoxDecoration(
@@ -26,11 +31,9 @@ class ParentNodeView extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           IconButton(
-            onPressed: viewModel.hasParent
-                ? () {
-                    viewModel.navigateToParent();
-                  }
-                : null,
+            onPressed: (){
+              state?.navigateToParent();
+            },
             style: IconButton.styleFrom(
               minimumSize: const Size(10, 10),
               padding: const EdgeInsets.symmetric(
@@ -46,9 +49,8 @@ class ParentNodeView extends ConsumerWidget {
             icon: const Icon(Icons.arrow_upward),
           ),
           _ParentNodeText(
-            key: const Key('parentNodeText'),
-            parentName: viewModel.parentTitle,
-            isEmpty: !viewModel.hasParent,
+            parentName: state?.parentTitle ?? 'No Parent',
+            isEmpty: state == null,
             colorScheme: colorScheme,
           ),
         ],
@@ -60,7 +62,6 @@ class ParentNodeView extends ConsumerWidget {
 /// 親ノード名表示テキスト
 class _ParentNodeText extends StatelessWidget {
   const _ParentNodeText({
-    super.key,
     required this.parentName,
     required this.isEmpty,
     required this.colorScheme,
