@@ -2,8 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:web_browser/browser/browser_viewmodel.dart';
+import 'package:web_browser/browser/view/browser_viewmodel.dart';
 import 'package:web_browser/browser/view_model/notifiers/current_node_provider.dart';
+import 'package:web_browser/browser/view_model/notifiers/search_url_provider.dart';
 
 import 'web_view_state.dart';
 
@@ -19,7 +20,7 @@ class BrowserWebViewViewModel extends _$BrowserWebViewViewModel {
     }
 
     WebViewState state = ref.watch(currentNodeProviderProvider).url.isEmpty
-        ? WebViewState(url: ref.read(browserViewModelProvider).searchUrl)
+        ? WebViewState(url: ref.read(searchUrlProvider))
         : WebViewState(url: ref.watch(currentNodeProviderProvider).url);
     return state;
   }

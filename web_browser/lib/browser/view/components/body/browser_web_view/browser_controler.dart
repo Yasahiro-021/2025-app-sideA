@@ -3,14 +3,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'browser_viewmodel.g.dart';
+part 'browser_controller.g.dart';
 
 /// WebViewイベントの処理とナビゲーション制御を行う
 
 @riverpod
-class BrowserViewModel extends _$BrowserViewModel {
+class BrowserController extends _$BrowserController {
   @override
-  BrowserViewModel build() {
+  BrowserController build() {
     return this;
   }
 
