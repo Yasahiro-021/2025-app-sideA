@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:web_browser/browser/view_model/notifiers/search_url_provider.dart';
 
 part 'browser_controller.g.dart';
 
@@ -20,7 +21,7 @@ class BrowserController extends _$BrowserController {
   );
 
   /// 検索用URL（アプリ起動時に最初に表示するURL）
-  final String searchUrl = 'https://www.google.com/';
+  String get searchUrl => ref.read(searchUrlProvider);
 
   /// URLかどうか判定
   bool isGoogleUrl(String url) => url.startsWith(searchUrl);
