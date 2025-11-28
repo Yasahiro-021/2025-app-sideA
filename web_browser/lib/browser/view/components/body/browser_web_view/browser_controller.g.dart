@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'browser_viewmodel.dart';
+part of 'browser_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -10,56 +10,56 @@ part of 'browser_viewmodel.dart';
 // ignore_for_file: type=lint, type=warning
 /// WebViewイベントの処理とナビゲーション制御を行う
 
-@ProviderFor(BrowserViewModel)
-const browserViewModelProvider = BrowserViewModelProvider._();
+@ProviderFor(BrowserController)
+const browserControllerProvider = BrowserControllerProvider._();
 
 /// WebViewイベントの処理とナビゲーション制御を行う
-final class BrowserViewModelProvider
-    extends $NotifierProvider<BrowserViewModel, BrowserViewModel> {
+final class BrowserControllerProvider
+    extends $NotifierProvider<BrowserController, BrowserController> {
   /// WebViewイベントの処理とナビゲーション制御を行う
-  const BrowserViewModelProvider._()
+  const BrowserControllerProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'browserViewModelProvider',
+        name: r'browserControllerProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$browserViewModelHash();
+  String debugGetCreateSourceHash() => _$browserControllerHash();
 
   @$internal
   @override
-  BrowserViewModel create() => BrowserViewModel();
+  BrowserController create() => BrowserController();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(BrowserViewModel value) {
+  Override overrideWithValue(BrowserController value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<BrowserViewModel>(value),
+      providerOverride: $SyncValueProvider<BrowserController>(value),
     );
   }
 }
 
-String _$browserViewModelHash() => r'8cfea43d69497bd2b4affa7f866199d05835a75a';
+String _$browserControllerHash() => r'2340ec930c6d1fc7a7eeb338461c0c1ef799825b';
 
 /// WebViewイベントの処理とナビゲーション制御を行う
 
-abstract class _$BrowserViewModel extends $Notifier<BrowserViewModel> {
-  BrowserViewModel build();
+abstract class _$BrowserController extends $Notifier<BrowserController> {
+  BrowserController build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<BrowserViewModel, BrowserViewModel>;
+    final ref = this.ref as $Ref<BrowserController, BrowserController>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<BrowserViewModel, BrowserViewModel>,
-              BrowserViewModel,
+              AnyNotifier<BrowserController, BrowserController>,
+              BrowserController,
               Object?,
               Object?
             >;

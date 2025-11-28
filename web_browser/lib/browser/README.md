@@ -1,114 +1,161 @@
 # ブラウザ機能実装
 
+最終更新: 2025-11-24
+
 このディレクトリには、Webブラウザ機能の実装が含まれています。
+
+以下では、主要なクラスとその役割について説明します。
 
 ## アーキテクチャ
 
 本実装は`document/`ディレクトリに記載された設計に基づいています。
 詳細な設計ドキュメントは以下を参照してください：
 
-- [browser_logic_design.md](document/browser_logic_design.md) - 詳細設計書
-- [browser_architecture_diagrams.md](document/browser_architecture_diagrams.md) - アーキテクチャ図
+- [browser_view_architecture.md](document/browser_view_architecture.md) - アーキテクチャ設計書
 - [README.md](document/README.md) - ドキュメント概要
 
 ## 主要クラス
 
-### データモデル
+### データモデル (Model層)
 
-- **NodeWithPath** (`model/node_with_path.dart`)
-  - パスIDを持つノードクラス。Nodeクラスを継承
-  - ツリー構造内での位置を一意に識別
-  - 親子関係を自動管理
+- **BrowserNode** (`model/browser_node.dart`)
+  - ノード単体の情報を保持（タイトル、URL）
+  - 他ノードとの関係は持たない。
+  - Freezedでイミュータブルに実装
 
-### 状態管理 (Notifiers)
+- **NodePath** (`model/node_path.dart`)
+  - ツリー構造内での位置を一意に識別するパス、ID。
+  - 整数リストでパスを表現
+  - 深さや親のパスを算出することも可能
 
-- **RootNodeNotifier** (`notifiers/root_node_notifier.dart`)
-  - ルートノードの状態管理
-- **CurrentNodeNotifier** (`notifiers/current_node_notifier.dart`)
-  - 現在のノードの状態管理
-- **UrlTitlesNotifier** (`notifiers/url_titles_notifier.dart`)
-  - タイトルとURLのマッピング管理
-- **BottomNodesNotifier** (`notifiers/bottom_nodes_notifier.dart`)
-  - 下部バー用ノードリストの管理
-- **WebViewControllerNotifier** (`notifiers/webview_controller_notifier.dart`)
+- **NodeChildren** (`model/node_children.dart`)
+  - 特定ノードの子ノードパスのリストを保持
+  - イミュータブルなコレクション
+
+### 状態管理 (ViewModel層)
+
+#### コアNotifier
+
+- **CurrentPathNotifier** (`view_model/notifiers/current_path_notifier.dart`)
+  - 現在表示中のノードのパスを管理する。
+  - 変更されると画面も変わる、更新の起点。
+
+- **BrowserNodeFromPathNotifier** (`view_model/notifiers/browser_node_from_path_notifier.dart`)
+  - Family Notifier: 各パスに対応するBrowserNodeの情報を保持
+  - 更新されると、そのパスを参照しているコンポーネントが再レンダリングされる。
+
+- **BrowserNodeChildrenNotifier** (`view_model/notifiers/browser_node_children_notifier.dart`)
+  - Family Notifier: 各パスの子パスをリストで管理
+  - 新しい子パスの生成と追加を担当
+  - 更新されると、そのパスの子リストを参照しているコンポーネント（BottomBarなど）が再レンダリングされる。
+
+#### プロバイダー
+
+- **CurrentNodeProvider** (`view_model/notifiers/current_node_provider.dart`)
+  - 現在のノードの情報を提供
+  - CurrentPathとBrowserNodeFromPathを組み合わせて算出
+
+- **RootPathProvider** (`view_model/notifiers/root_path_provider.dart`)
+  - ルートパスを提供
+  - ルートのパスは固定（空リスト）のため、変更されることはない
+
+#### その他の状態管理
+
+- **WebViewControllerNotifier** (`view_model/notifiers/webview_controller_notifier.dart`)
   - WebViewコントローラーの管理
-- **MultiAddEnabledNotifier** (`notifiers/multi_add_enabled_notifier.dart`)
+
+- **MultiAddEnabledNotifier** (`view_model/notifiers/multi_add_enabled_notifier.dart`)
   - 複数ノード追加の有効/無効を管理
-- **SearchWordNotifier** (`notifiers/search_word_notifier.dart`)
+
+- **SearchWordNotifier** (`view_model/notifiers/search_word_notifier.dart`)
   - 検索ワードを管理
-- **SearchBarExpandedNotifier** (`notifiers/search_bar_expanded_notifier.dart`)
+
+- **SearchBarExpandedNotifier** (`view_model/notifiers/search_bar_expanded_notifier.dart`)
   - 検索バーの展開状態を管理
+
+- **UrlTitlesNotifier** (`view_model/notifiers/url_titles_notifier.dart`)
+  - URLとタイトルのマッピング管理
+
+### ドメイン層 (UseCase)
+
+- **CreateNodeUsecase** (`domain/usecase/create_node_usecase.dart`)
+  - 新しいノードを作成し、パスを生成
+  - ノードの登録処理をカプセル化
+
+- **NodePathToNodeFunction** (`domain/usecase/node_path_to_node_function.dart`)
+  - パスからノードへの変換機能
 
 ### コントローラー
 
-- **BrowserController** (`browser_controller.dart`)
-  - 各Notifierを統合し、ビジネスロジックを提供
-  - WebViewイベントの処理とナビゲーション制御
+- **BrowserViewModel** (`browser_viewmodel.dart`)
+  - WebViewの設定とイベント処理
+  - ページ読み込み完了時のコールバック
+  - リンククリック時のナビゲーション制御
 
-### UIレイヤー
+### View層
 
-- **BrowserViewWidget** (`ui/browser_view_widget.dart`)
-  - ブラウザ画面のメインWidget
-  - UIの描画を担当
+- **BrowserView** (`view/browser_view.dart`)
+  - ブラウザ画面のエントリーポイント
+  - AppBar、WebView、BottomBarを統合
 
-## 設計原則
+#### コンポーネント構成
 
-1. **関心の分離**: UI、ロジック、データの各層を明確に分離
-2. **状態項目ごとの管理**: 各状態項目を個別のNotifierで管理し、無駄な再初期化を削減
-3. **自動関係管理**: Nodeクラスが親子関係を自動管理し、整合性を保証
-4. **リアクティブな状態連動**: ref.listenによる自動的な状態更新
-5. **単一責任の原則**: 各Notifierは明確な責任を持つ
-6. **テスト容易性**: 各コンポーネントが独立しており、ユニットテストが容易
+```text
+view/
+├── browser_view.dart (メイン画面)
+└── components/
+    ├── app_bar/ (上部バー)
+    │   ├── browser_app_bar_view.dart
+    │   ├── current_node_text/ (現在のノード名表示)
+    │   ├── parent_node/ (親ノードボタン)
+    │   └── tree_button/ (ツリー表示ボタン)
+    ├── body/ (メインコンテンツ)
+    │   ├── browser_web_view/ (WebView表示)
+    │   └── floating_search_bar/ (検索バー)
+    └── bottom_bar/ (下部バー)
+        ├── browser_bottom_bar_view.dart
+        ├── child_node/ (子ノード一覧)
+        └── stay_switch/ (滞在スイッチ)
+```
 
-## 旧アーキテクチャからの移行
+## データフローの例
 
-以下のファイルは旧アーキテクチャで、非推奨です：
+### 子ノード作成時
 
-- `browser_controller_notifier.dart` (BrowserState, BrowserControllerNotifier)
-- `browser_current_node_notifier.dart` (BrowserCurrentNodeNotifier)
-- `browser_bottom_bar.dart` (BrowserBottomBar)
+#### `CreateNodeUsecase`を使用
 
-新しい実装では：
+1. createメソッドに親となるパスと、任意で子のBrowserNodeが渡される。
+2. `BrowserNodeChildrenNotifier`に新しい子パスの追加を依頼
+3. `BrowserNodeChildrenNotifier`が追加された新しい子パスを返す
+4. 新しいパスとノード情報を`BrowserNodeFromPathNotifier`に登録
+5. 新しいパスを呼び出し元に返す。
 
-- BrowserState → 個別のNotifierに分離
-- BrowserControllerNotifier → BrowserController
-- BrowserBottomBar → BrowserBottomBarNew (browser_view.dart内)
+### ノード移動時
 
-## テスト
-
-テストファイル：
-
-- `test/node_with_path_test.dart` - NodeWithPathのテスト
-- `test/browser_notifiers_test.dart` - 各Notifierのテスト
-- `test/browser_controller_test.dart` - BrowserControllerのテスト
+1. `CurrentPathNotifier.changePath()`が呼ばれる
+2. 監視していた`CurrentNodeProvider`等が更新後のPathでBrowserNodeFromPathNotifierを参照。
+3. 取得したBrowserNodeで再レンダリング
 
 ## 使用例
 
 ```dart
-// Provider経由でBrowserControllerを取得
-final controller = ref.watch(browserControllerProvider);
+// 現在のノード情報を取得
+final currentNode = ref.watch(currentNodeProviderProvider);
+final currentPath = ref.watch(currentPathProvider);
 
-// 各状態にアクセス
-final currentNode = ref.watch(currentNodeNotifierProvider);
-final rootNode = ref.watch(rootNodeNotifierProvider);
-final bottomNodes = ref.watch(bottomNodesNotifierProvider);
-final multiAddEnabled = ref.watch(multiAddEnabledNotifierProvider);
-final searchWord = ref.watch(searchWordNotifierProvider);
-final searchBarExpanded = ref.watch(searchBarExpandedNotifierProvider);
+// 新しいノードを作成
+final createUsecase = ref.read(createNodeUsecaseProvider);
+final newPath = createUsecase.create(
+  parentPath: currentPath,
+  node: BrowserNode(title: 'New Page', url: 'https://example.com'),
+);
 
-// コントローラーのメソッドを呼び出し
-controller.setRootNode(newRootNode);
-controller.changeNode(newNode);
-controller.toggleMultiAddEnabled();
-controller.navigateToParentNode();
+// ノードへ移動
+ref.read(currentPathProvider.notifier).changePath(newPath);
 
-// 親子関係は自動管理される
-final parent = NodeWithPath.root(name: 'parent', path: '0', url: 'https://example.com');
-final child = NodeWithPath(name: 'child', url: 'https://example.com/child', parent: parent);
-// childは自動的にparentのchildrenに追加される
+// 子ノードのリストを取得
+final children = ref.watch(browserNodeChildrenProvider(currentPath));
+
+// 特定パスのノード情報を取得
+final node = ref.watch(browserNodeFromPathProvider(newPath));
 ```
-
-## 参考資料
-
-- [Flutter公式アーキテクチャ](https://docs.flutter.dev/app-architecture)
-- [Riverpod公式ドキュメント](https://riverpod.dev/)

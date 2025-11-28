@@ -42,7 +42,7 @@ final class CurrentPathNotifierProvider
 }
 
 String _$currentPathNotifierHash() =>
-    r'db775b7afa5d557603fe56761a642dcd2430e1a4';
+    r'a13eaddba25faf78d3610dc33f65e93b0c8f91aa';
 
 abstract class _$CurrentPathNotifier extends $Notifier<NodePath> {
   NodePath build();

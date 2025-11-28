@@ -1,15 +1,17 @@
 import 'dart:developer';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:web_browser/browser/view_model/notifiers/search_url_provider.dart';
 
-part 'browser_viewmodel.g.dart';
+part 'browser_controller.g.dart';
 
 /// WebViewイベントの処理とナビゲーション制御を行う
 
 @riverpod
-class BrowserViewModel extends _$BrowserViewModel {
+class BrowserController extends _$BrowserController {
   @override
-  BrowserViewModel build() {
+  BrowserController build() {
     return this;
   }
 
@@ -19,7 +21,7 @@ class BrowserViewModel extends _$BrowserViewModel {
   );
 
   /// 検索用URL（アプリ起動時に最初に表示するURL）
-  final String searchUrl = 'https://www.google.com/';
+  String get searchUrl => ref.read(searchUrlProvider);
 
   /// URLかどうか判定
   bool isGoogleUrl(String url) => url.startsWith(searchUrl);
@@ -37,7 +39,9 @@ class BrowserViewModel extends _$BrowserViewModel {
     String? title = await controller.getTitle();
     final pageTitle = (title != null && title.isNotEmpty) ? title : urlStr;
 
-    log('ページ読み込み完了: $urlStr (タイトル: $pageTitle)');
+    if (kDebugMode) {
+      log('ページ読み込み完了: $urlStr (タイトル: $pageTitle)');
+    }
   }
 
   /// リンククリック時に呼ばれるコールバック
@@ -46,7 +50,9 @@ class BrowserViewModel extends _$BrowserViewModel {
     NavigationAction navigationAction,
   ) async {
     final urlStr = navigationAction.request.url.toString();
-    log('リンククリック: $urlStr');
+    if (kDebugMode) {
+      log('リンククリック: $urlStr');
+    }
 
     //TODO multiAddEnabledNotifierに応じて、戻り値のALLOWとDENYを切り替える。
 

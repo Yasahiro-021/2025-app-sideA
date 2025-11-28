@@ -53,4 +53,4 @@ final class CurrentNodeProviderProvider
 }
 
 String _$currentNodeProviderHash() =>
-    r'573f4729f67844e7a423be582c643e4ca44534c7';
+    r'34d34aa1d516d6601678c6b593aa2cb7c36a0b2c';

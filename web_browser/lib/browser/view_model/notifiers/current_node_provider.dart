@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:web_browser/browser/model/browser_node.dart';
 import 'package:web_browser/browser/model/node_path.dart';
@@ -13,6 +14,8 @@ part 'current_node_provider.g.dart';
 BrowserNode currentNodeProvider(Ref ref){
   final NodePath currentPath = ref.watch(currentPathProvider);
   final BrowserNode currentNode = ref.watch(browserNodeFromPathProvider(currentPath));
-  log("current node : $currentNode");
+  if (kDebugMode) {
+    log("current node : $currentNode");
+  }
   return currentNode;
 }

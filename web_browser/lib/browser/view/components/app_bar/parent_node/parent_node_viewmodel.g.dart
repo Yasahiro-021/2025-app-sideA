@@ -21,7 +21,7 @@ const parentNodeViewModelProvider = ParentNodeViewModelProvider._();
 /// 親ノードの情報と親ノードへの遷移処理を管理
 ///
 final class ParentNodeViewModelProvider
-    extends $NotifierProvider<ParentNodeViewModel, ParentNodeViewModel> {
+    extends $NotifierProvider<ParentNodeViewModel, ParentNodeState?> {
   /// ParentNodeのViewModel
   ///
   /// 親ノードの情報と親ノードへの遷移処理を管理
@@ -45,34 +45,34 @@ final class ParentNodeViewModelProvider
   ParentNodeViewModel create() => ParentNodeViewModel();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(ParentNodeViewModel value) {
+  Override overrideWithValue(ParentNodeState? value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<ParentNodeViewModel>(value),
+      providerOverride: $SyncValueProvider<ParentNodeState?>(value),
     );
   }
 }
 
 String _$parentNodeViewModelHash() =>
-    r'2435a2cb78e5c44eb29303aefad3bfe955b5c031';
+    r'6aee38c7321dac77d351950df8bcc120916e3714';
 
 /// ParentNodeのViewModel
 ///
 /// 親ノードの情報と親ノードへの遷移処理を管理
 ///
 
-abstract class _$ParentNodeViewModel extends $Notifier<ParentNodeViewModel> {
-  ParentNodeViewModel build();
+abstract class _$ParentNodeViewModel extends $Notifier<ParentNodeState?> {
+  ParentNodeState? build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<ParentNodeViewModel, ParentNodeViewModel>;
+    final ref = this.ref as $Ref<ParentNodeState?, ParentNodeState?>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<ParentNodeViewModel, ParentNodeViewModel>,
-              ParentNodeViewModel,
+              AnyNotifier<ParentNodeState?, ParentNodeState?>,
+              ParentNodeState?,
               Object?,
               Object?
             >;

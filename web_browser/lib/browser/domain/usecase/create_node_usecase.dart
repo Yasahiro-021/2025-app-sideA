@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:web_browser/browser/model/node_path.dart';
 import 'package:web_browser/browser/model/browser_node.dart';
@@ -19,16 +20,14 @@ class CreateNodeUsecase extends _$CreateNodeUsecase {
   /// BrowserNodeも同時に作成され、Notifierに登録される。
   /// nodeがnullの場合は、空のノードを作成して登録する。
   NodePath create({required NodePath parentPath, BrowserNode? node}) {
-
-    log("create node|| parent path $parentPath, node: $node");
-    //子ノードのパスを管理するNotifierから新しい子ノードのパスを取得
+    if (kDebugMode) {
+      log("create node|| parent path $parentPath, node: $node");
+    }
     final NodePath newPath = ref
         .read(browserNodeChildrenProvider(parentPath).notifier)
         .provideNewChildPath();
 
     // 作成されたPathとnodeを紐付けて登録
-
-    log("create node|| new path: $newPath, node: $node");
     ref.read(browserNodeFromPathProvider(newPath).notifier).setNode(
           node ??
               BrowserNode(

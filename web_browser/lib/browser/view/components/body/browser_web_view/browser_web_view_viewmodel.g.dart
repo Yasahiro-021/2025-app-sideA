@@ -45,7 +45,7 @@ final class BrowserWebViewViewModelProvider
 }
 
 String _$browserWebViewViewModelHash() =>
-    r'cebd29208b9c2ff5d4f7aaa4372892d6eefadaa7';
+    r'7eb72eb234029f31e6feba93d82a7870430d350a';
 
 /// BrowserWebViewのViewModel
 
