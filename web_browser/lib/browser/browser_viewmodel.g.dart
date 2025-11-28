@@ -44,7 +44,7 @@ final class BrowserViewModelProvider
   }
 }
 
-String _$browserViewModelHash() => r'8cfea43d69497bd2b4affa7f866199d05835a75a';
+String _$browserViewModelHash() => r'a3425a441c73ff06246c909758475a0e62ed74b4';
 
 /// WebViewイベントの処理とナビゲーション制御を行う
 
