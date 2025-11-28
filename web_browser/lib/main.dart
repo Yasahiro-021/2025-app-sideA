@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:developer';
 
-import 'router/router.dart' show router; // log関数を使用するためにインポート
+import 'router/router.dart' show router; 
 
 void main() {
   log('main関数が開始されました。'); // main関数の開始ログ
@@ -19,12 +19,14 @@ class MyApp extends StatelessWidget {
     //最初のページはrouter.dartの[initialLocation]プロパティで設定。
     //====
     return MaterialApp.router(
-      routeInformationProvider: router.routeInformationProvider,
-      routeInformationParser: router.routeInformationParser,
-      routerDelegate: router.routerDelegate,
+      routerConfig: router,
 
       title: 'Flutter Demo',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: ThemeData(
+        useMaterial3: true,
+        // Use ColorScheme for Material 3 so colors propagate correctly
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreen),
+      ),
     );
   }
 }
