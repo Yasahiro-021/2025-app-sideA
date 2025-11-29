@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'browser_node_children_notifier.dart';
+part of 'children_at_path_manager.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,35 +9,35 @@ part of 'browser_node_children_notifier.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(BrowserNodeChildrenNotifier)
-const browserNodeChildrenProvider = BrowserNodeChildrenNotifierFamily._();
+@ProviderFor(ChildrenAtPathManger)
+const childrenAtPathMangerProvider = ChildrenAtPathMangerFamily._();
 
-final class BrowserNodeChildrenNotifierProvider
-    extends $NotifierProvider<BrowserNodeChildrenNotifier, NodeChildren> {
-  const BrowserNodeChildrenNotifierProvider._({
-    required BrowserNodeChildrenNotifierFamily super.from,
+final class ChildrenAtPathMangerProvider
+    extends $NotifierProvider<ChildrenAtPathManger, NodeChildren> {
+  const ChildrenAtPathMangerProvider._({
+    required ChildrenAtPathMangerFamily super.from,
     required NodePath super.argument,
   }) : super(
          retry: null,
-         name: r'browserNodeChildrenProvider',
+         name: r'childrenAtPathMangerProvider',
          isAutoDispose: false,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
 
   @override
-  String debugGetCreateSourceHash() => _$browserNodeChildrenNotifierHash();
+  String debugGetCreateSourceHash() => _$childrenAtPathMangerHash();
 
   @override
   String toString() {
-    return r'browserNodeChildrenProvider'
+    return r'childrenAtPathMangerProvider'
         ''
         '($argument)';
   }
 
   @$internal
   @override
-  BrowserNodeChildrenNotifier create() => BrowserNodeChildrenNotifier();
+  ChildrenAtPathManger create() => ChildrenAtPathManger();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(NodeChildren value) {
@@ -49,8 +49,7 @@ final class BrowserNodeChildrenNotifierProvider
 
   @override
   bool operator ==(Object other) {
-    return other is BrowserNodeChildrenNotifierProvider &&
-        other.argument == argument;
+    return other is ChildrenAtPathMangerProvider && other.argument == argument;
   }
 
   @override
@@ -59,35 +58,35 @@ final class BrowserNodeChildrenNotifierProvider
   }
 }
 
-String _$browserNodeChildrenNotifierHash() =>
-    r'2af2bb7758b52935d9e55da0f89d9c663904786d';
+String _$childrenAtPathMangerHash() =>
+    r'c98abbba65a90f32817a320f0d7bde2e6e77ea8f';
 
-final class BrowserNodeChildrenNotifierFamily extends $Family
+final class ChildrenAtPathMangerFamily extends $Family
     with
         $ClassFamilyOverride<
-          BrowserNodeChildrenNotifier,
+          ChildrenAtPathManger,
           NodeChildren,
           NodeChildren,
           NodeChildren,
           NodePath
         > {
-  const BrowserNodeChildrenNotifierFamily._()
+  const ChildrenAtPathMangerFamily._()
     : super(
         retry: null,
-        name: r'browserNodeChildrenProvider',
+        name: r'childrenAtPathMangerProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
         isAutoDispose: false,
       );
 
-  BrowserNodeChildrenNotifierProvider call(NodePath parentPath) =>
-      BrowserNodeChildrenNotifierProvider._(argument: parentPath, from: this);
+  ChildrenAtPathMangerProvider call(NodePath parentPath) =>
+      ChildrenAtPathMangerProvider._(argument: parentPath, from: this);
 
   @override
-  String toString() => r'browserNodeChildrenProvider';
+  String toString() => r'childrenAtPathMangerProvider';
 }
 
-abstract class _$BrowserNodeChildrenNotifier extends $Notifier<NodeChildren> {
+abstract class _$ChildrenAtPathManger extends $Notifier<NodeChildren> {
   late final _$args = ref.$arg as NodePath;
   NodePath get parentPath => _$args;
 

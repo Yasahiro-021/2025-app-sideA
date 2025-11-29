@@ -1,22 +1,17 @@
-import 'dart:developer';
-
-import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:web_browser/core/node/node_children.dart';
+import 'package:web_browser/core/node/node_path.dart';
 
-import '../../../core/node/node_path.dart';
+part 'children_at_path_manager.g.dart';
 
-part 'browser_node_children_notifier.g.dart';
-
-@Riverpod(keepAlive: true)
-class BrowserNodeChildrenNotifier extends _$BrowserNodeChildrenNotifier {
+@Riverpod(keepAlive:true)
+class ChildrenAtPathManger extends _$ChildrenAtPathManger {
   @override
   NodeChildren build(NodePath parentPath) {
-    // 初期状態は空
     return NodeChildren(children: []);
   }
 
-  void setChildNodes({required NodeChildren nodes, required int lastIndex}) {
+    void setChildNodes({required NodeChildren nodes}) {
     state = nodes;
   }
 
@@ -29,17 +24,6 @@ class BrowserNodeChildrenNotifier extends _$BrowserNodeChildrenNotifier {
     //childrenを展開し、末尾に新しいパスを追加後、stateを更新
     state = NodeChildren(children: [...state.children, newPath]);
 
-    if (kDebugMode) {
-      log(
-        "provideNewChildPath called. parentPath: $state, lastIndex: $_lastIndex",
-      );
-    }
     return newPath;
-  }
-
-  void removeChildNode(NodePath path) {
-    state = NodeChildren(
-      children: state.children.where((n) => n != path).toList(),
-    );
   }
 }
