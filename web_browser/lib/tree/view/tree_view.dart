@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:web_browser/node/node.dart';
+import 'package:web_browser/tree/view/components/tree_map/tree_map_view.dart';
 
 class TreeView extends StatelessWidget {
   const TreeView(this.rootNode, {super.key});
@@ -12,11 +13,8 @@ class TreeView extends StatelessWidget {
     return Stack(
       children: [
         Center(
-          child: Text(
-            'Tree Home View',
-            style: Theme.of(context).textTheme.headlineMedium,
+          child: TreeMapView()
           ),
-        ),
       ],
     );
   }
