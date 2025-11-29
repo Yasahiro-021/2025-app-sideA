@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:web_browser/node/node_children.dart';
+import 'package:web_browser/core/node/node_children.dart';
 
-import '../../../node/node_path.dart';
+import '../../../core/node/node_path.dart';
 
 part 'browser_node_children_notifier.g.dart';
 
