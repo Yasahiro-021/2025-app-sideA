@@ -25,12 +25,12 @@ $ParentNodeStateCopyWith<ParentNodeState> get copyWith => _$ParentNodeStateCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ParentNodeState&&(identical(other.parentTitle, parentTitle) || other.parentTitle == parentTitle)&&(identical(other.parentPath, parentPath) || other.parentPath == parentPath)&&(identical(other.navigateToParent, navigateToParent) || other.navigateToParent == navigateToParent));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ParentNodeState&&(identical(other.parentTitle, parentTitle) || other.parentTitle == parentTitle)&&const DeepCollectionEquality().equals(other.parentPath, parentPath)&&(identical(other.navigateToParent, navigateToParent) || other.navigateToParent == navigateToParent));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,parentTitle,parentPath,navigateToParent);
+int get hashCode => Object.hash(runtimeType,parentTitle,const DeepCollectionEquality().hash(parentPath),navigateToParent);
 
 @override
 String toString() {
@@ -49,7 +49,7 @@ $Res call({
 });
 
 
-$NodePathCopyWith<$Res> get parentPath;
+
 
 }
 /// @nodoc
@@ -62,24 +62,15 @@ class _$ParentNodeStateCopyWithImpl<$Res>
 
 /// Create a copy of ParentNodeState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? parentTitle = null,Object? parentPath = null,Object? navigateToParent = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? parentTitle = null,Object? parentPath = freezed,Object? navigateToParent = null,}) {
   return _then(_self.copyWith(
 parentTitle: null == parentTitle ? _self.parentTitle : parentTitle // ignore: cast_nullable_to_non_nullable
-as String,parentPath: null == parentPath ? _self.parentPath : parentPath // ignore: cast_nullable_to_non_nullable
+as String,parentPath: freezed == parentPath ? _self.parentPath : parentPath // ignore: cast_nullable_to_non_nullable
 as NodePath,navigateToParent: null == navigateToParent ? _self.navigateToParent : navigateToParent // ignore: cast_nullable_to_non_nullable
 as Function,
   ));
 }
-/// Create a copy of ParentNodeState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$NodePathCopyWith<$Res> get parentPath {
-  
-  return $NodePathCopyWith<$Res>(_self.parentPath, (value) {
-    return _then(_self.copyWith(parentPath: value));
-  });
-}
+
 }
 
 
@@ -234,12 +225,12 @@ _$ParentNodeStateCopyWith<_ParentNodeState> get copyWith => __$ParentNodeStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ParentNodeState&&(identical(other.parentTitle, parentTitle) || other.parentTitle == parentTitle)&&(identical(other.parentPath, parentPath) || other.parentPath == parentPath)&&(identical(other.navigateToParent, navigateToParent) || other.navigateToParent == navigateToParent));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ParentNodeState&&(identical(other.parentTitle, parentTitle) || other.parentTitle == parentTitle)&&const DeepCollectionEquality().equals(other.parentPath, parentPath)&&(identical(other.navigateToParent, navigateToParent) || other.navigateToParent == navigateToParent));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,parentTitle,parentPath,navigateToParent);
+int get hashCode => Object.hash(runtimeType,parentTitle,const DeepCollectionEquality().hash(parentPath),navigateToParent);
 
 @override
 String toString() {
@@ -258,7 +249,7 @@ $Res call({
 });
 
 
-@override $NodePathCopyWith<$Res> get parentPath;
+
 
 }
 /// @nodoc
@@ -271,25 +262,16 @@ class __$ParentNodeStateCopyWithImpl<$Res>
 
 /// Create a copy of ParentNodeState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? parentTitle = null,Object? parentPath = null,Object? navigateToParent = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? parentTitle = null,Object? parentPath = freezed,Object? navigateToParent = null,}) {
   return _then(_ParentNodeState(
 parentTitle: null == parentTitle ? _self.parentTitle : parentTitle // ignore: cast_nullable_to_non_nullable
-as String,parentPath: null == parentPath ? _self.parentPath : parentPath // ignore: cast_nullable_to_non_nullable
+as String,parentPath: freezed == parentPath ? _self.parentPath : parentPath // ignore: cast_nullable_to_non_nullable
 as NodePath,navigateToParent: null == navigateToParent ? _self.navigateToParent : navigateToParent // ignore: cast_nullable_to_non_nullable
 as Function,
   ));
 }
 
-/// Create a copy of ParentNodeState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$NodePathCopyWith<$Res> get parentPath {
-  
-  return $NodePathCopyWith<$Res>(_self.parentPath, (value) {
-    return _then(_self.copyWith(parentPath: value));
-  });
-}
+
 }
 
 // dart format on

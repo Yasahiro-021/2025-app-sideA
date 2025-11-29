@@ -1,5 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:web_browser/browser/model/node_path.dart';
+import 'package:web_browser/node/node_path.dart';
 
 part 'root_path_provider.g.dart';
 

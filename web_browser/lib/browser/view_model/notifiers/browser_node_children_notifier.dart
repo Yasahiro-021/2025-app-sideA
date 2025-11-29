@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:web_browser/browser/model/node_children.dart';
 
-import '../../model/node_path.dart';
+import '../../../node/node_path.dart';
 
 part 'browser_node_children_notifier.g.dart';
 

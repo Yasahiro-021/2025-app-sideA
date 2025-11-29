@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:web_browser/browser/model/node_path.dart';
+import 'package:web_browser/node/node_path.dart';
 import 'package:web_browser/browser/view/components/bottom_bar/child_node/child_node_viewmodel.dart';
 
 
