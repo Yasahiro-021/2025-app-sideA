@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:web_browser/core/node/node_path.dart';
 import 'package:web_browser/browser/model/browser_node.dart';
-import 'package:web_browser/browser/view_model/notifiers/browser_node_children_notifier.dart';
 import 'package:web_browser/browser/view_model/notifiers/browser_node_from_path_notifier.dart';
+import 'package:web_browser/core/usecase/children_at_path_manager.dart';
 
 part 'create_node_usecase.g.dart';
 
@@ -24,7 +24,7 @@ class CreateNodeUsecase extends _$CreateNodeUsecase {
       log("create node|| parent path $parentPath, node: $node");
     }
     final NodePath newPath = ref
-        .read(browserNodeChildrenProvider(parentPath).notifier)
+        .read(childrenAtPathMangerProvider(parentPath).notifier)
         .provideNewChildPath();
 
     // 作成されたPathとnodeを紐付けて登録
