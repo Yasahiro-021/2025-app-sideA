@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TreeNode {
 
- String get name; String get date;
+ String get title; String get date;
 /// Create a copy of TreeNode
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $TreeNodeCopyWith<TreeNode> get copyWith => _$TreeNodeCopyWithImpl<TreeNode>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TreeNode&&(identical(other.name, name) || other.name == name)&&(identical(other.date, date) || other.date == date));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TreeNode&&(identical(other.title, title) || other.title == title)&&(identical(other.date, date) || other.date == date));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,name,date);
+int get hashCode => Object.hash(runtimeType,title,date);
 
 @override
 String toString() {
-  return 'TreeNode(name: $name, date: $date)';
+  return 'TreeNode(title: $title, date: $date)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $TreeNodeCopyWith<$Res>  {
   factory $TreeNodeCopyWith(TreeNode value, $Res Function(TreeNode) _then) = _$TreeNodeCopyWithImpl;
 @useResult
 $Res call({
- String name, String date
+ String title, String date
 });
 
 
@@ -62,9 +62,9 @@ class _$TreeNodeCopyWithImpl<$Res>
 
 /// Create a copy of TreeNode
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? date = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? date = null,}) {
   return _then(_self.copyWith(
-name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
 as String,
   ));
@@ -151,10 +151,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String date)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String date)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TreeNode() when $default != null:
-return $default(_that.name,_that.date);case _:
+return $default(_that.title,_that.date);case _:
   return orElse();
 
 }
@@ -172,10 +172,10 @@ return $default(_that.name,_that.date);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String date)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String date)  $default,) {final _that = this;
 switch (_that) {
 case _TreeNode():
-return $default(_that.name,_that.date);case _:
+return $default(_that.title,_that.date);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -192,10 +192,10 @@ return $default(_that.name,_that.date);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String date)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String date)?  $default,) {final _that = this;
 switch (_that) {
 case _TreeNode() when $default != null:
-return $default(_that.name,_that.date);case _:
+return $default(_that.title,_that.date);case _:
   return null;
 
 }
@@ -207,10 +207,10 @@ return $default(_that.name,_that.date);case _:
 
 
 class _TreeNode implements TreeNode {
-  const _TreeNode({required this.name, required this.date});
+  const _TreeNode({required this.title, required this.date});
   
 
-@override final  String name;
+@override final  String title;
 @override final  String date;
 
 /// Create a copy of TreeNode
@@ -223,16 +223,16 @@ _$TreeNodeCopyWith<_TreeNode> get copyWith => __$TreeNodeCopyWithImpl<_TreeNode>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TreeNode&&(identical(other.name, name) || other.name == name)&&(identical(other.date, date) || other.date == date));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TreeNode&&(identical(other.title, title) || other.title == title)&&(identical(other.date, date) || other.date == date));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,name,date);
+int get hashCode => Object.hash(runtimeType,title,date);
 
 @override
 String toString() {
-  return 'TreeNode(name: $name, date: $date)';
+  return 'TreeNode(title: $title, date: $date)';
 }
 
 
@@ -243,7 +243,7 @@ abstract mixin class _$TreeNodeCopyWith<$Res> implements $TreeNodeCopyWith<$Res>
   factory _$TreeNodeCopyWith(_TreeNode value, $Res Function(_TreeNode) _then) = __$TreeNodeCopyWithImpl;
 @override @useResult
 $Res call({
- String name, String date
+ String title, String date
 });
 
 
@@ -260,9 +260,9 @@ class __$TreeNodeCopyWithImpl<$Res>
 
 /// Create a copy of TreeNode
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? date = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? date = null,}) {
   return _then(_TreeNode(
-name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
 as String,
   ));
