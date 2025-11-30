@@ -12,9 +12,8 @@ class TreeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Center(
-          child: TreeMapView()
-          ),
+        TreeMapView(),
+        BackButton(),
       ],
     );
   }

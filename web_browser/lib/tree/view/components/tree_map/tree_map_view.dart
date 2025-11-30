@@ -1,15 +1,11 @@
 import 'package:flutter/widgets.dart';
+import 'package:web_browser/tree/view/components/tree_map/tree_map.dart';
 
 class TreeMapView extends StatelessWidget {
   const TreeMapView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text(
-        'Tree Map View',
-        style: Theme.of(context).textTheme.headlineMedium,
-      ),
-    );
+    return InteractiveViewer(child: TreeMap());
   }
 }
