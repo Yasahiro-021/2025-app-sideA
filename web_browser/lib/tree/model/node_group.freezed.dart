@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'note_group.dart';
+part of 'node_group.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$NodeGroup {
 
- NodePath get parentPath; int get centerPoint;
+ NodePath get parentPath; double get leftPos; double get rightPos;
 /// Create a copy of NodeGroup
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $NodeGroupCopyWith<NodeGroup> get copyWith => _$NodeGroupCopyWithImpl<NodeGroup>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NodeGroup&&(identical(other.parentPath, parentPath) || other.parentPath == parentPath)&&(identical(other.centerPoint, centerPoint) || other.centerPoint == centerPoint));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NodeGroup&&(identical(other.parentPath, parentPath) || other.parentPath == parentPath)&&(identical(other.leftPos, leftPos) || other.leftPos == leftPos)&&(identical(other.rightPos, rightPos) || other.rightPos == rightPos));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,parentPath,centerPoint);
+int get hashCode => Object.hash(runtimeType,parentPath,leftPos,rightPos);
 
 @override
 String toString() {
-  return 'NodeGroup(parentPath: $parentPath, centerPoint: $centerPoint)';
+  return 'NodeGroup(parentPath: $parentPath, leftPos: $leftPos, rightPos: $rightPos)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $NodeGroupCopyWith<$Res>  {
   factory $NodeGroupCopyWith(NodeGroup value, $Res Function(NodeGroup) _then) = _$NodeGroupCopyWithImpl;
 @useResult
 $Res call({
- NodePath parentPath, int centerPoint
+ NodePath parentPath, double leftPos, double rightPos
 });
 
 
@@ -62,11 +62,12 @@ class _$NodeGroupCopyWithImpl<$Res>
 
 /// Create a copy of NodeGroup
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? parentPath = null,Object? centerPoint = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? parentPath = null,Object? leftPos = null,Object? rightPos = null,}) {
   return _then(_self.copyWith(
 parentPath: null == parentPath ? _self.parentPath : parentPath // ignore: cast_nullable_to_non_nullable
-as NodePath,centerPoint: null == centerPoint ? _self.centerPoint : centerPoint // ignore: cast_nullable_to_non_nullable
-as int,
+as NodePath,leftPos: null == leftPos ? _self.leftPos : leftPos // ignore: cast_nullable_to_non_nullable
+as double,rightPos: null == rightPos ? _self.rightPos : rightPos // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 /// Create a copy of NodeGroup
@@ -160,10 +161,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( NodePath parentPath,  int centerPoint)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( NodePath parentPath,  double leftPos,  double rightPos)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _NodeGroup() when $default != null:
-return $default(_that.parentPath,_that.centerPoint);case _:
+return $default(_that.parentPath,_that.leftPos,_that.rightPos);case _:
   return orElse();
 
 }
@@ -181,10 +182,10 @@ return $default(_that.parentPath,_that.centerPoint);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( NodePath parentPath,  int centerPoint)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( NodePath parentPath,  double leftPos,  double rightPos)  $default,) {final _that = this;
 switch (_that) {
 case _NodeGroup():
-return $default(_that.parentPath,_that.centerPoint);case _:
+return $default(_that.parentPath,_that.leftPos,_that.rightPos);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -201,10 +202,10 @@ return $default(_that.parentPath,_that.centerPoint);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( NodePath parentPath,  int centerPoint)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( NodePath parentPath,  double leftPos,  double rightPos)?  $default,) {final _that = this;
 switch (_that) {
 case _NodeGroup() when $default != null:
-return $default(_that.parentPath,_that.centerPoint);case _:
+return $default(_that.parentPath,_that.leftPos,_that.rightPos);case _:
   return null;
 
 }
@@ -216,11 +217,12 @@ return $default(_that.parentPath,_that.centerPoint);case _:
 
 
 class _NodeGroup implements NodeGroup {
-  const _NodeGroup({required this.parentPath, required this.centerPoint});
+  const _NodeGroup({required this.parentPath, required this.leftPos, required this.rightPos});
   
 
 @override final  NodePath parentPath;
-@override final  int centerPoint;
+@override final  double leftPos;
+@override final  double rightPos;
 
 /// Create a copy of NodeGroup
 /// with the given fields replaced by the non-null parameter values.
@@ -232,16 +234,16 @@ _$NodeGroupCopyWith<_NodeGroup> get copyWith => __$NodeGroupCopyWithImpl<_NodeGr
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NodeGroup&&(identical(other.parentPath, parentPath) || other.parentPath == parentPath)&&(identical(other.centerPoint, centerPoint) || other.centerPoint == centerPoint));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NodeGroup&&(identical(other.parentPath, parentPath) || other.parentPath == parentPath)&&(identical(other.leftPos, leftPos) || other.leftPos == leftPos)&&(identical(other.rightPos, rightPos) || other.rightPos == rightPos));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,parentPath,centerPoint);
+int get hashCode => Object.hash(runtimeType,parentPath,leftPos,rightPos);
 
 @override
 String toString() {
-  return 'NodeGroup(parentPath: $parentPath, centerPoint: $centerPoint)';
+  return 'NodeGroup(parentPath: $parentPath, leftPos: $leftPos, rightPos: $rightPos)';
 }
 
 
@@ -252,7 +254,7 @@ abstract mixin class _$NodeGroupCopyWith<$Res> implements $NodeGroupCopyWith<$Re
   factory _$NodeGroupCopyWith(_NodeGroup value, $Res Function(_NodeGroup) _then) = __$NodeGroupCopyWithImpl;
 @override @useResult
 $Res call({
- NodePath parentPath, int centerPoint
+ NodePath parentPath, double leftPos, double rightPos
 });
 
 
@@ -269,11 +271,12 @@ class __$NodeGroupCopyWithImpl<$Res>
 
 /// Create a copy of NodeGroup
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? parentPath = null,Object? centerPoint = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? parentPath = null,Object? leftPos = null,Object? rightPos = null,}) {
   return _then(_NodeGroup(
 parentPath: null == parentPath ? _self.parentPath : parentPath // ignore: cast_nullable_to_non_nullable
-as NodePath,centerPoint: null == centerPoint ? _self.centerPoint : centerPoint // ignore: cast_nullable_to_non_nullable
-as int,
+as NodePath,leftPos: null == leftPos ? _self.leftPos : leftPos // ignore: cast_nullable_to_non_nullable
+as double,rightPos: null == rightPos ? _self.rightPos : rightPos // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 
