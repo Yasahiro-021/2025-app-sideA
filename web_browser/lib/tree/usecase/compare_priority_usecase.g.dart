@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'is_current_priority_heigher.dart';
+part of 'compare_priority_usecase.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -8,7 +8,7 @@ part of 'is_current_priority_heigher.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-///currentがtargetに対して優先度が高いかどうかを判定する。同値の場合もfalseを返す。
+///currentとtargetの優先度を比較し、compareTo形式で結果を返す。
 ///
 ///同一階層でない場合はStateErrorが発生。
 ///
@@ -16,11 +16,13 @@ part of 'is_current_priority_heigher.dart';
 ///
 ///[0,0,1,2]と[0,0,2,1]を比較した場合、最初に異なるのは3層目であり、この層でより中央に近い方
 ///（兄弟ノードの数で変わる）が優先度が高い。もし同じ優先度であれば、次の層で同様に比較を行う。
+///
+///戻り値：currentの優先度が高い場合は1、低い場合は-1、同値の場合は0を返す。
 
-@ProviderFor(IsCurrentPriorityHeigher)
-const isCurrentPriorityHeigherProvider = IsCurrentPriorityHeigherFamily._();
+@ProviderFor(ComparePriorityUsecase)
+const comparePriorityUsecaseProvider = ComparePriorityUsecaseFamily._();
 
-///currentがtargetに対して優先度が高いかどうかを判定する。同値の場合もfalseを返す。
+///currentとtargetの優先度を比較し、compareTo形式で結果を返す。
 ///
 ///同一階層でない場合はStateErrorが発生。
 ///
@@ -28,9 +30,11 @@ const isCurrentPriorityHeigherProvider = IsCurrentPriorityHeigherFamily._();
 ///
 ///[0,0,1,2]と[0,0,2,1]を比較した場合、最初に異なるのは3層目であり、この層でより中央に近い方
 ///（兄弟ノードの数で変わる）が優先度が高い。もし同じ優先度であれば、次の層で同様に比較を行う。
-final class IsCurrentPriorityHeigherProvider
-    extends $NotifierProvider<IsCurrentPriorityHeigher, bool> {
-  ///currentがtargetに対して優先度が高いかどうかを判定する。同値の場合もfalseを返す。
+///
+///戻り値：currentの優先度が高い場合は1、低い場合は-1、同値の場合は0を返す。
+final class ComparePriorityUsecaseProvider
+    extends $NotifierProvider<ComparePriorityUsecase, int> {
+  ///currentとtargetの優先度を比較し、compareTo形式で結果を返す。
   ///
   ///同一階層でない場合はStateErrorが発生。
   ///
@@ -38,42 +42,44 @@ final class IsCurrentPriorityHeigherProvider
   ///
   ///[0,0,1,2]と[0,0,2,1]を比較した場合、最初に異なるのは3層目であり、この層でより中央に近い方
   ///（兄弟ノードの数で変わる）が優先度が高い。もし同じ優先度であれば、次の層で同様に比較を行う。
-  const IsCurrentPriorityHeigherProvider._({
-    required IsCurrentPriorityHeigherFamily super.from,
+  ///
+  ///戻り値：currentの優先度が高い場合は1、低い場合は-1、同値の場合は0を返す。
+  const ComparePriorityUsecaseProvider._({
+    required ComparePriorityUsecaseFamily super.from,
     required (NodePath, NodePath) super.argument,
   }) : super(
          retry: null,
-         name: r'isCurrentPriorityHeigherProvider',
+         name: r'comparePriorityUsecaseProvider',
          isAutoDispose: true,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
 
   @override
-  String debugGetCreateSourceHash() => _$isCurrentPriorityHeigherHash();
+  String debugGetCreateSourceHash() => _$comparePriorityUsecaseHash();
 
   @override
   String toString() {
-    return r'isCurrentPriorityHeigherProvider'
+    return r'comparePriorityUsecaseProvider'
         ''
         '$argument';
   }
 
   @$internal
   @override
-  IsCurrentPriorityHeigher create() => IsCurrentPriorityHeigher();
+  ComparePriorityUsecase create() => ComparePriorityUsecase();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(bool value) {
+  Override overrideWithValue(int value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<bool>(value),
+      providerOverride: $SyncValueProvider<int>(value),
     );
   }
 
   @override
   bool operator ==(Object other) {
-    return other is IsCurrentPriorityHeigherProvider &&
+    return other is ComparePriorityUsecaseProvider &&
         other.argument == argument;
   }
 
@@ -83,10 +89,10 @@ final class IsCurrentPriorityHeigherProvider
   }
 }
 
-String _$isCurrentPriorityHeigherHash() =>
-    r'7fde910a6e5cbb3151f305b64716f7a2eb510dd4';
+String _$comparePriorityUsecaseHash() =>
+    r'd651229cb3be8d44b55f27262ccaea0d13c4ca34';
 
-///currentがtargetに対して優先度が高いかどうかを判定する。同値の場合もfalseを返す。
+///currentとtargetの優先度を比較し、compareTo形式で結果を返す。
 ///
 ///同一階層でない場合はStateErrorが発生。
 ///
@@ -94,26 +100,28 @@ String _$isCurrentPriorityHeigherHash() =>
 ///
 ///[0,0,1,2]と[0,0,2,1]を比較した場合、最初に異なるのは3層目であり、この層でより中央に近い方
 ///（兄弟ノードの数で変わる）が優先度が高い。もし同じ優先度であれば、次の層で同様に比較を行う。
+///
+///戻り値：currentの優先度が高い場合は1、低い場合は-1、同値の場合は0を返す。
 
-final class IsCurrentPriorityHeigherFamily extends $Family
+final class ComparePriorityUsecaseFamily extends $Family
     with
         $ClassFamilyOverride<
-          IsCurrentPriorityHeigher,
-          bool,
-          bool,
-          bool,
+          ComparePriorityUsecase,
+          int,
+          int,
+          int,
           (NodePath, NodePath)
         > {
-  const IsCurrentPriorityHeigherFamily._()
+  const ComparePriorityUsecaseFamily._()
     : super(
         retry: null,
-        name: r'isCurrentPriorityHeigherProvider',
+        name: r'comparePriorityUsecaseProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
         isAutoDispose: true,
       );
 
-  ///currentがtargetに対して優先度が高いかどうかを判定する。同値の場合もfalseを返す。
+  ///currentとtargetの優先度を比較し、compareTo形式で結果を返す。
   ///
   ///同一階層でない場合はStateErrorが発生。
   ///
@@ -121,18 +129,17 @@ final class IsCurrentPriorityHeigherFamily extends $Family
   ///
   ///[0,0,1,2]と[0,0,2,1]を比較した場合、最初に異なるのは3層目であり、この層でより中央に近い方
   ///（兄弟ノードの数で変わる）が優先度が高い。もし同じ優先度であれば、次の層で同様に比較を行う。
+  ///
+  ///戻り値：currentの優先度が高い場合は1、低い場合は-1、同値の場合は0を返す。
 
-  IsCurrentPriorityHeigherProvider call(NodePath current, NodePath target) =>
-      IsCurrentPriorityHeigherProvider._(
-        argument: (current, target),
-        from: this,
-      );
+  ComparePriorityUsecaseProvider call(NodePath path, NodePath compareTo) =>
+      ComparePriorityUsecaseProvider._(argument: (path, compareTo), from: this);
 
   @override
-  String toString() => r'isCurrentPriorityHeigherProvider';
+  String toString() => r'comparePriorityUsecaseProvider';
 }
 
-///currentがtargetに対して優先度が高いかどうかを判定する。同値の場合もfalseを返す。
+///currentとtargetの優先度を比較し、compareTo形式で結果を返す。
 ///
 ///同一階層でない場合はStateErrorが発生。
 ///
@@ -140,23 +147,25 @@ final class IsCurrentPriorityHeigherFamily extends $Family
 ///
 ///[0,0,1,2]と[0,0,2,1]を比較した場合、最初に異なるのは3層目であり、この層でより中央に近い方
 ///（兄弟ノードの数で変わる）が優先度が高い。もし同じ優先度であれば、次の層で同様に比較を行う。
+///
+///戻り値：currentの優先度が高い場合は1、低い場合は-1、同値の場合は0を返す。
 
-abstract class _$IsCurrentPriorityHeigher extends $Notifier<bool> {
+abstract class _$ComparePriorityUsecase extends $Notifier<int> {
   late final _$args = ref.$arg as (NodePath, NodePath);
-  NodePath get current => _$args.$1;
-  NodePath get target => _$args.$2;
+  NodePath get path => _$args.$1;
+  NodePath get compareTo => _$args.$2;
 
-  bool build(NodePath current, NodePath target);
+  int build(NodePath path, NodePath compareTo);
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build(_$args.$1, _$args.$2);
-    final ref = this.ref as $Ref<bool, bool>;
+    final ref = this.ref as $Ref<int, int>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
+              AnyNotifier<int, int>,
+              int,
               Object?,
               Object?
             >;

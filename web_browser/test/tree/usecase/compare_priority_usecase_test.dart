@@ -5,7 +5,7 @@ import 'package:web_browser/core/node/node_children.dart';
 import 'package:web_browser/core/node/node_path.dart';
 import 'package:web_browser/core/usecase/children_at_path_manager.dart';
 import 'package:web_browser/core/usecase/create_node_usecase.dart';
-import 'package:web_browser/tree/usecase/is_current_priority_heigher.dart';
+import 'package:web_browser/tree/usecase/compare_priority_usecase.dart';
 
 void main() {
   group("正しく優先度を比較できるか", () {
@@ -64,88 +64,88 @@ void main() {
       container.dispose();
     });
 
-    test("第1階層(奇数)でtrueを返せる", () {
-      bool result = container.read(
-        isCurrentPriorityHeigherProvider(
+    test("第1階層(奇数)で1を返せる", () {
+      int result = container.read(
+        comparePriorityUsecaseProvider(
           NodePath(path: [1]),
           NodePath(path: [0]),
         ),
       );
 
-      expect(result, isTrue);
+      expect(result, 1);
     });
-    test("第1階層(奇数)で優先度が低い場合falseを返せる", () {
-      bool result = container.read(
-        isCurrentPriorityHeigherProvider(
+    test("第1階層(奇数)で優先度が低い場合-1を返せる", () {
+      int result = container.read(
+        comparePriorityUsecaseProvider(
           NodePath(path: [0]),
           NodePath(path: [1]),
         ),
       );
 
-      expect(result, isFalse);
+      expect(result, -1);
     });
-    test("第1階層(奇数)で同値の場合falseを返せる", () {
-      bool result1 = container.read(
-        isCurrentPriorityHeigherProvider(
+    test("第1階層(奇数)で同値の場合0を返せる", () {
+      int result1 = container.read(
+        comparePriorityUsecaseProvider(
           NodePath(path: [0]),
           NodePath(path: [0]),
         ),
       );
 
       //第1階層のノード数は３のため、中央は1。よって[0]と[2]は同優先度。
-      bool result2 = container.read(
-        isCurrentPriorityHeigherProvider(
+      int result2 = container.read(
+        comparePriorityUsecaseProvider(
           NodePath(path: [0]),
           NodePath(path: [2]),
         ),
       );
 
-      expect(result1, isFalse);
-      expect(result2, isFalse);
+      expect(result1, 0);
+      expect(result2, 0);
     });
-    test("第2階層(偶数)でfalseを返せる", () {
-      bool result = container.read(
+    test("第2階層(偶数)で0を返せる", () {
+      int result = container.read(
         //firstLayerのpath:[0]の子ノードは2つ。よって同優先度
-        isCurrentPriorityHeigherProvider(
+        comparePriorityUsecaseProvider(
           NodePath(path: [0, 1]),
           NodePath(path: [0, 0]),
         ),
       );
 
-      expect(result, isFalse);
+      expect(result, 0);
     });
-    test("第2階層(奇数)でtrueを返せる", () {
-      bool result = container.read(
+    test("第2階層(奇数)で1を返せる", () {
+      int result = container.read(
         //secondLayer_1の子ノードは5つ。よって中央は2。path:[1,2]が最も中央に近い。
-        isCurrentPriorityHeigherProvider(
+        comparePriorityUsecaseProvider(
           NodePath(path: [1, 2]),
           NodePath(path: [1, 0]),
         ),
       );
 
-      expect(result, isTrue);
+      expect(result, 1);
     });
-    test("第2階層の(奇数)でfalseを返せる", () {
-      bool result1 = container.read(
-        isCurrentPriorityHeigherProvider(
+    test("第2階層の(奇数)で-1と0を返せる", () {
+      int result1 = container.read(
+        comparePriorityUsecaseProvider(
           NodePath(path: [1, 0]),
           NodePath(path: [1, 2]),
         ),
       );
-      bool result2 = container.read(
+      int result2 = container.read(
         //同優先度
-        isCurrentPriorityHeigherProvider(
+        comparePriorityUsecaseProvider(
           NodePath(path: [1, 0]),
           NodePath(path: [1, 4]),
         ),
       );
 
-      expect(result1, isFalse);
-      expect(result2, isFalse);
+      expect(result1, -1);
+      expect(result2, 0);
     });
-    test("親が異なる場合でtrueを返せる", () {
-      bool result = container.read(
-        isCurrentPriorityHeigherProvider(
+    test("親が異なる場合で1を返せる", () {
+      int result = container.read(
+        comparePriorityUsecaseProvider(
           NodePath(path: [2, 1]),
           NodePath(path: [0, 1]),
         ),
@@ -154,21 +154,21 @@ void main() {
       ///path[0,1]の親であるpath[0]の優先度は1、path[2,0]の親であるpath[2]の優先度は1。
       ///よって同優先度となり、次の階層で比較を行う。
       ///path[0,1]の優先度は0.5、path[2,1]の優先度は0。
-      expect(result, isTrue);
+      expect(result, 1);
     });
-    test("親が異なる場合でfalseを返せる", () {
-      bool result2 = container.read(
-        isCurrentPriorityHeigherProvider(
+    test("親が異なる場合で-1を返せる", () {
+      int result2 = container.read(
+        comparePriorityUsecaseProvider(
           NodePath(path: [2, 0]),
           NodePath(path: [0, 1]),
         ),
       );
-      expect(result2, isFalse);
+      expect(result2, -1);
     });
     test("深さが異なる場合、StateErrorを投げる", () {
       expect(
         () => container.read(
-          isCurrentPriorityHeigherProvider(
+          comparePriorityUsecaseProvider(
             NodePath(path: [0]),
             NodePath(path: [0, 0]),
           ),
