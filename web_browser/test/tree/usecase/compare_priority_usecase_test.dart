@@ -1,9 +1,7 @@
 import 'package:hooks_riverpod/misc.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:test/test.dart';
-import 'package:web_browser/core/node/node_children.dart';
 import 'package:web_browser/core/node/node_path.dart';
-import 'package:web_browser/core/usecase/children_at_path_manager.dart';
 import 'package:web_browser/core/usecase/create_node_usecase.dart';
 import 'package:web_browser/tree/usecase/compare_priority_usecase.dart';
 
@@ -12,9 +10,6 @@ void main() {
     late ProviderContainer container;
 
     late NodePath rootPath;
-    late NodeChildren firstLayer;
-    late NodeChildren secondLayer_0;
-    late NodeChildren secondLayer_1;
 
     setUp(() {
       container = ProviderContainer();
@@ -48,17 +43,6 @@ void main() {
             .read(createNodeUsecaseProvider.notifier)
             .create(parentPath: NodePath(path: [2]));
       }
-
-      //テスト対象をセット。
-      firstLayer = container.read(childrenAtPathMangerProvider(rootPath));
-
-      secondLayer_0 = container.read(
-        childrenAtPathMangerProvider(NodePath(path: [0])),
-      );
-
-      secondLayer_1 = container.read(
-        childrenAtPathMangerProvider(NodePath(path: [1])),
-      );
     });
     tearDown(() {
       container.dispose();
