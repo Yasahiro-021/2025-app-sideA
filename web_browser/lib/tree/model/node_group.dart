@@ -8,6 +8,6 @@ abstract class NodeGroup with _$NodeGroup {
   const factory NodeGroup({
     required NodePath parentPath,
     required double leftPos,
-    required double rightPos, 
+    required double rightPos,
   }) = _NodeGroup;
 }
