@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$NodeLocation {
 
- int get depth; int get index;
+ int get depth; int get x;
 /// Create a copy of NodeLocation
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $NodeLocationCopyWith<NodeLocation> get copyWith => _$NodeLocationCopyWithImpl<N
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NodeLocation&&(identical(other.depth, depth) || other.depth == depth)&&(identical(other.index, index) || other.index == index));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NodeLocation&&(identical(other.depth, depth) || other.depth == depth)&&(identical(other.x, x) || other.x == x));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,depth,index);
+int get hashCode => Object.hash(runtimeType,depth,x);
 
 @override
 String toString() {
-  return 'NodeLocation(depth: $depth, index: $index)';
+  return 'NodeLocation(depth: $depth, x: $x)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $NodeLocationCopyWith<$Res>  {
   factory $NodeLocationCopyWith(NodeLocation value, $Res Function(NodeLocation) _then) = _$NodeLocationCopyWithImpl;
 @useResult
 $Res call({
- int depth, int index
+ int depth, int x
 });
 
 
@@ -62,10 +62,10 @@ class _$NodeLocationCopyWithImpl<$Res>
 
 /// Create a copy of NodeLocation
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? depth = null,Object? index = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? depth = null,Object? x = null,}) {
   return _then(_self.copyWith(
 depth: null == depth ? _self.depth : depth // ignore: cast_nullable_to_non_nullable
-as int,index: null == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
+as int,x: null == x ? _self.x : x // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }
@@ -151,10 +151,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int depth,  int index)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int depth,  int x)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _NodeLocation() when $default != null:
-return $default(_that.depth,_that.index);case _:
+return $default(_that.depth,_that.x);case _:
   return orElse();
 
 }
@@ -172,10 +172,10 @@ return $default(_that.depth,_that.index);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int depth,  int index)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int depth,  int x)  $default,) {final _that = this;
 switch (_that) {
 case _NodeLocation():
-return $default(_that.depth,_that.index);case _:
+return $default(_that.depth,_that.x);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -192,10 +192,10 @@ return $default(_that.depth,_that.index);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int depth,  int index)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int depth,  int x)?  $default,) {final _that = this;
 switch (_that) {
 case _NodeLocation() when $default != null:
-return $default(_that.depth,_that.index);case _:
+return $default(_that.depth,_that.x);case _:
   return null;
 
 }
@@ -207,11 +207,11 @@ return $default(_that.depth,_that.index);case _:
 
 
 class _NodeLocation implements NodeLocation {
-  const _NodeLocation({required this.depth, required this.index});
+  const _NodeLocation({required this.depth, required this.x});
   
 
 @override final  int depth;
-@override final  int index;
+@override final  int x;
 
 /// Create a copy of NodeLocation
 /// with the given fields replaced by the non-null parameter values.
@@ -223,16 +223,16 @@ _$NodeLocationCopyWith<_NodeLocation> get copyWith => __$NodeLocationCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NodeLocation&&(identical(other.depth, depth) || other.depth == depth)&&(identical(other.index, index) || other.index == index));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NodeLocation&&(identical(other.depth, depth) || other.depth == depth)&&(identical(other.x, x) || other.x == x));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,depth,index);
+int get hashCode => Object.hash(runtimeType,depth,x);
 
 @override
 String toString() {
-  return 'NodeLocation(depth: $depth, index: $index)';
+  return 'NodeLocation(depth: $depth, x: $x)';
 }
 
 
@@ -243,7 +243,7 @@ abstract mixin class _$NodeLocationCopyWith<$Res> implements $NodeLocationCopyWi
   factory _$NodeLocationCopyWith(_NodeLocation value, $Res Function(_NodeLocation) _then) = __$NodeLocationCopyWithImpl;
 @override @useResult
 $Res call({
- int depth, int index
+ int depth, int x
 });
 
 
@@ -260,10 +260,10 @@ class __$NodeLocationCopyWithImpl<$Res>
 
 /// Create a copy of NodeLocation
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? depth = null,Object? index = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? depth = null,Object? x = null,}) {
   return _then(_NodeLocation(
 depth: null == depth ? _self.depth : depth // ignore: cast_nullable_to_non_nullable
-as int,index: null == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
+as int,x: null == x ? _self.x : x // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }
