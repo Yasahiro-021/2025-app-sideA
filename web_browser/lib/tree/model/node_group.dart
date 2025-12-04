@@ -5,9 +5,12 @@ part 'node_group.freezed.dart';
 
 @freezed
 abstract class NodeGroup with _$NodeGroup {
-  const factory NodeGroup({
+  NodeGroup._();
+
+  factory NodeGroup({
     required NodePath parentPath,
-    required double leftPos,
-    required double rightPos,
+    required int width,
   }) = _NodeGroup;
+
+  int get depth => parentPath.depth +1;
 }

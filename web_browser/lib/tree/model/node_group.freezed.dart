@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$NodeGroup {
 
- NodePath get parentPath; double get leftPos; double get rightPos;
+ NodePath get parentPath; int get width;
 /// Create a copy of NodeGroup
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $NodeGroupCopyWith<NodeGroup> get copyWith => _$NodeGroupCopyWithImpl<NodeGroup>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NodeGroup&&(identical(other.parentPath, parentPath) || other.parentPath == parentPath)&&(identical(other.leftPos, leftPos) || other.leftPos == leftPos)&&(identical(other.rightPos, rightPos) || other.rightPos == rightPos));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NodeGroup&&(identical(other.parentPath, parentPath) || other.parentPath == parentPath)&&(identical(other.width, width) || other.width == width));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,parentPath,leftPos,rightPos);
+int get hashCode => Object.hash(runtimeType,parentPath,width);
 
 @override
 String toString() {
-  return 'NodeGroup(parentPath: $parentPath, leftPos: $leftPos, rightPos: $rightPos)';
+  return 'NodeGroup(parentPath: $parentPath, width: $width)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $NodeGroupCopyWith<$Res>  {
   factory $NodeGroupCopyWith(NodeGroup value, $Res Function(NodeGroup) _then) = _$NodeGroupCopyWithImpl;
 @useResult
 $Res call({
- NodePath parentPath, double leftPos, double rightPos
+ NodePath parentPath, int width
 });
 
 
@@ -62,12 +62,11 @@ class _$NodeGroupCopyWithImpl<$Res>
 
 /// Create a copy of NodeGroup
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? parentPath = null,Object? leftPos = null,Object? rightPos = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? parentPath = null,Object? width = null,}) {
   return _then(_self.copyWith(
 parentPath: null == parentPath ? _self.parentPath : parentPath // ignore: cast_nullable_to_non_nullable
-as NodePath,leftPos: null == leftPos ? _self.leftPos : leftPos // ignore: cast_nullable_to_non_nullable
-as double,rightPos: null == rightPos ? _self.rightPos : rightPos // ignore: cast_nullable_to_non_nullable
-as double,
+as NodePath,width: null == width ? _self.width : width // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 /// Create a copy of NodeGroup
@@ -161,10 +160,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( NodePath parentPath,  double leftPos,  double rightPos)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( NodePath parentPath,  int width)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _NodeGroup() when $default != null:
-return $default(_that.parentPath,_that.leftPos,_that.rightPos);case _:
+return $default(_that.parentPath,_that.width);case _:
   return orElse();
 
 }
@@ -182,10 +181,10 @@ return $default(_that.parentPath,_that.leftPos,_that.rightPos);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( NodePath parentPath,  double leftPos,  double rightPos)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( NodePath parentPath,  int width)  $default,) {final _that = this;
 switch (_that) {
 case _NodeGroup():
-return $default(_that.parentPath,_that.leftPos,_that.rightPos);case _:
+return $default(_that.parentPath,_that.width);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -202,10 +201,10 @@ return $default(_that.parentPath,_that.leftPos,_that.rightPos);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( NodePath parentPath,  double leftPos,  double rightPos)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( NodePath parentPath,  int width)?  $default,) {final _that = this;
 switch (_that) {
 case _NodeGroup() when $default != null:
-return $default(_that.parentPath,_that.leftPos,_that.rightPos);case _:
+return $default(_that.parentPath,_that.width);case _:
   return null;
 
 }
@@ -216,13 +215,12 @@ return $default(_that.parentPath,_that.leftPos,_that.rightPos);case _:
 /// @nodoc
 
 
-class _NodeGroup implements NodeGroup {
-  const _NodeGroup({required this.parentPath, required this.leftPos, required this.rightPos});
+class _NodeGroup extends NodeGroup {
+   _NodeGroup({required this.parentPath, required this.width}): super._();
   
 
 @override final  NodePath parentPath;
-@override final  double leftPos;
-@override final  double rightPos;
+@override final  int width;
 
 /// Create a copy of NodeGroup
 /// with the given fields replaced by the non-null parameter values.
@@ -234,16 +232,16 @@ _$NodeGroupCopyWith<_NodeGroup> get copyWith => __$NodeGroupCopyWithImpl<_NodeGr
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NodeGroup&&(identical(other.parentPath, parentPath) || other.parentPath == parentPath)&&(identical(other.leftPos, leftPos) || other.leftPos == leftPos)&&(identical(other.rightPos, rightPos) || other.rightPos == rightPos));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NodeGroup&&(identical(other.parentPath, parentPath) || other.parentPath == parentPath)&&(identical(other.width, width) || other.width == width));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,parentPath,leftPos,rightPos);
+int get hashCode => Object.hash(runtimeType,parentPath,width);
 
 @override
 String toString() {
-  return 'NodeGroup(parentPath: $parentPath, leftPos: $leftPos, rightPos: $rightPos)';
+  return 'NodeGroup(parentPath: $parentPath, width: $width)';
 }
 
 
@@ -254,7 +252,7 @@ abstract mixin class _$NodeGroupCopyWith<$Res> implements $NodeGroupCopyWith<$Re
   factory _$NodeGroupCopyWith(_NodeGroup value, $Res Function(_NodeGroup) _then) = __$NodeGroupCopyWithImpl;
 @override @useResult
 $Res call({
- NodePath parentPath, double leftPos, double rightPos
+ NodePath parentPath, int width
 });
 
 
@@ -271,12 +269,11 @@ class __$NodeGroupCopyWithImpl<$Res>
 
 /// Create a copy of NodeGroup
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? parentPath = null,Object? leftPos = null,Object? rightPos = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? parentPath = null,Object? width = null,}) {
   return _then(_NodeGroup(
 parentPath: null == parentPath ? _self.parentPath : parentPath // ignore: cast_nullable_to_non_nullable
-as NodePath,leftPos: null == leftPos ? _self.leftPos : leftPos // ignore: cast_nullable_to_non_nullable
-as double,rightPos: null == rightPos ? _self.rightPos : rightPos // ignore: cast_nullable_to_non_nullable
-as double,
+as NodePath,width: null == width ? _self.width : width // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
