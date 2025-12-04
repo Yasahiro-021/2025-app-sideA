@@ -7,6 +7,6 @@ part 'node_location.freezed.dart';
 abstract class NodeLocation  with _$NodeLocation {
   const factory NodeLocation({
     required int depth,
-    required int index,
+    required int x,
   }) = _NodeLocation;
 }
