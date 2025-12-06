@@ -1,9 +1,8 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:web_browser/core/node/node_path.dart';
-import 'package:web_browser/browser/view_model/notifiers/browser_node_from_path_notifier.dart';
+import 'package:web_browser/core/node/browser_node_from_path_notifier.dart';
+import 'package:web_browser/core/node/browser_node.dart';
 import 'package:web_browser/core/node/node.dart';
-
-import '../../model/browser_node.dart';
 
 part 'node_path_to_node_function.g.dart';
 
