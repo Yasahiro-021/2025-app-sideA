@@ -50,9 +50,12 @@ dependencies:
   riverpod_annotation:
   sqflite:
   path:
+  golden_toolkit: 
 
 dev_dependencies:
   flutter_test:
+    sdk: flutter
+  integration_test:
     sdk: flutter
   test:
   # The "flutter_lints" package below contains a set of recommended lints to

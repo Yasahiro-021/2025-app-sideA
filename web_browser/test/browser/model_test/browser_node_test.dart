@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:web_browser/browser/model/browser_node.dart';
+import 'package:web_browser/core/node/browser_node.dart';
 
 void main() {
   group('BrowserNode', () {

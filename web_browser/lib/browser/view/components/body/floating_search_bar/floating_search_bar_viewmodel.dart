@@ -1,11 +1,11 @@
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:web_browser/browser/domain/usecase/create_node_usecase.dart';
-import 'package:web_browser/browser/model/node_path.dart';
+import 'package:web_browser/core/usecase/create_node_usecase.dart';
+import 'package:web_browser/core/node/node_path.dart';
 import 'package:web_browser/browser/view_model/notifiers/current_path_notifier.dart';
 import 'package:web_browser/browser/view_model/notifiers/search_bar_expanded_notifier.dart';
 import 'package:web_browser/browser/view_model/notifiers/search_word_notifier.dart';
-import 'package:web_browser/browser/model/browser_node.dart';
+import 'package:web_browser/core/node/browser_node.dart';
 
 /// FloatingSearchBarのViewModel
 ///
