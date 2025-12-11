@@ -24,6 +24,7 @@ abstract class BrowserNode with _$BrowserNode {
   const factory BrowserNode({
     required String title,
     required String url,
+    String? date,
   }) = _BrowserNode;
 
 
@@ -31,10 +32,12 @@ abstract class BrowserNode with _$BrowserNode {
   factory BrowserNode.root({
     required String title,
     required String url,
+    String? date,
   }) {
     return BrowserNode(
       title: title,
       url: url,
+      date: date,
     );
   }
 }

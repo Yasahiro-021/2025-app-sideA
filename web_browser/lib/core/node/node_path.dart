@@ -23,6 +23,9 @@ class NodePath with _$NodePath {
   @override
   final List<int> path;
 
+  //ルートパス
+  static NodePath root = NodePath(path: []);
+
   /// 指定のインデックスで子パスを作成する。
   NodePath createChildPath(int index) => switch (this) {
     NodePath(path: final p) => NodePath(path: [...p, index]),
@@ -50,7 +53,7 @@ class NodePath with _$NodePath {
     }
 
     // ルートパスの場合はルートパスを返す。
-    if (value == '/') return NodePath(path: []);
+    if (value == '/') return root;
 
     // 先頭のスラッシュを除去して分割、整数に変換
     assert(
@@ -73,7 +76,7 @@ class NodePath with _$NodePath {
   NodePath? get parentPath {
     if (path.length == 1) {
       //第１階層の親はルートパス。
-      return NodePath(path: []);
+      return root;
     } else if (path.isEmpty) {
       //ルートパスの親を求められた場合はnull
       return null;

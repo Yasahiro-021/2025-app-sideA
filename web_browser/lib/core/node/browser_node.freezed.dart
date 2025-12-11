@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$BrowserNode implements DiagnosticableTreeMixin {
 
- String get title; String get url;
+ String get title; String get url; String? get date;
 /// Create a copy of BrowserNode
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,21 +26,21 @@ $BrowserNodeCopyWith<BrowserNode> get copyWith => _$BrowserNodeCopyWithImpl<Brow
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'BrowserNode'))
-    ..add(DiagnosticsProperty('title', title))..add(DiagnosticsProperty('url', url));
+    ..add(DiagnosticsProperty('title', title))..add(DiagnosticsProperty('url', url))..add(DiagnosticsProperty('date', date));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BrowserNode&&(identical(other.title, title) || other.title == title)&&(identical(other.url, url) || other.url == url));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BrowserNode&&(identical(other.title, title) || other.title == title)&&(identical(other.url, url) || other.url == url)&&(identical(other.date, date) || other.date == date));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,title,url);
+int get hashCode => Object.hash(runtimeType,title,url,date);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'BrowserNode(title: $title, url: $url)';
+  return 'BrowserNode(title: $title, url: $url, date: $date)';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $BrowserNodeCopyWith<$Res>  {
   factory $BrowserNodeCopyWith(BrowserNode value, $Res Function(BrowserNode) _then) = _$BrowserNodeCopyWithImpl;
 @useResult
 $Res call({
- String title, String url
+ String title, String url, String? date
 });
 
 
@@ -68,11 +68,12 @@ class _$BrowserNodeCopyWithImpl<$Res>
 
 /// Create a copy of BrowserNode
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? url = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? url = null,Object? date = freezed,}) {
   return _then(_self.copyWith(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
-as String,
+as String,date: freezed == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -157,10 +158,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String url)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String url,  String? date)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _BrowserNode() when $default != null:
-return $default(_that.title,_that.url);case _:
+return $default(_that.title,_that.url,_that.date);case _:
   return orElse();
 
 }
@@ -178,10 +179,10 @@ return $default(_that.title,_that.url);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String url)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String url,  String? date)  $default,) {final _that = this;
 switch (_that) {
 case _BrowserNode():
-return $default(_that.title,_that.url);case _:
+return $default(_that.title,_that.url,_that.date);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +199,10 @@ return $default(_that.title,_that.url);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String url)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String url,  String? date)?  $default,) {final _that = this;
 switch (_that) {
 case _BrowserNode() when $default != null:
-return $default(_that.title,_that.url);case _:
+return $default(_that.title,_that.url,_that.date);case _:
   return null;
 
 }
@@ -213,11 +214,12 @@ return $default(_that.title,_that.url);case _:
 
 
 class _BrowserNode extends BrowserNode with DiagnosticableTreeMixin {
-  const _BrowserNode({required this.title, required this.url}): super._();
+  const _BrowserNode({required this.title, required this.url, this.date}): super._();
   
 
 @override final  String title;
 @override final  String url;
+@override final  String? date;
 
 /// Create a copy of BrowserNode
 /// with the given fields replaced by the non-null parameter values.
@@ -230,21 +232,21 @@ _$BrowserNodeCopyWith<_BrowserNode> get copyWith => __$BrowserNodeCopyWithImpl<_
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'BrowserNode'))
-    ..add(DiagnosticsProperty('title', title))..add(DiagnosticsProperty('url', url));
+    ..add(DiagnosticsProperty('title', title))..add(DiagnosticsProperty('url', url))..add(DiagnosticsProperty('date', date));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BrowserNode&&(identical(other.title, title) || other.title == title)&&(identical(other.url, url) || other.url == url));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BrowserNode&&(identical(other.title, title) || other.title == title)&&(identical(other.url, url) || other.url == url)&&(identical(other.date, date) || other.date == date));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,title,url);
+int get hashCode => Object.hash(runtimeType,title,url,date);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'BrowserNode(title: $title, url: $url)';
+  return 'BrowserNode(title: $title, url: $url, date: $date)';
 }
 
 
@@ -255,7 +257,7 @@ abstract mixin class _$BrowserNodeCopyWith<$Res> implements $BrowserNodeCopyWith
   factory _$BrowserNodeCopyWith(_BrowserNode value, $Res Function(_BrowserNode) _then) = __$BrowserNodeCopyWithImpl;
 @override @useResult
 $Res call({
- String title, String url
+ String title, String url, String? date
 });
 
 
@@ -272,11 +274,12 @@ class __$BrowserNodeCopyWithImpl<$Res>
 
 /// Create a copy of BrowserNode
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? url = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? url = null,Object? date = freezed,}) {
   return _then(_BrowserNode(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
-as String,
+as String,date: freezed == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
