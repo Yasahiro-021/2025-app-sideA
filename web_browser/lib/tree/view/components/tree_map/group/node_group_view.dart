@@ -15,6 +15,7 @@ class NodeGroupView extends ConsumerWidget {
     required this.offsetX,
     required this.nodeSpacingScale,
     required this.levelHeightScale,
+    required this.margin,
     super.key,
   });
 
@@ -23,6 +24,7 @@ class NodeGroupView extends ConsumerWidget {
   final double offsetX;
   final double nodeSpacingScale;
   final double levelHeightScale;
+  final double margin;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,9 +32,10 @@ class NodeGroupView extends ConsumerWidget {
     final children = ref.watch(childrenAtPathMangerProvider(parentPath));
     
     // 座標をピクセル位置に変換（minXオフセットとマージンを考慮）
-    const margin = 100.0;
+    // グループは親ノードの1レベル下に配置される
+    // coordinate は親ノードの座標なので、Y座標は +1 して子グループの深さにする
     final left = (coordinate.x - offsetX) * nodeSpacingScale + margin;
-    final top = coordinate.y * levelHeightScale + margin;
+    final top = (coordinate.y + 1) * levelHeightScale + margin;
 
     return Positioned(
       left: left,

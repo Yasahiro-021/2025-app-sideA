@@ -16,6 +16,9 @@ class TreeMap extends ConsumerWidget {
   static const double nodeSpacingScale = 100.0;
   static const double levelHeightScale = 150.0;
 
+  // 定数: マージン
+  static const double margin = 100.0;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
@@ -23,6 +26,11 @@ class TreeMap extends ConsumerWidget {
     final rootPath = NodePath(path: []);
     final allPaths = _collectAllPaths(ref, rootPath);
     
+    // 子を持つパスのみをフィルタリング（空グループを除外）
+    final pathsWithChildren = allPaths.where((path) {
+      final children = ref.watch(childrenAtPathMangerProvider(path));
+      return children.children.isNotEmpty;
+    }).toList();
 
     // 全グループの座標を取得
     final coordinates = <NodePath, GroupCoordinate>{};
@@ -35,29 +43,21 @@ class TreeMap extends ConsumerWidget {
     // 描画領域のサイズを計算
     final size = _calculateCanvasSize(bounds);
 
-    // ルートノードの座標と子ノードの座標を取得
+    // ルートノードの座標を取得
     final rootCoord = coordinates[rootPath]!;
     
-    // ルートノードの中央位置を計算（子ノードグループの上部に配置）
+    // ルートノードの中央位置を計算
+    // ルートノードはレイアウト座標系の(rootCoord.x, 0)に配置
     const rootNodeSize = 40.0; // SimpleNodeViewのデフォルトサイズ
-    const marginTop = 50.0; // 上部マージン
-    final rootNodeX = (rootCoord.x - bounds.minX) * nodeSpacingScale + 
-                      (size.width / 2) - (rootNodeSize / 2);
-    final rootNodeY = marginTop;
+    final rootNodeX = (rootCoord.x - bounds.minX) * nodeSpacingScale + margin - (rootNodeSize / 2);
+    final rootNodeY = margin - (rootNodeSize / 2); // Y座標0をmarginの位置に配置
 
     return SizedBox(
       width: size.width,
       height: size.height,
       child: Stack(
         children: [
-          // ルートノード（親パスがnullのためグループがない）を、一番上のグループ（ルートノードの子）の上部に描画
-          Positioned(
-            left: rootNodeX,
-            top: rootNodeY,
-            child: SimpleNodeView(nodePath: rootPath),
-          ),
-
-          // 接続線を描画
+          // 接続線を描画（ノードの下に配置するため先に描画）
           CustomPaint(
             size: size,
             painter: TreeConnectionPainter(
@@ -66,10 +66,17 @@ class TreeMap extends ConsumerWidget {
               offsetX: bounds.minX,
               nodeSpacingScale: nodeSpacingScale,
               levelHeightScale: levelHeightScale,
+              margin: margin,
             ),
           ),
-          // 各ノードグループを配置
-          ...allPaths.map((path) {
+          // ルートノードを描画
+          Positioned(
+            left: rootNodeX,
+            top: rootNodeY,
+            child: SimpleNodeView(nodePath: rootPath),
+          ),
+          // 子を持つパスのみグループを配置（空グループは表示しない）
+          ...pathsWithChildren.map((path) {
             final coord = coordinates[path]!;
             return NodeGroupView(
               parentPath: path,
@@ -77,6 +84,7 @@ class TreeMap extends ConsumerWidget {
               offsetX: bounds.minX,
               nodeSpacingScale: nodeSpacingScale,
               levelHeightScale: levelHeightScale,
+              margin: margin,
             );
           }),
         ],
@@ -118,10 +126,9 @@ class TreeMap extends ConsumerWidget {
 
   /// 全ノードを含むキャンバスサイズを計算
   Size _calculateCanvasSize(_Bounds bounds) {
-    // マージンを追加
-    const margin = 100.0;
     final width = (bounds.maxX - bounds.minX) * nodeSpacingScale + margin * 2;
-    final height = bounds.maxY * levelHeightScale + margin * 2;
+    // グループは親ノードの1レベル下に配置されるため、+1を追加
+    final height = (bounds.maxY + 1) * levelHeightScale + margin * 2;
 
     return Size(width, height);
   }

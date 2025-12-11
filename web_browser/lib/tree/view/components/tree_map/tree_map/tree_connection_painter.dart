@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:web_browser/core/node/node_path.dart';
-import 'package:web_browser/tree/manager/node_coordinate_manager.dart';
+import 'package:web_browser/core/usecase/children_at_path_manager.dart';
 import 'package:web_browser/tree/model/group_coordinate.dart';
 
 /// ツリーノード間の接続線を描画するCustomPainter
@@ -13,6 +13,7 @@ class TreeConnectionPainter extends CustomPainter {
     required this.offsetX,
     required this.nodeSpacingScale,
     required this.levelHeightScale,
+    required this.margin,
   });
 
   final Map<NodePath, GroupCoordinate> groupCoordinates;
@@ -20,6 +21,7 @@ class TreeConnectionPainter extends CustomPainter {
   final double offsetX;
   final double nodeSpacingScale;
   final double levelHeightScale;
+  final double margin;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -28,36 +30,40 @@ class TreeConnectionPainter extends CustomPainter {
       ..strokeWidth = 2.0
       ..style = PaintingStyle.stroke;
 
-    // 各グループについて、その親ノード（個別のノード）との接続線を描画
-    // 線は「親ノード（個別のノード） → グループ」という形で引く
+    // 各パスについて、そのパスが子を持つ場合に線を描画
+    // 線は「ノード（path） → そのノードの子グループ（path/*）」という形で引く
     for (final entry in groupCoordinates.entries) {
       final path = entry.key;
-      final groupCoord = entry.value;
       
-      // ノード（親）の座標を取得
-      final parentNodeCoord = ref.read(nodeCoordinateProvider(path));
-
-      // 座標をピクセル位置に変換（minXオフセットとマージンを考慮）
-      const margin = 100.0;
-      const cardWidth = 150.0; // グループカードのおおよその幅
-      const topMargin = -5.0; // 子グループの上端より少し上で線を終わらせる
+      // このパスに子がいるかチェック
+      final children = ref.read(childrenAtPathMangerProvider(path));
+      if (children.children.isEmpty) continue; // 子がないなら線を引く必要がない
       
-      final childGroupX = (groupCoord.x - offsetX) * nodeSpacingScale + margin;
-      final childGroupY = groupCoord.y * levelHeightScale + margin;
+      // 親ノードの座標（このpathのノードの座標）
+      final parentCoord = groupCoordinates[path];
+      if (parentCoord == null) continue;
+      
+      // 子グループの座標（子グループの親はこのpath、つまり座標はこのpathと同じだが深さ+1）
+      // 子グループはdepth = path.depth + 1の位置に配置される
+      final childGroupY = (path.depth + 1) * levelHeightScale + margin;
+      
+      // 親ノードのピクセル座標を計算
+      // ノードは自身の座標の中央に配置される
+      const nodeSize = 40.0;
+      final parentNodeX = (parentCoord.x - offsetX) * nodeSpacingScale + margin;
+      final parentNodeY = parentCoord.y * levelHeightScale + margin;
+      
+      // 子グループのX座標は親ノードの真下
+      final childGroupX = parentNodeX;
 
-      // 親ノードの座標（nodeCoordinateProviderから取得した座標は既にピクセル位置）
-      final parentNodeX = parentNodeCoord.x;
-      final parentNodeY = parentNodeCoord.y;
-
-      final startPoint = Offset(parentNodeX, parentNodeY);
-      final endPoint = Offset(childGroupX + cardWidth / 2, childGroupY + topMargin);
+      // 線の始点：親ノードの下端中央
+      final startPoint = Offset(parentNodeX, parentNodeY + nodeSize / 2);
+      // 線の終点：子グループの上端中央
+      final endPoint = Offset(childGroupX, childGroupY - 5.0);
 
       final linePath = Path()
         ..moveTo(startPoint.dx, startPoint.dy)
-        ..lineTo(
-          endPoint.dx,
-          endPoint.dy,
-        );
+        ..lineTo(endPoint.dx, endPoint.dy);
 
       canvas.drawPath(linePath, paint);
     }
@@ -68,6 +74,7 @@ class TreeConnectionPainter extends CustomPainter {
     return groupCoordinates != oldDelegate.groupCoordinates ||
         offsetX != oldDelegate.offsetX ||
         nodeSpacingScale != oldDelegate.nodeSpacingScale ||
-        levelHeightScale != oldDelegate.levelHeightScale;
+        levelHeightScale != oldDelegate.levelHeightScale ||
+        margin != oldDelegate.margin;
   }
 }
