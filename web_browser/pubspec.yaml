@@ -47,7 +47,9 @@ dependencies:
   freezed_annotation:
   collection:
   riverpod_generator: 
-  riverpod_annotation: 
+  riverpod_annotation:
+  sqflite:
+  path:
 
 dev_dependencies:
   flutter_test:
@@ -61,6 +63,7 @@ dev_dependencies:
   flutter_lints:
   custom_lint:
   mocktail:
+  sqflite_common_ffi:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
