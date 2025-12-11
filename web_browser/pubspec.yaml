@@ -48,9 +48,12 @@ dependencies:
   collection:
   riverpod_generator: 
   riverpod_annotation: 
+  golden_toolkit: ^0.15.0
 
 dev_dependencies:
   flutter_test:
+    sdk: flutter
+  integration_test:
     sdk: flutter
   test:
   # The "flutter_lints" package below contains a set of recommended lints to
