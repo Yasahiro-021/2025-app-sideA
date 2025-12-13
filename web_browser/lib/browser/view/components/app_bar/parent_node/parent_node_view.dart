@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:web_browser/browser/view/components/app_bar/parent_node/parent_node_viewmodel.dart';
@@ -13,8 +10,6 @@ class ParentNodeView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     final state = ref.watch(parentNodeViewModelProvider);
-
-    if(kDebugMode) log("ParentNodeView built with state: $state");
 
     return Container(
       decoration: BoxDecoration(

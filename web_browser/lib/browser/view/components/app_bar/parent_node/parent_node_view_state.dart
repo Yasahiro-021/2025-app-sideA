@@ -1,6 +1,6 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:web_browser/browser/model/node_path.dart';
+import 'package:web_browser/core/node/node_path.dart';
 part 'parent_node_view_state.freezed.dart';
 /// 親ノードの状態を保持するクラス
 

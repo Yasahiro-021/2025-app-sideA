@@ -4,7 +4,7 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:web_browser/browser/model/node_path.dart';
+import 'package:web_browser/core/node/node_path.dart';
 
 part 'current_path_notifier.g.dart';
 

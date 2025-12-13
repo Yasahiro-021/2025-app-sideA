@@ -47,10 +47,15 @@ dependencies:
   freezed_annotation:
   collection:
   riverpod_generator: 
-  riverpod_annotation: 
+  riverpod_annotation:
+  sqflite:
+  path:
+  golden_toolkit: 
 
 dev_dependencies:
   flutter_test:
+    sdk: flutter
+  integration_test:
     sdk: flutter
   test:
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -61,6 +66,7 @@ dev_dependencies:
   flutter_lints:
   custom_lint:
   mocktail:
+  sqflite_common_ffi:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -1,9 +1,11 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+part 'multi_add_enabled_notifier.g.dart';
 /// 複数ノード追加の有効/無効を管理するNotifierクラス
 ///
 /// リンククリック時に自動的に新しいノードを追加するかを制御
-class MultiAddEnabledNotifier extends Notifier<bool> {
+@riverpod
+class MultiAddEnabledNotifier extends _$MultiAddEnabledNotifier {
   @override
   bool build() {
     // 初期状態は有効
@@ -20,8 +22,3 @@ class MultiAddEnabledNotifier extends Notifier<bool> {
     state = enabled;
   }
 }
-
-final multiAddEnabledNotifierProvider =
-    NotifierProvider<MultiAddEnabledNotifier, bool>(
-  () => MultiAddEnabledNotifier(),
-);

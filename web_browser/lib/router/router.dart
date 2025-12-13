@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:web_browser/browser/view/browser_view.dart';
 import 'package:web_browser/home_page.dart';
+import 'package:web_browser/tree/view/tree_view.dart';
 
 
 final GoRouter router = GoRouter(
@@ -12,6 +13,11 @@ final GoRouter router = GoRouter(
         GoRoute(
           path: 'browser',
           builder: (context, state) => const BrowserView(),
+          routes:< RouteBase> [
+            GoRoute(path: 'tree',
+              builder: (context, state) => const TreeView(),
+            ),
+          ],
         )]
     ) 
   ]

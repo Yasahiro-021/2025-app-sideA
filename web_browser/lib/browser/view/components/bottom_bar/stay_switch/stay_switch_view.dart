@@ -8,7 +8,8 @@ class StaySwitchView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(staySwitchViewModelProvider);
+    final viewModel = ref.read(staySwitchViewModelProvider.notifier);
+    final state = ref.watch(staySwitchViewModelProvider);
 
     return Container(
       margin: const EdgeInsets.only(right: 16),
@@ -16,7 +17,7 @@ class StaySwitchView extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Switch(
-            value: viewModel.isMultiAddEnabled,
+            value: state,
             onChanged: (v) {
               viewModel.toggleMultiAddEnabled();
             },

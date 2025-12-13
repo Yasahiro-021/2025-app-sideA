@@ -19,7 +19,7 @@ const childNodeViewModelProvider = ChildNodeViewModelFamily._();
 ///
 /// 子ノードへの遷移処理を管理
 final class ChildNodeViewModelProvider
-    extends $NotifierProvider<ChildNodeViewModel, ChildNodeViewModel> {
+    extends $NotifierProvider<ChildNodeViewModel, String> {
   /// ChildNodeのViewModel
   ///
   /// 子ノードへの遷移処理を管理
@@ -49,10 +49,10 @@ final class ChildNodeViewModelProvider
   ChildNodeViewModel create() => ChildNodeViewModel();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(ChildNodeViewModel value) {
+  Override overrideWithValue(String value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<ChildNodeViewModel>(value),
+      providerOverride: $SyncValueProvider<String>(value),
     );
   }
 
@@ -68,7 +68,7 @@ final class ChildNodeViewModelProvider
 }
 
 String _$childNodeViewModelHash() =>
-    r'1105d66cbe7197c97684ba72160dd381b2cbc183';
+    r'89760b0cdf971d7ec0d8662c57cddeeb5d83cfb2';
 
 /// ChildNodeのViewModel
 ///
@@ -78,9 +78,9 @@ final class ChildNodeViewModelFamily extends $Family
     with
         $ClassFamilyOverride<
           ChildNodeViewModel,
-          ChildNodeViewModel,
-          ChildNodeViewModel,
-          ChildNodeViewModel,
+          String,
+          String,
+          String,
           NodePath
         > {
   const ChildNodeViewModelFamily._()
@@ -107,21 +107,21 @@ final class ChildNodeViewModelFamily extends $Family
 ///
 /// 子ノードへの遷移処理を管理
 
-abstract class _$ChildNodeViewModel extends $Notifier<ChildNodeViewModel> {
+abstract class _$ChildNodeViewModel extends $Notifier<String> {
   late final _$args = ref.$arg as NodePath;
   NodePath get nodePath => _$args;
 
-  ChildNodeViewModel build(NodePath nodePath);
+  String build(NodePath nodePath);
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build(_$args);
-    final ref = this.ref as $Ref<ChildNodeViewModel, ChildNodeViewModel>;
+    final ref = this.ref as $Ref<String, String>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<ChildNodeViewModel, ChildNodeViewModel>,
-              ChildNodeViewModel,
+              AnyNotifier<String, String>,
+              String,
               Object?,
               Object?
             >;

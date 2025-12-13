@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:developer';
-
 import 'router/router.dart' show router; 
 
 void main() {
@@ -10,14 +9,15 @@ void main() {
   log('runAppが呼び出されました。'); // runApp呼び出し後のログ
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget { //TODO リリース時はStatelessWidgetに変更検討
   const MyApp({super.key});
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     log('MyAppのbuildメソッドが呼び出されました。'); // buildメソッドの開始ログ
     //====
     //最初のページはrouter.dartの[initialLocation]プロパティで設定。
     //====
+
     return MaterialApp.router(
       routerConfig: router,
 
