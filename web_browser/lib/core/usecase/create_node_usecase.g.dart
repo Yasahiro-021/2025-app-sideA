@@ -41,7 +41,7 @@ final class CreateNodeUsecaseProvider
   }
 }
 
-String _$createNodeUsecaseHash() => r'468d3e2372ae55d973e281b4c192d5cbff096839';
+String _$createNodeUsecaseHash() => r'6a62858824cdc07022155b240cda63a7aa6d0b60';
 
 abstract class _$CreateNodeUsecase extends $Notifier<CreateNodeUsecase> {
   CreateNodeUsecase build();

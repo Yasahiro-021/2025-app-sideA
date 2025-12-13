@@ -59,7 +59,7 @@ final class ChildrenAtPathMangerProvider
 }
 
 String _$childrenAtPathMangerHash() =>
-    r'c98abbba65a90f32817a320f0d7bde2e6e77ea8f';
+    r'473fbd4945a25e163c841dfd5bd0d749060d7eed';
 
 final class ChildrenAtPathMangerFamily extends $Family
     with

@@ -48,12 +48,13 @@ class FloatingSearchBarViewModel {
     NodePath currentPath = ref.read(currentPathProvider);
 
     //新しいノードを追加
-    final NodePath resultPath = ref
+    final NodePath? resultPath = ref
         .read(createNodeUsecaseProvider)
         .create(
           parentPath: currentPath,
           node: newNode,
         );
+    if (resultPath == null) return; //TODO 通知をストリームで流し、ポップアップ
 
     
     // 新しいノードに遷移

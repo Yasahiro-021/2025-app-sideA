@@ -15,12 +15,14 @@ class BrowserWebViewView extends ConsumerWidget {
     if (kDebugMode) {
       log("BrowserWebViewView: build called");
     }
-    final viewModel = ref.watch(browserWebViewViewModelProvider);
-
+    final controller = ref.read(browserWebViewViewModelProvider.notifier).createController(ref);
+    final state = ref.watch(browserWebViewViewModelProvider);
     return InAppWebView(
-      key: ValueKey(viewModel.url), // URLが変わるたびにWebViewを再作成
-      initialUrlRequest: URLRequest(url: WebUri(viewModel.url)),
-      //TODO 画面遷移時の処理を追加
+      key: ValueKey(state.url), // URLが変わるたびにWebViewを再作成
+      initialUrlRequest: URLRequest(url: WebUri(state.url)),
+      initialSettings: controller.settings,
+      shouldOverrideUrlLoading: controller.shouldOverrideUrlLoading,
+      onLoadStop: controller.onLoadStop,
     );
   }
 }

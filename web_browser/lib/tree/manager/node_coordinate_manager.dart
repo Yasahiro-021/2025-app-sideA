@@ -1,6 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:web_browser/core/node/node_path.dart';
-import 'package:web_browser/core/usecase/children_at_path_manager.dart';
 import 'package:web_browser/tree/manager/tree_layout_manager.dart';
 import 'package:web_browser/tree/model/node_coordinate.dart';
 
@@ -27,10 +26,6 @@ NodeCoordinate nodeCoordinate(Ref ref, NodePath nodePath) {
   
   // このノードが親の子リスト内で何番目かを取得
   final nodeIndex = nodePath.path.last;
-  
-  // グループ内での子ノードリストを取得してノード数を確認
-  final children = ref.watch(childrenAtPathMangerProvider(parentPath));
-  final childCount = children.children.length;
   
   // グループ内でのノードの位置を計算
   // NodeGroupViewのレイアウト定数と合わせる

@@ -125,7 +125,7 @@ class TreeLayoutManager extends _$TreeLayoutManager {
     NodeLayoutInfo? innerRight = node.leftMostChild;
     NodeLayoutInfo? outerRight = node;
     NodeLayoutInfo? innerLeft = leftSibling.rightMostChild;
-    NodeLayoutInfo? outerLeft = outerRight?.parent?.children.first;
+    NodeLayoutInfo? outerLeft = node.parent?.children.first;
 
     double shiftInnerRight = innerRight?.modifier ?? 0.0;
     double shiftOuterRight = outerRight.modifier;
@@ -180,7 +180,8 @@ class TreeLayoutManager extends _$TreeLayoutManager {
 
   /// サブツリーを移動
   void _moveSubtree(NodeLayoutInfo wl, NodeLayoutInfo wr, double shift) {
-    final subtrees = (wr.siblingIndex - wl.siblingIndex).toDouble();
+    // wlは使用されるが、Reingold-Tilfordの本来のアルゴリズムでは
+    // シフト量の按分に使用される。現在は単純なシフトのみ実装
     wr.relativeX += shift;
     wr.modifier += shift;
   }

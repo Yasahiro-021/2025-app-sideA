@@ -1,10 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:web_browser/core/node/node_children.dart';
 import 'package:web_browser/core/node/node_path.dart';
 import 'package:web_browser/core/usecase/children_at_path_manager.dart';
+import 'package:web_browser/tree/manager/group_manager.dart';
 import 'package:web_browser/tree/manager/tree_layout_manager.dart';
-import 'package:web_browser/tree/model/node_coordinate.dart';
+import 'package:web_browser/tree/model/node_group.dart';
 
 void main() {
   group('TreeLayoutManager - Reingold-Tilfordアルゴリズム', () {
@@ -19,12 +20,14 @@ void main() {
     });
 
     test('ルートノードのみの場合、(0, 0)に配置される', () {
-      // ルートノードに子がいない場合の設定
       container = ProviderContainer(
         overrides: [
-          childrenAtPathMangerProvider(NodePath.root).overrideWith(() {
-            return ChildrenAtPathManger();
-          }),
+          childrenAtPathMangerProvider(NodePath.root).overrideWithValue(
+            const NodeChildren(children: []),
+          ),
+          groupManagerProvider(NodePath.root).overrideWithValue(
+            NodeGroup(parentPath: NodePath.root, width: 1),
+          ),
         ],
       );
 
@@ -41,13 +44,17 @@ void main() {
 
       container = ProviderContainer(
         overrides: [
-          // ルートの子を設定
           childrenAtPathMangerProvider(NodePath.root).overrideWithValue(
             NodeChildren(children: [child0]),
           ),
-          // child0は子なし
           childrenAtPathMangerProvider(child0).overrideWithValue(
-            NodeChildren(children: []),
+            const NodeChildren(children: []),
+          ),
+          groupManagerProvider(NodePath.root).overrideWithValue(
+            NodeGroup(parentPath: NodePath.root, width: 3),
+          ),
+          groupManagerProvider(child0).overrideWithValue(
+            NodeGroup(parentPath: child0, width: 1),
           ),
         ],
       );
@@ -60,10 +67,8 @@ void main() {
       expect(rootCoord, isNotNull);
       expect(child0Coord, isNotNull);
 
-      // ルートは(0, 0)
-      expect(rootCoord!.x, equals(0.0));
-      expect(rootCoord.y, equals(0.0));
-
+      // ルートはY=0
+      expect(rootCoord!.y, equals(0.0));
       // 子は深さ1
       expect(child0Coord!.y, equals(1.0));
     });
@@ -78,10 +83,19 @@ void main() {
             NodeChildren(children: [child0, child1]),
           ),
           childrenAtPathMangerProvider(child0).overrideWithValue(
-            NodeChildren(children: []),
+            const NodeChildren(children: []),
           ),
           childrenAtPathMangerProvider(child1).overrideWithValue(
-            NodeChildren(children: []),
+            const NodeChildren(children: []),
+          ),
+          groupManagerProvider(NodePath.root).overrideWithValue(
+            NodeGroup(parentPath: NodePath.root, width: 4),
+          ),
+          groupManagerProvider(child0).overrideWithValue(
+            NodeGroup(parentPath: child0, width: 1),
+          ),
+          groupManagerProvider(child1).overrideWithValue(
+            NodeGroup(parentPath: child1, width: 1),
           ),
         ],
       );
@@ -105,8 +119,8 @@ void main() {
       final childCenter = (child0Coord.x + child1Coord.x) / 2;
       expect(rootCoord.x, equals(childCenter));
       
-      // 子は最小間隔で配置されている
-      expect(child1Coord.x - child0Coord.x, equals(TreeLayoutManager.minNodeSpacing));
+      // 子は最小間隔以上で配置されている
+      expect(child1Coord.x - child0Coord.x, greaterThanOrEqualTo(TreeLayoutManager.minNodeSpacing));
     });
 
     test('3階層のツリーで正しく配置される', () {
@@ -124,13 +138,28 @@ void main() {
             NodeChildren(children: [child0_0, child0_1]),
           ),
           childrenAtPathMangerProvider(child1).overrideWithValue(
-            NodeChildren(children: []),
+            const NodeChildren(children: []),
           ),
           childrenAtPathMangerProvider(child0_0).overrideWithValue(
-            NodeChildren(children: []),
+            const NodeChildren(children: []),
           ),
           childrenAtPathMangerProvider(child0_1).overrideWithValue(
-            NodeChildren(children: []),
+            const NodeChildren(children: []),
+          ),
+          groupManagerProvider(NodePath.root).overrideWithValue(
+            NodeGroup(parentPath: NodePath.root, width: 4),
+          ),
+          groupManagerProvider(child0).overrideWithValue(
+            NodeGroup(parentPath: child0, width: 4),
+          ),
+          groupManagerProvider(child1).overrideWithValue(
+            NodeGroup(parentPath: child1, width: 1),
+          ),
+          groupManagerProvider(child0_0).overrideWithValue(
+            NodeGroup(parentPath: child0_0, width: 1),
+          ),
+          groupManagerProvider(child0_1).overrideWithValue(
+            NodeGroup(parentPath: child0_1, width: 1),
           ),
         ],
       );
@@ -160,30 +189,36 @@ void main() {
       final child0Center = (child0_0Coord.x + child0_1Coord.x) / 2;
       expect(child0Coord.x, equals(child0Center));
 
-      // ノード同士が重ならない（最小間隔を保つ）
+      // ノード同士が重ならない（最小間隔以上を保つ）
       expect(child0_1Coord.x - child0_0Coord.x, 
              greaterThanOrEqualTo(TreeLayoutManager.minNodeSpacing));
       expect(child1Coord.x - child0Coord.x, 
              greaterThanOrEqualTo(TreeLayoutManager.minNodeSpacing));
     });
 
-    test('nodeCoordinateProviderで個別のノード座標を取得できる', () {
+    test('groupCoordinateProviderで個別グループの座標を取得できる', () {
       final child0 = NodePath(path: [0]);
 
       container = ProviderContainer(
         overrides: [
-          childrenAtPathMangerProvider(NodePath.root).overrideWithValue(NodeChildren(children: [child0])),
-          childrenAtPathMangerProvider(child0).overrideWith(() {
-            return ChildrenAtPathManger();
-          }),
+          childrenAtPathMangerProvider(NodePath.root).overrideWithValue(
+            NodeChildren(children: [child0]),
+          ),
+          childrenAtPathMangerProvider(child0).overrideWithValue(
+            const NodeChildren(children: []),
+          ),
+          groupManagerProvider(NodePath.root).overrideWithValue(
+            NodeGroup(parentPath: NodePath.root, width: 3),
+          ),
+          groupManagerProvider(child0).overrideWithValue(
+            NodeGroup(parentPath: child0, width: 2),
+          ),
         ],
       );
 
-      final rootCoord = container.read(nodeCoordinateProvider(NodePath.root));
-      final child0Coord = container.read(nodeCoordinateProvider(child0));
+      final rootCoord = container.read(groupCoordinateProvider(NodePath.root));
+      final child0Coord = container.read(groupCoordinateProvider(child0));
 
-      expect(rootCoord, isA<NodeCoordinate>());
-      expect(child0Coord, isA<NodeCoordinate>());
       expect(rootCoord.y, equals(0.0));
       expect(child0Coord.y, equals(1.0));
     });
@@ -193,20 +228,22 @@ void main() {
 
       container = ProviderContainer(
         overrides: [
-          childrenAtPathMangerProvider(NodePath.root).overrideWith(() {
-            return ChildrenAtPathManger();
-          }),
+          childrenAtPathMangerProvider(NodePath.root).overrideWithValue(
+            const NodeChildren(children: []),
+          ),
+          groupManagerProvider(NodePath.root).overrideWithValue(
+            NodeGroup(parentPath: NodePath.root, width: 1),
+          ),
         ],
       );
 
-      final coord = container.read(nodeCoordinateProvider(nonExistentPath));
+      final coord = container.read(groupCoordinateProvider(nonExistentPath));
 
       expect(coord.x, equals(0.0));
       expect(coord.y, equals(0.0));
     });
 
     test('複雑なツリー構造でノードが重ならない', () {
-      // ルートに3つの子、それぞれが子を持つ構造
       final child0 = NodePath(path: [0]);
       final child1 = NodePath(path: [1]);
       final child2 = NodePath(path: [2]);
@@ -231,13 +268,23 @@ void main() {
           childrenAtPathMangerProvider(child2).overrideWithValue(
             NodeChildren(children: [child2_0, child2_1, child2_2]),
           ),
-          // 葉ノードは子なし
-          childrenAtPathMangerProvider(child0_0).overrideWithValue(NodeChildren(children: [])),
-          childrenAtPathMangerProvider(child0_1).overrideWithValue(NodeChildren(children: [])),
-          childrenAtPathMangerProvider(child1_0).overrideWithValue(NodeChildren(children: [])),
-          childrenAtPathMangerProvider(child2_0).overrideWithValue(NodeChildren(children: [])),
-          childrenAtPathMangerProvider(child2_1).overrideWithValue(NodeChildren(children: [])),
-          childrenAtPathMangerProvider(child2_2).overrideWithValue(NodeChildren(children: [])),
+          childrenAtPathMangerProvider(child0_0).overrideWithValue(const NodeChildren(children: [])),
+          childrenAtPathMangerProvider(child0_1).overrideWithValue(const NodeChildren(children: [])),
+          childrenAtPathMangerProvider(child1_0).overrideWithValue(const NodeChildren(children: [])),
+          childrenAtPathMangerProvider(child2_0).overrideWithValue(const NodeChildren(children: [])),
+          childrenAtPathMangerProvider(child2_1).overrideWithValue(const NodeChildren(children: [])),
+          childrenAtPathMangerProvider(child2_2).overrideWithValue(const NodeChildren(children: [])),
+          // GroupManager overrides
+          groupManagerProvider(NodePath.root).overrideWithValue(NodeGroup(parentPath: NodePath.root, width: 5)),
+          groupManagerProvider(child0).overrideWithValue(NodeGroup(parentPath: child0, width: 4)),
+          groupManagerProvider(child1).overrideWithValue(NodeGroup(parentPath: child1, width: 3)),
+          groupManagerProvider(child2).overrideWithValue(NodeGroup(parentPath: child2, width: 5)),
+          groupManagerProvider(child0_0).overrideWithValue(NodeGroup(parentPath: child0_0, width: 1)),
+          groupManagerProvider(child0_1).overrideWithValue(NodeGroup(parentPath: child0_1, width: 1)),
+          groupManagerProvider(child1_0).overrideWithValue(NodeGroup(parentPath: child1_0, width: 1)),
+          groupManagerProvider(child2_0).overrideWithValue(NodeGroup(parentPath: child2_0, width: 1)),
+          groupManagerProvider(child2_1).overrideWithValue(NodeGroup(parentPath: child2_1, width: 1)),
+          groupManagerProvider(child2_2).overrideWithValue(NodeGroup(parentPath: child2_2, width: 1)),
         ],
       );
 

@@ -15,8 +15,8 @@ class ChildNodeView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.watch(childNodeViewModelProvider(nodePath));
-
+    final nodeName = ref.watch(childNodeViewModelProvider(nodePath));
+    final viewModel = ref.read(childNodeViewModelProvider(nodePath).notifier);
     return Padding(
       padding: const EdgeInsets.all(3.0),
       child: Container(
@@ -39,7 +39,7 @@ class ChildNodeView extends ConsumerWidget {
           },
           child: Center(
             child: Text(
-              viewModel.nodeName,
+              nodeName,
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 14),
               overflow: TextOverflow.ellipsis,

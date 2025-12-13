@@ -38,7 +38,7 @@ class ParentNodeViewModel extends _$ParentNodeViewModel {
   /// 親ノードの名前を取得
   String _getParentTitle(NodePath parentPath) {
     final BrowserNode parentNode =
-        ref.read(browserNodeFromPathProvider(parentPath));
+        ref.watch(browserNodeFromPathProvider(parentPath));
     return parentNode.title;
 
   }

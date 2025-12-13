@@ -79,7 +79,7 @@ final class NodeCoordinateProvider
   }
 }
 
-String _$nodeCoordinateHash() => r'66c1c1d997f8522893650ca1e5ffbd848326fa52';
+String _$nodeCoordinateHash() => r'2539bc02c0f6160319770c51ba96109c1207f279';
 
 /// Group内の個別ノードの座標を計算して提供するマネージャー
 ///

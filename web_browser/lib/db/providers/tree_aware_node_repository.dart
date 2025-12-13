@@ -22,7 +22,7 @@ class TreeAwareNodeRepository extends _$TreeAwareNodeRepository {
   }
 
   /// 現在のツリーIDを取得
-  int get _currentTreeId => ref.read(currentTreeNotifierProvider);
+  int get _currentTreeId => ref.read(currentTreeProvider);
 
   /// 単一ノードを保存（現在のツリーに）
   Future<void> saveNode(NodePath path, BrowserNode node) async {
