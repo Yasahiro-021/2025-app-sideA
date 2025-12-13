@@ -9,10 +9,11 @@ class DatabaseHelper {
   static Database? _database;
 
   // データベースのバージョン（スキーマ変更時にインクリメント）
-  static const int _databaseVersion = 1;
+  static const int _databaseVersion = 2;
   static const String _databaseName = 'web_browser.db';
 
   // テーブル名
+  static const String tableTrees = 'trees';
   static const String tableNodes = 'nodes';
 
   factory DatabaseHelper() => _instance;
@@ -41,20 +42,80 @@ class DatabaseHelper {
 
   /// データベース作成時のコールバック
   Future<void> _onCreate(Database db, int version) async {
+    // treesテーブルの作成（複数ツリー管理用）
+    await db.execute('''
+      CREATE TABLE $tableTrees (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL UNIQUE,
+        created_at TEXT,
+        updated_at TEXT
+      )
+    ''');
+
     // nodesテーブルの作成
+    // pathはNodePathの文字列表現（例: "/0/1/2"）
+    // tree_idで所属するツリーを指定
     await db.execute('''
       CREATE TABLE $tableNodes (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        parent_id INTEGER,
-        FOREIGN KEY (parent_id) REFERENCES $tableNodes (id) ON DELETE CASCADE
+        tree_id INTEGER NOT NULL,
+        path TEXT NOT NULL,
+        title TEXT NOT NULL,
+        url TEXT NOT NULL,
+        date TEXT,
+        FOREIGN KEY (tree_id) REFERENCES $tableTrees (id) ON DELETE CASCADE,
+        UNIQUE (tree_id, path)
       )
     ''');
+    // ツリーIDとパスによる検索を高速化するインデックス
+    await db.execute('CREATE INDEX idx_nodes_tree_path ON $tableNodes (tree_id, path)');
   }
 
   /// データベースアップグレード時のコールバック
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    // TODO: バージョンアップ時のマイグレーション処理を実装
+    // バージョン1から2へのマイグレーション
+    if (oldVersion < 2) {
+      // treesテーブルの作成
+      await db.execute('''
+        CREATE TABLE $tableTrees (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT NOT NULL UNIQUE,
+          created_at TEXT,
+          updated_at TEXT
+        )
+      ''');
+
+      // デフォルトツリーを作成
+      final now = DateTime.now().toIso8601String();
+      await db.insert(tableTrees, {
+        'name': 'Default',
+        'created_at': now,
+        'updated_at': now,
+      });
+
+      // nodesテーブルの再構築（tree_id追加）
+      await db.execute('ALTER TABLE $tableNodes RENAME TO nodes_old');
+      await db.execute('''
+        CREATE TABLE $tableNodes (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          tree_id INTEGER NOT NULL,
+          path TEXT NOT NULL,
+          title TEXT NOT NULL,
+          url TEXT NOT NULL,
+          date TEXT,
+          FOREIGN KEY (tree_id) REFERENCES $tableTrees (id) ON DELETE CASCADE,
+          UNIQUE (tree_id, path)
+        )
+      ''');
+      // 既存ノードをデフォルトツリー(id=1)に移行
+      await db.execute('''
+        INSERT INTO $tableNodes (tree_id, path, title, url, date)
+        SELECT 1, path, title, url, date FROM nodes_old
+      ''');
+      await db.execute('DROP TABLE nodes_old');
+      await db.execute('DROP INDEX IF EXISTS idx_nodes_path');
+      await db.execute('CREATE INDEX idx_nodes_tree_path ON $tableNodes (tree_id, path)');
+    }
   }
 
   /// データベースを閉じる

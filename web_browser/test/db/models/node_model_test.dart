@@ -6,134 +6,193 @@ void main() {
     test('正常にインスタンスが作成できること', () {
       final node = NodeModel(
         id: 1,
-        name: 'テストノード',
-        parentId: null,
+        treeId: 1,
+        path: '/0',
+        title: 'テストノード',
+        url: 'https://example.com',
+        date: '2025-12-11',
       );
 
       expect(node.id, 1);
-      expect(node.name, 'テストノード');
-      expect(node.parentId, isNull);
+      expect(node.treeId, 1);
+      expect(node.path, '/0');
+      expect(node.title, 'テストノード');
+      expect(node.url, 'https://example.com');
+      expect(node.date, '2025-12-11');
     });
 
-    test('親IDを持つノードが作成できること', () {
+    test('ルートノードが作成できること', () {
       final node = NodeModel(
-        id: 2,
-        name: '子ノード',
-        parentId: 1,
+        treeId: 1,
+        path: '/',
+        title: 'ルート',
+        url: 'https://root.com',
       );
 
-      expect(node.id, 2);
-      expect(node.name, '子ノード');
-      expect(node.parentId, 1);
+      expect(node.path, '/');
+      expect(node.title, 'ルート');
+      expect(node.date, isNull);
+    });
+
+    test('深い階層のノードが作成できること', () {
+      final node = NodeModel(
+        treeId: 1,
+        path: '/0/1/2/3',
+        title: '深いノード',
+        url: 'https://deep.com',
+      );
+
+      expect(node.path, '/0/1/2/3');
     });
 
     test('toMapが正しく動作すること', () {
       final node = NodeModel(
         id: 1,
-        name: 'テストノード',
-        parentId: 2,
+        treeId: 2,
+        path: '/0/1',
+        title: 'テストノード',
+        url: 'https://example.com',
+        date: '2025-12-11',
       );
 
       final map = node.toMap();
 
       expect(map['id'], 1);
-      expect(map['name'], 'テストノード');
-      expect(map['parent_id'], 2);
+      expect(map['tree_id'], 2);
+      expect(map['path'], '/0/1');
+      expect(map['title'], 'テストノード');
+      expect(map['url'], 'https://example.com');
+      expect(map['date'], '2025-12-11');
     });
 
     test('toMapでidがnullの場合はidが含まれないこと', () {
       final node = NodeModel(
-        name: 'テストノード',
-        parentId: null,
+        treeId: 1,
+        path: '/',
+        title: 'テストノード',
+        url: 'https://example.com',
       );
 
       final map = node.toMap();
 
       expect(map.containsKey('id'), isFalse);
-      expect(map['name'], 'テストノード');
-      expect(map['parent_id'], isNull);
+      expect(map['tree_id'], 1);
+      expect(map['path'], '/');
     });
 
     test('fromMapが正しく動作すること', () {
       final map = {
         'id': 1,
-        'name': 'テストノード',
-        'parent_id': 2,
+        'tree_id': 2,
+        'path': '/0/1',
+        'title': 'テストノード',
+        'url': 'https://example.com',
+        'date': '2025-12-11',
       };
 
       final node = NodeModel.fromMap(map);
 
       expect(node.id, 1);
-      expect(node.name, 'テストノード');
-      expect(node.parentId, 2);
+      expect(node.treeId, 2);
+      expect(node.path, '/0/1');
+      expect(node.title, 'テストノード');
+      expect(node.url, 'https://example.com');
+      expect(node.date, '2025-12-11');
     });
 
-    test('fromMapでparent_idがnullの場合も正しく動作すること', () {
+    test('fromMapでdateがnullの場合も正しく動作すること', () {
       final map = {
         'id': 1,
-        'name': 'ルートノード',
-        'parent_id': null,
+        'tree_id': 1,
+        'path': '/',
+        'title': 'ルートノード',
+        'url': 'https://root.com',
+        'date': null,
       };
 
       final node = NodeModel.fromMap(map);
 
       expect(node.id, 1);
-      expect(node.name, 'ルートノード');
-      expect(node.parentId, isNull);
+      expect(node.path, '/');
+      expect(node.date, isNull);
     });
 
     test('copyWithが正しく動作すること', () {
       final node = NodeModel(
         id: 1,
-        name: 'オリジナル',
-        parentId: null,
+        treeId: 1,
+        path: '/0',
+        title: 'オリジナル',
+        url: 'https://original.com',
       );
 
-      final copied = node.copyWith(name: '変更後');
+      final copied = node.copyWith(title: '変更後');
 
       expect(copied.id, 1);
-      expect(copied.name, '変更後');
-      expect(copied.parentId, isNull);
+      expect(copied.treeId, 1);
+      expect(copied.path, '/0');
+      expect(copied.title, '変更後');
+      expect(copied.url, 'https://original.com');
     });
 
     test('copyWithで全プロパティを変更できること', () {
       final node = NodeModel(
         id: 1,
-        name: 'オリジナル',
-        parentId: null,
+        treeId: 1,
+        path: '/0',
+        title: 'オリジナル',
+        url: 'https://original.com',
       );
 
       final copied = node.copyWith(
         id: 2,
-        name: '変更後',
-        parentId: 1,
+        treeId: 3,
+        path: '/1',
+        title: '変更後',
+        url: 'https://changed.com',
+        date: '2025-12-12',
       );
 
       expect(copied.id, 2);
-      expect(copied.name, '変更後');
-      expect(copied.parentId, 1);
+      expect(copied.treeId, 3);
+      expect(copied.path, '/1');
+      expect(copied.title, '変更後');
+      expect(copied.url, 'https://changed.com');
+      expect(copied.date, '2025-12-12');
     });
 
     test('等価性が正しく判定されること', () {
-      final node1 = NodeModel(id: 1, name: 'テスト', parentId: null);
-      final node2 = NodeModel(id: 1, name: 'テスト', parentId: null);
-      final node3 = NodeModel(id: 2, name: 'テスト', parentId: null);
+      final node1 = NodeModel(id: 1, treeId: 1, path: '/', title: 'テスト', url: 'https://test.com');
+      final node2 = NodeModel(id: 1, treeId: 1, path: '/', title: 'テスト', url: 'https://test.com');
+      final node3 = NodeModel(id: 2, treeId: 1, path: '/', title: 'テスト', url: 'https://test.com');
+      final node4 = NodeModel(id: 1, treeId: 2, path: '/', title: 'テスト', url: 'https://test.com');
 
       expect(node1 == node2, isTrue);
       expect(node1 == node3, isFalse);
+      expect(node1 == node4, isFalse);
     });
 
     test('hashCodeが正しく生成されること', () {
-      final node1 = NodeModel(id: 1, name: 'テスト', parentId: null);
-      final node2 = NodeModel(id: 1, name: 'テスト', parentId: null);
+      final node1 = NodeModel(id: 1, treeId: 1, path: '/', title: 'テスト', url: 'https://test.com');
+      final node2 = NodeModel(id: 1, treeId: 1, path: '/', title: 'テスト', url: 'https://test.com');
 
       expect(node1.hashCode, node2.hashCode);
     });
 
     test('toStringが正しく動作すること', () {
-      final node = NodeModel(id: 1, name: 'テスト', parentId: 2);
+      final node = NodeModel(
+        id: 1,
+        treeId: 2,
+        path: '/0',
+        title: 'テスト',
+        url: 'https://test.com',
+        date: '2025-12-11',
+      );
 
-      expect(node.toString(), 'NodeModel(id: 1, name: テスト, parentId: 2)');
+      expect(
+        node.toString(),
+        'NodeModel(id: 1, treeId: 2, path: /0, title: テスト, url: https://test.com, date: 2025-12-11)',
+      );
     });
   });
 }

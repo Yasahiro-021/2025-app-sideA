@@ -1,79 +1,130 @@
 import '../dao/node_dao.dart';
 import '../models/node_model.dart';
-import '../../node/node.dart';
+import '../../core/node/node_path.dart';
+import '../../core/node/browser_node.dart';
+import '../../core/node/node_children.dart';
 
 /// Nodeのリポジトリクラス
 /// 
 /// ViewModelからの呼び出しを受け、DAOを通じてデータベース操作を行う
-/// Nodeモデル（ドメイン）とNodeModel（DB）間の変換も担当
+/// NodePath/BrowserNode（ドメイン）とNodeModel（DB）間の変換も担当
+/// 複数ツリー対応版：treeIdを指定してノードを管理
 class NodeRepository {
   final NodeDao _nodeDao = NodeDao();
 
-  /// ツリー全体を保存
-  /// 
-  /// 既存データを削除してから新規保存
-  Future<void> saveTree(Node rootNode) async {
-    await _nodeDao.deleteAll();
-    await _saveNodeRecursively(rootNode, null);
-  }
-
-  /// ノードを再帰的に保存
-  Future<void> _saveNodeRecursively(Node node, int? parentId) async {
+  /// 単一ノードを保存（パスをキーとして）
+  Future<void> saveNode(int treeId, NodePath path, BrowserNode node) async {
     final nodeModel = NodeModel(
-      name: node.name,
-      parentId: parentId,
+      treeId: treeId,
+      path: path.toString(),
+      title: node.title,
+      url: node.url,
+      date: node.date,
     );
-    final insertedId = await _nodeDao.insert(nodeModel);
+    await _nodeDao.insert(nodeModel);
+  }
 
-    // 子ノードを再帰的に保存
-    for (final child in node.children) {
-      await _saveNodeRecursively(child, insertedId);
+  /// 複数ノードを一括保存
+  Future<void> saveNodes(int treeId, Map<NodePath, BrowserNode> nodes) async {
+    final models = nodes.entries.map((entry) => NodeModel(
+      treeId: treeId,
+      path: entry.key.toString(),
+      title: entry.value.title,
+      url: entry.value.url,
+      date: entry.value.date,
+    )).toList();
+    await _nodeDao.insertAll(models);
+  }
+
+  /// パスでノードを取得
+  Future<BrowserNode?> getNodeByPath(int treeId, NodePath path) async {
+    final model = await _nodeDao.getByPath(treeId, path.toString());
+    if (model == null) return null;
+    return BrowserNode(
+      title: model.title,
+      url: model.url,
+      date: model.date,
+    );
+  }
+
+  /// 指定ツリーの全ノードをMap形式で取得
+  Future<Map<NodePath, BrowserNode>> getAllNodes(int treeId) async {
+    final models = await _nodeDao.getAllByTreeId(treeId);
+    final result = <NodePath, BrowserNode>{};
+    for (final model in models) {
+      final path = NodePath.fromString(model.path);
+      result[path] = BrowserNode(
+        title: model.title,
+        url: model.url,
+        date: model.date,
+      );
     }
+    return result;
   }
 
-  /// ツリー全体を読み込み
-  /// 
-  /// ルートノードがない場合はnullを返す
-  Future<Node?> loadTree() async {
-    final rootNodes = await _nodeDao.getRootNodes();
-    if (rootNodes.isEmpty) return null;
-
-    // 最初のルートノードをツリーのルートとして使用
-    final rootModel = rootNodes.first;
-    return await _buildNodeRecursively(rootModel, null);
+  /// ルートノードを取得
+  Future<BrowserNode?> getRootNode(int treeId) async {
+    final model = await _nodeDao.getRootNode(treeId);
+    if (model == null) return null;
+    return BrowserNode(
+      title: model.title,
+      url: model.url,
+      date: model.date,
+    );
   }
 
-  /// NodeModelからNodeを再帰的に構築
-  Future<Node> _buildNodeRecursively(NodeModel model, Node? parent) async {
-    final node = Node(model.name, parent);
+  /// 指定パスの直接の子ノードのパスリストを取得
+  Future<NodeChildren> getChildrenPaths(int treeId, NodePath parentPath) async {
+    final models = await _nodeDao.getChildrenByParentPath(treeId, parentPath.toString());
+    final childPaths = models
+        .map((model) => NodePath.fromString(model.path))
+        .toList();
+    return NodeChildren(children: childPaths);
+  }
 
-    // 子ノードを取得して再帰的に構築
-    if (model.id != null) {
-      final childModels = await _nodeDao.getChildrenByParentId(model.id!);
-      for (final childModel in childModels) {
-        await _buildNodeRecursively(childModel, node);
-      }
+  /// 指定パスの直接の子ノードをMap形式で取得
+  Future<Map<NodePath, BrowserNode>> getChildrenNodes(int treeId, NodePath parentPath) async {
+    final models = await _nodeDao.getChildrenByParentPath(treeId, parentPath.toString());
+    final result = <NodePath, BrowserNode>{};
+    for (final model in models) {
+      final path = NodePath.fromString(model.path);
+      result[path] = BrowserNode(
+        title: model.title,
+        url: model.url,
+        date: model.date,
+      );
     }
-
-    return node;
-  }
-
-  /// 単一ノードを追加
-  Future<int> addNode(NodeModel node) async {
-    return await _nodeDao.insert(node);
+    return result;
   }
 
   /// ノードを更新
-  Future<void> updateNode(NodeModel node) async {
-    await _nodeDao.update(node);
+  Future<void> updateNode(int treeId, NodePath path, BrowserNode node) async {
+    final nodeModel = NodeModel(
+      treeId: treeId,
+      path: path.toString(),
+      title: node.title,
+      url: node.url,
+      date: node.date,
+    );
+    await _nodeDao.updateByPath(treeId, nodeModel);
   }
 
-  /// ノードを削除（子ノードも連鎖削除）
-  Future<void> deleteNode(int id) async {
-    await _nodeDao.delete(id);
+  /// パスでノードを削除
+  Future<void> deleteNode(int treeId, NodePath path) async {
+    await _nodeDao.deleteByPath(treeId, path.toString());
   }
 
-  /// 全データを削除
+  /// パスでノードとその子孫を全て削除
+  Future<void> deleteNodeWithDescendants(int treeId, NodePath path) async {
+    await _nodeDao.deleteWithDescendants(treeId, path.toString());
+  }
+
+  /// 指定ツリーの全データを削除
+  Future<void> clearAllByTreeId(int treeId) async {
+    await _nodeDao.deleteAllByTreeId(treeId);
+  }
+
+  /// 全データを削除（全ツリー）
   Future<void> clearAll() async {
     await _nodeDao.deleteAll();
   }
