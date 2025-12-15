@@ -8,7 +8,7 @@ part 'group_manager.g.dart';
 
 @Riverpod(keepAlive: true)
 class GroupManager extends _$GroupManager {
-  static const int groupPadding = 2;
+  static const double groupPadding = 1;
 
   @override
   Group build(NodePath parentPath) {
