@@ -13,17 +13,37 @@ class GroupManager extends _$GroupManager {
   @override
   Group build(NodePath parentPath) {
     NodeChildren children = ref.watch(childrenAtPathMangerProvider(parentPath));
+    List<NodePath> elements = children.children;
     List<Group> childrenGroups = [];
-    for (var childPath in children.children) {
-      Group childGroup = ref.watch(groupManagerProvider(childPath));
+    for (var elementPath in elements) {
+      //要素を親に持つグループを取得
+      Group childGroup = ref.watch(groupManagerProvider(elementPath));
       childrenGroups.add(childGroup);
+    }
+    double width = 0;
+    if (elements.isNotEmpty) {
+      width = elements.length + groupPadding * 2; // 両端をプラス
     }
     return Group(
       path: parentPath,
-      elements: [...children.children],
+      elements: [...elements],
       childrenGroup: childrenGroups,
-      width: children.children.length + groupPadding *2, // 両端をプラス
-      treeWidth: childrenGroups.fold(0, (sum, group) => sum + group.width),
+      width: width,
+      treeWidth: _treeWidth(childrenGroups, width),
     );
+  }
+
+  double _treeWidth(List<Group> childrenGroups, double myWidth) {
+    //自身をルートとするツリーの幅を計算
+    double treeWidth = 0;
+    treeWidth = childrenGroups.fold(
+      0,
+      (e, childGroup) => e += childGroup.treeWidth,
+    );
+    if (treeWidth < myWidth) {
+      //もし子のツリー幅より自分の幅が大きければ自分の幅を採用
+      treeWidth = myWidth;
+    }
+    return treeWidth;
   }
 }
