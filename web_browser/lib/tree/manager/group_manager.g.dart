@@ -58,7 +58,7 @@ final class GroupManagerProvider
   }
 }
 
-String _$groupManagerHash() => r'267a4179f894aebc4ea996bb942c9d7be85be445';
+String _$groupManagerHash() => r'35dec34b6181cc34d6036d09e6cb96a99eba9823';
 
 final class GroupManagerFamily extends $Family
     with $ClassFamilyOverride<GroupManager, Group, Group, Group, NodePath> {
