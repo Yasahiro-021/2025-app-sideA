@@ -3,11 +3,11 @@ import 'dart:developer';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:test/test.dart';
-import 'package:web_browser/core/node/node_children.dart';
 import 'package:web_browser/core/node/node_path.dart';
-import 'package:web_browser/core/usecase/children_at_path_manager.dart';
 import 'package:web_browser/tree/manager/group_manager.dart';
 import 'package:web_browser/tree/model/group.dart';
+
+import '../test_tools/mockChildrenAtPath.dart';
 
 void main() {
   group('GroupManagerProvider', () {
@@ -18,7 +18,6 @@ void main() {
       (NodePath(path: [1]), 3), //[1]に3つの子ノード
       (NodePath(path: [2]), 1), //[2]に1つの子ノード
       // 3 * 2 + 2 + 3 + 1 = 12　がtreeWidth
-
       (NodePath(path: [0, 0]), 1), //[0,0]に1個の子ノード
       // ※rootのグループのtreeWidthは変わらない
     ];
@@ -26,43 +25,9 @@ void main() {
     ProviderContainer testContainer = ProviderContainer();
 
     setUp(() {
-      List<NodePath> shouldEmptyMockPaths =
-          []; // モックする過程で作成したパスを格納するリスト。参照されるためモックする必要がある。
-      List<(NodePath, List<NodePath>)> childrenList = createChildCount.map((e) {
-        NodePath parentPath = e.$1;
-        int childCount = e.$2;
-        List<NodePath> childPaths = List.generate(
-          childCount,
-          (index) => parentPath.createChildPath(index),
-        );
-        shouldEmptyMockPaths.addAll(childPaths);
-        return (parentPath, childPaths);
-      }).toList();
-
-      //モックに呼び出されるグループを作成しておく。
-      shouldEmptyMockPaths = shouldEmptyMockPaths
-          .where(
-            //モックされていないパスのみ抽出
-            (path) => createChildCount.map((e) => e.$1).contains(path) == false,
-          )
-          .toList();
-
-      List<Override> emptyOverrides = shouldEmptyMockPaths.map((path) {
-        return childrenAtPathMangerProvider(
-          path,
-        ).overrideWithValue(NodeChildren(children: []));
-      }).toList();
-
+      final childrenAtPathOverrides = mockChildrenAtPath(createChildCount);
       testContainer = ProviderContainer(
-        overrides: [
-          ...childrenList.map((e) {
-            NodePath path = e.$1;
-            return childrenAtPathMangerProvider(
-              path,
-            ).overrideWithValue(NodeChildren(children: e.$2));
-          }),
-          ...emptyOverrides,
-        ],
+        overrides: [...childrenAtPathOverrides],
       );
     });
 
