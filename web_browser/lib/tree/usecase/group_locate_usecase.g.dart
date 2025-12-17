@@ -8,17 +8,14 @@ part of 'group_locate_usecase.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-///TODO Riverpodで実装する必要があるか検討する
 ///parentPathからGroupを取得し、座標(x,y)を返すUsecase
 
 @ProviderFor(GroupLocateUsecase)
 const groupLocateUsecaseProvider = GroupLocateUsecaseFamily._();
 
-///TODO Riverpodで実装する必要があるか検討する
 ///parentPathからGroupを取得し、座標(x,y)を返すUsecase
 final class GroupLocateUsecaseProvider
     extends $NotifierProvider<GroupLocateUsecase, (double, double)> {
-  ///TODO Riverpodで実装する必要があるか検討する
   ///parentPathからGroupを取得し、座標(x,y)を返すUsecase
   const GroupLocateUsecaseProvider._({
     required GroupLocateUsecaseFamily super.from,
@@ -65,9 +62,8 @@ final class GroupLocateUsecaseProvider
 }
 
 String _$groupLocateUsecaseHash() =>
-    r'7092e6f74ba11178281ab9035ab767768bd5905e';
+    r'a6c5ecb03df1fe395637498ba88da8ff2c883e48';
 
-///TODO Riverpodで実装する必要があるか検討する
 ///parentPathからGroupを取得し、座標(x,y)を返すUsecase
 
 final class GroupLocateUsecaseFamily extends $Family
@@ -88,7 +84,6 @@ final class GroupLocateUsecaseFamily extends $Family
         isAutoDispose: true,
       );
 
-  ///TODO Riverpodで実装する必要があるか検討する
   ///parentPathからGroupを取得し、座標(x,y)を返すUsecase
 
   GroupLocateUsecaseProvider call(NodePath parentPath) =>
@@ -98,7 +93,6 @@ final class GroupLocateUsecaseFamily extends $Family
   String toString() => r'groupLocateUsecaseProvider';
 }
 
-///TODO Riverpodで実装する必要があるか検討する
 ///parentPathからGroupを取得し、座標(x,y)を返すUsecase
 
 abstract class _$GroupLocateUsecase extends $Notifier<(double, double)> {

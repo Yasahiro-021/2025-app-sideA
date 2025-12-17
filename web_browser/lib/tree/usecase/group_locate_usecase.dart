@@ -5,7 +5,6 @@ import 'package:web_browser/tree/model/group.dart';
 
 part 'group_locate_usecase.g.dart';
 
-///TODO Riverpodで実装する必要があるか検討する
 ///parentPathからGroupを取得し、座標(x,y)を返すUsecase
 @riverpod
 class GroupLocateUsecase extends _$GroupLocateUsecase {
@@ -14,9 +13,13 @@ class GroupLocateUsecase extends _$GroupLocateUsecase {
     NodePath? grandPath = parentPath.parentPath;
     final double y = parentPath.depth + 1.0; // 親の深さ + 1
 
+    final double myTreeWidth = ref
+        .watch(groupManagerProvider(parentPath))
+        .treeWidth; //自身のサブツリー幅を取得
+
     //ルートノードの子の場合、兄弟はいないのでy=0,x=サブツリーたちの中心を返す。
     if (grandPath == null) {
-      final double x = _calcCenterX(ref);
+      final double x = myTreeWidth/2;
       return (x, y);
     }
 
@@ -38,24 +41,8 @@ class GroupLocateUsecase extends _$GroupLocateUsecase {
 
     //自身のx座標を計算
     final edgeX = parentX - (parentGroup.treeWidth / 2); //親のツリー幅の左端
-    final double x = edgeX + offsetX; //左端からのオフセットを足す
+
+    final double x = edgeX + offsetX + (myTreeWidth / 2); //左端へオフセットと、自身の幅の中心を足す
     return (x, y);
-  }
-
-  ///子のグループをルートとするサブツリーの幅の合計から中心のx座標を計算する
-  double _calcCenterX(Ref ref) {
-    //子のグループたちを取得
-    final List<Group> childrenGroups = ref
-        .watch(groupManagerProvider(parentPath))
-        .childrenGroup;
-
-    //子たちのサブツリー幅の合計を計算
-    final double sumWidth = childrenGroups.fold(
-      0.0,
-      (previousValue, group) => previousValue + group.treeWidth,
-    );
-
-    final double x = sumWidth / 2; //中心のx座標
-    return x;
   }
 }
