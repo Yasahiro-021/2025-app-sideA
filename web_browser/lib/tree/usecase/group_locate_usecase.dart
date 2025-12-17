@@ -5,6 +5,7 @@ import 'package:web_browser/tree/model/group.dart';
 
 part 'group_locate_usecase.g.dart';
 
+///TODO Riverpodで実装する必要があるか検討する
 ///parentPathからGroupを取得し、座標(x,y)を返すUsecase
 @riverpod
 class GroupLocateUsecase extends _$GroupLocateUsecase {
