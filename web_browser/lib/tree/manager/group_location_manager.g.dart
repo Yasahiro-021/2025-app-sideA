@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'group_locate_usecase.dart';
+part of 'group_location_manager.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -10,37 +10,37 @@ part of 'group_locate_usecase.dart';
 // ignore_for_file: type=lint, type=warning
 ///parentPathからGroupを取得し、座標(x,y)を返すUsecase
 
-@ProviderFor(GroupLocateUsecase)
-const groupLocateUsecaseProvider = GroupLocateUsecaseFamily._();
+@ProviderFor(GroupLocationManager)
+const groupLocationManagerProvider = GroupLocationManagerFamily._();
 
 ///parentPathからGroupを取得し、座標(x,y)を返すUsecase
-final class GroupLocateUsecaseProvider
-    extends $NotifierProvider<GroupLocateUsecase, (double, double)> {
+final class GroupLocationManagerProvider
+    extends $NotifierProvider<GroupLocationManager, (double, double)> {
   ///parentPathからGroupを取得し、座標(x,y)を返すUsecase
-  const GroupLocateUsecaseProvider._({
-    required GroupLocateUsecaseFamily super.from,
+  const GroupLocationManagerProvider._({
+    required GroupLocationManagerFamily super.from,
     required NodePath super.argument,
   }) : super(
          retry: null,
-         name: r'groupLocateUsecaseProvider',
+         name: r'groupLocationManagerProvider',
          isAutoDispose: true,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
 
   @override
-  String debugGetCreateSourceHash() => _$groupLocateUsecaseHash();
+  String debugGetCreateSourceHash() => _$groupLocationManagerHash();
 
   @override
   String toString() {
-    return r'groupLocateUsecaseProvider'
+    return r'groupLocationManagerProvider'
         ''
         '($argument)';
   }
 
   @$internal
   @override
-  GroupLocateUsecase create() => GroupLocateUsecase();
+  GroupLocationManager create() => GroupLocationManager();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue((double, double) value) {
@@ -52,7 +52,7 @@ final class GroupLocateUsecaseProvider
 
   @override
   bool operator ==(Object other) {
-    return other is GroupLocateUsecaseProvider && other.argument == argument;
+    return other is GroupLocationManagerProvider && other.argument == argument;
   }
 
   @override
@@ -61,24 +61,24 @@ final class GroupLocateUsecaseProvider
   }
 }
 
-String _$groupLocateUsecaseHash() =>
-    r'a6c5ecb03df1fe395637498ba88da8ff2c883e48';
+String _$groupLocationManagerHash() =>
+    r'4c24bf610acac8aec9019e9402763d18855caae2';
 
 ///parentPathからGroupを取得し、座標(x,y)を返すUsecase
 
-final class GroupLocateUsecaseFamily extends $Family
+final class GroupLocationManagerFamily extends $Family
     with
         $ClassFamilyOverride<
-          GroupLocateUsecase,
+          GroupLocationManager,
           (double, double),
           (double, double),
           (double, double),
           NodePath
         > {
-  const GroupLocateUsecaseFamily._()
+  const GroupLocationManagerFamily._()
     : super(
         retry: null,
-        name: r'groupLocateUsecaseProvider',
+        name: r'groupLocationManagerProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
         isAutoDispose: true,
@@ -86,16 +86,16 @@ final class GroupLocateUsecaseFamily extends $Family
 
   ///parentPathからGroupを取得し、座標(x,y)を返すUsecase
 
-  GroupLocateUsecaseProvider call(NodePath parentPath) =>
-      GroupLocateUsecaseProvider._(argument: parentPath, from: this);
+  GroupLocationManagerProvider call(NodePath parentPath) =>
+      GroupLocationManagerProvider._(argument: parentPath, from: this);
 
   @override
-  String toString() => r'groupLocateUsecaseProvider';
+  String toString() => r'groupLocationManagerProvider';
 }
 
 ///parentPathからGroupを取得し、座標(x,y)を返すUsecase
 
-abstract class _$GroupLocateUsecase extends $Notifier<(double, double)> {
+abstract class _$GroupLocationManager extends $Notifier<(double, double)> {
   late final _$args = ref.$arg as NodePath;
   NodePath get parentPath => _$args;
 

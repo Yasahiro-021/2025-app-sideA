@@ -4,12 +4,12 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:test/test.dart';
 import 'package:web_browser/core/node/node_path.dart';
 import 'package:web_browser/tree/manager/group_manager.dart';
-import 'package:web_browser/tree/usecase/group_locate_usecase.dart';
+import 'package:web_browser/tree/manager/group_location_manager.dart';
 
 import '../test_tools/mockChildrenAtPath.dart';
 
 void main() {
-  group('GroupLocateUsecase', () {
+  group('GroupLocationManager', () {
     final List<(NodePath, int)> createChildCount = [
       (NodePath.root, 3), // ルートに3つの子ノード
       //rootのGroup
@@ -33,7 +33,7 @@ void main() {
     test('rootの子を正しく計算できるか', () {
       //テスト対象
       final (double, double) rootChildrenPosition = testContainer.read(
-        groupLocateUsecaseProvider(NodePath.root),
+        groupLocationManagerProvider(NodePath.root),
       );
 
       //期待値確認
@@ -61,7 +61,7 @@ void main() {
         NodePath(path: [2]),
       ];
       final List<(double, double)> groupLocates = paths
-          .map((path) => testContainer.read(groupLocateUsecaseProvider(path)))
+          .map((path) => testContainer.read(groupLocationManagerProvider(path)))
           .toList();
 
       //期待値確認
@@ -110,7 +110,7 @@ void main() {
         NodePath(path: [0, 1]),
       ];
       final List<(double, double)> groupLocates = paths
-          .map((path) => testContainer.read(groupLocateUsecaseProvider(path)))
+          .map((path) => testContainer.read(groupLocationManagerProvider(path)))
           .toList();
 
       //期待値確認

@@ -3,11 +3,11 @@ import 'package:web_browser/core/node/node_path.dart';
 import 'package:web_browser/tree/manager/group_manager.dart';
 import 'package:web_browser/tree/model/group.dart';
 
-part 'group_locate_usecase.g.dart';
+part 'group_location_manager.g.dart';
 
 ///parentPathからGroupを取得し、座標(x,y)を返すUsecase
 @riverpod
-class GroupLocateUsecase extends _$GroupLocateUsecase {
+class GroupLocationManager extends _$GroupLocationManager {
   @override
   (double, double) build(NodePath parentPath) {
     NodePath? grandPath = parentPath.parentPath;
@@ -19,13 +19,13 @@ class GroupLocateUsecase extends _$GroupLocateUsecase {
 
     //ルートノードの子の場合、兄弟はいないのでy=0,x=サブツリーたちの中心を返す。
     if (grandPath == null) {
-      final double x = myTreeWidth/2;
+      final double x = myTreeWidth / 2;
       return (x, y);
     }
 
     //ルートノードの子でない場合、親グループのxとtreeWidthを取得し、自分が何番目の子かでxを決定する。
     final (double, double) parentLocate = ref.watch(
-      groupLocateUsecaseProvider(grandPath),
+      groupLocationManagerProvider(grandPath),
     );
     double parentX = parentLocate.$1;
 
