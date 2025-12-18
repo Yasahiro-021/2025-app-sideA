@@ -62,7 +62,7 @@ final class GroupLocationManagerProvider
 }
 
 String _$groupLocationManagerHash() =>
-    r'4c24bf610acac8aec9019e9402763d18855caae2';
+    r'10a75d6f8753b80cdf8e5a0e67d3747b6aef4e84';
 
 ///parentPathからGroupを取得し、座標(x,y)を返すUsecase
 

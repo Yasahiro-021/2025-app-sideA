@@ -151,5 +151,23 @@ void main() {
       log('sumWidth: $sumWidth');
       expect(sumWidth, expectTotalWidth);
     });
+
+    test('左端を正しく取得できるか', () {
+      final NodePath testPath = NodePath(path: [1]);
+      final (double, double) locate = testContainer.read(
+        groupLocationManagerProvider(testPath),
+      );
+      final (double, double) leftEdgePos = testContainer
+          .read(groupLocationManagerProvider(testPath).notifier)
+          .leftEdgePos;
+
+      final double width = testContainer
+          .read(groupManagerProvider(testPath))
+          .width;
+
+      log("locate: $locate width: $width leftEdgePos: $leftEdgePos");
+
+      expect(leftEdgePos.$1, locate.$1 - (width / 2));
+    });
   });
 }

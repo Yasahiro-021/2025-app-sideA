@@ -17,7 +17,7 @@ class GroupLocationManager extends _$GroupLocationManager {
         .watch(groupManagerProvider(parentPath))
         .treeWidth; //自身のサブツリー幅を取得
 
-    //ルートノードの子の場合、兄弟はいないのでy=0,x=サブツリーたちの中心を返す。
+    //ルートノードの子の場合、兄弟はいないのでy=1,x=サブツリーたちの中心を返す。
     if (grandPath == null) {
       final double x = myTreeWidth / 2;
       return (x, y);
@@ -44,5 +44,12 @@ class GroupLocationManager extends _$GroupLocationManager {
 
     final double x = edgeX + offsetX + (myTreeWidth / 2); //左端へオフセットと、自身の幅の中心を足す
     return (x, y);
+  }
+
+  /// グループの左端
+  (double, double) get leftEdgePos {
+    final double centerXPos = state.$1;
+    final width = ref.watch(groupManagerProvider(parentPath)).width;
+    return (centerXPos - (width / 2), state.$2);
   }
 }
