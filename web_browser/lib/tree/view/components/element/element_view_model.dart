@@ -64,7 +64,7 @@ class ElementViewModel extends _$ElementViewModel {
           elementWidth /
               2 //最初の要素分
               +
-          (elementPadding + elementWidth / 2) * index; //それ以降の要素分
+          (elementPadding + elementWidth) * index; //それ以降の要素分
     }
 
     return (xPos, yPos);
