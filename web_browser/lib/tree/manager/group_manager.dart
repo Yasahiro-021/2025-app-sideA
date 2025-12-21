@@ -3,12 +3,13 @@ import 'package:web_browser/core/node/node_children.dart';
 import 'package:web_browser/core/node/node_path.dart';
 import 'package:web_browser/core/usecase/children_at_path_manager.dart';
 import 'package:web_browser/tree/model/group.dart';
+import 'package:web_browser/tree/view/tree_settengs_provider.dart';
 
 part 'group_manager.g.dart';
 
 @Riverpod(keepAlive: true)
 class GroupManager extends _$GroupManager {
-  static const double groupPadding = 1;
+  double get groupPadding => ref.watch(treeSettingsProvider).groupPadding;
 
   @override
   Group build(NodePath parentPath) {
