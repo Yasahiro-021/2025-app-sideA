@@ -58,7 +58,7 @@ final class ElementViewModelProvider
   }
 }
 
-String _$elementViewModelHash() => r'4a9c318507b0ae8a06e94fb90efcbb66d8354abc';
+String _$elementViewModelHash() => r'2158e6677efbe35fbbb89fa18b21e9a50c5aea05';
 
 final class ElementViewModelFamily extends $Family
     with
