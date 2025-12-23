@@ -6,6 +6,8 @@ import 'package:test/test.dart';
 import 'package:web_browser/core/node/node_path.dart';
 import 'package:web_browser/tree/manager/group_manager.dart';
 import 'package:web_browser/tree/model/group.dart';
+import 'package:web_browser/tree/view/tree_settengs_provider.dart';
+import 'package:web_browser/tree/view/tree_settings.dart';
 
 import '../test_tools/mockChildrenAtPath.dart';
 
@@ -17,17 +19,24 @@ void main() {
       (NodePath(path: [0]), 2), //[0]に2つの子ノード
       (NodePath(path: [1]), 3), //[1]に3つの子ノード
       (NodePath(path: [2]), 1), //[2]に1つの子ノード
-      // 3 * 2 + 2 + 3 + 1 = 12　がtreeWidth
+      
       (NodePath(path: [0, 0]), 1), //[0,0]に1個の子ノード
       // ※rootのグループのtreeWidthは変わらない
     ];
 
     ProviderContainer testContainer = ProviderContainer();
+    final double groupPadding = 2.0;
 
     setUp(() {
       final childrenAtPathOverrides = mockChildrenAtPath(createChildCount);
-      testContainer = ProviderContainer(
-        overrides: [...childrenAtPathOverrides],
+      final treeSettingsOverrides = [
+        treeSettingsProvider.overrideWithValue(
+          TreeSettings(groupPadding: groupPadding),
+        ),
+      ];
+
+      testContainer = ProviderContainer.test(
+        overrides: [...childrenAtPathOverrides, ...treeSettingsOverrides],
       );
     });
 
@@ -37,7 +46,7 @@ void main() {
       );
       expect(
         rootChildren.width,
-        3 + GroupManager.groupPadding * 2,
+        3 + groupPadding * 2,
       ); // 3つの子ノード + パディング
     });
     test('自分をルートとしたサブツリーの幅を計算できる', () {
@@ -48,7 +57,7 @@ void main() {
       log("Root Group Elements Count: $rootLength");
       expect(
         rootGroup.width,
-        rootLength + GroupManager.groupPadding * 2,
+        rootLength + groupPadding * 2,
         reason: "root Width mismatch",
       );
 
@@ -61,7 +70,7 @@ void main() {
         childGroups.addAll(currentGroup.childrenGroup);
       }
 
-      expect(rootGroup.treeWidth, 12);
+      expect(rootGroup.treeWidth, 18, reason: "root Tree Width mismatch");
     });
     tearDown(() {
       testContainer.dispose();
