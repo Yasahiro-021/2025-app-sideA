@@ -8,15 +8,15 @@ part of 'line_manager.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-///同一のパスを持つエレメントとグループを結ぶLineWidgetを管理する
+///同一のパスを持つエレメントとグループを結ぶLineWidgetのOffsetを管理する
 
 @ProviderFor(LineManager)
 const lineManagerProvider = LineManagerFamily._();
 
-///同一のパスを持つエレメントとグループを結ぶLineWidgetを管理する
+///同一のパスを持つエレメントとグループを結ぶLineWidgetのOffsetを管理する
 final class LineManagerProvider
-    extends $NotifierProvider<LineManager, LineWidget> {
-  ///同一のパスを持つエレメントとグループを結ぶLineWidgetを管理する
+    extends $NotifierProvider<LineManager, (Offset, Offset)> {
+  ///同一のパスを持つエレメントとグループを結ぶLineWidgetのOffsetを管理する
   const LineManagerProvider._({
     required LineManagerFamily super.from,
     required NodePath super.argument,
@@ -43,10 +43,10 @@ final class LineManagerProvider
   LineManager create() => LineManager();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(LineWidget value) {
+  Override overrideWithValue((Offset, Offset) value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<LineWidget>(value),
+      providerOverride: $SyncValueProvider<(Offset, Offset)>(value),
     );
   }
 
@@ -61,17 +61,17 @@ final class LineManagerProvider
   }
 }
 
-String _$lineManagerHash() => r'bc04fe89ed8f482be665f3977fe41a4fcd75e212';
+String _$lineManagerHash() => r'beefc64a1067b358d317cdf2a7ac599d991a57a1';
 
-///同一のパスを持つエレメントとグループを結ぶLineWidgetを管理する
+///同一のパスを持つエレメントとグループを結ぶLineWidgetのOffsetを管理する
 
 final class LineManagerFamily extends $Family
     with
         $ClassFamilyOverride<
           LineManager,
-          LineWidget,
-          LineWidget,
-          LineWidget,
+          (Offset, Offset),
+          (Offset, Offset),
+          (Offset, Offset),
           NodePath
         > {
   const LineManagerFamily._()
@@ -83,7 +83,7 @@ final class LineManagerFamily extends $Family
         isAutoDispose: true,
       );
 
-  ///同一のパスを持つエレメントとグループを結ぶLineWidgetを管理する
+  ///同一のパスを持つエレメントとグループを結ぶLineWidgetのOffsetを管理する
 
   LineManagerProvider call(NodePath parentPath) =>
       LineManagerProvider._(argument: parentPath, from: this);
@@ -92,23 +92,23 @@ final class LineManagerFamily extends $Family
   String toString() => r'lineManagerProvider';
 }
 
-///同一のパスを持つエレメントとグループを結ぶLineWidgetを管理する
+///同一のパスを持つエレメントとグループを結ぶLineWidgetのOffsetを管理する
 
-abstract class _$LineManager extends $Notifier<LineWidget> {
+abstract class _$LineManager extends $Notifier<(Offset, Offset)> {
   late final _$args = ref.$arg as NodePath;
   NodePath get parentPath => _$args;
 
-  LineWidget build(NodePath parentPath);
+  (Offset, Offset) build(NodePath parentPath);
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build(_$args);
-    final ref = this.ref as $Ref<LineWidget, LineWidget>;
+    final ref = this.ref as $Ref<(Offset, Offset), (Offset, Offset)>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<LineWidget, LineWidget>,
-              LineWidget,
+              AnyNotifier<(Offset, Offset), (Offset, Offset)>,
+              (Offset, Offset),
               Object?,
               Object?
             >;
