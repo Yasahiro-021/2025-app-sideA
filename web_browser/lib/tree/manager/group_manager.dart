@@ -9,8 +9,6 @@ part 'group_manager.g.dart';
 
 @Riverpod(keepAlive: true)
 class GroupManager extends _$GroupManager {
-  double get groupPadding => ref.watch(treeSettingsProvider).groupPadding;
-
   @override
   Group build(NodePath parentPath) {
     NodeChildren children = ref.watch(childrenAtPathMangerProvider(parentPath));
@@ -21,6 +19,8 @@ class GroupManager extends _$GroupManager {
       Group childGroup = ref.watch(groupManagerProvider(elementPath));
       childrenGroups.add(childGroup);
     }
+
+    double groupPadding = ref.watch(treeSettingsProvider).groupPadding;
     double width = 0;
     if (elements.isNotEmpty) {
       width = elements.length + groupPadding * 2; // 両端をプラス
