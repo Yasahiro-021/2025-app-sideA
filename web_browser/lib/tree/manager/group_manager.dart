@@ -7,6 +7,7 @@ import 'package:web_browser/tree/view/tree_settengs_provider.dart';
 
 part 'group_manager.g.dart';
 
+///グループの自身とサブツリーの幅を管理
 @Riverpod(keepAlive: true)
 class GroupManager extends _$GroupManager {
   @override
