@@ -8,12 +8,15 @@ part of 'group_manager.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+///グループの自身とサブツリーの幅を管理
 
 @ProviderFor(GroupManager)
 const groupManagerProvider = GroupManagerFamily._();
 
+///グループの自身とサブツリーの幅を管理
 final class GroupManagerProvider
     extends $NotifierProvider<GroupManager, Group> {
+  ///グループの自身とサブツリーの幅を管理
   const GroupManagerProvider._({
     required GroupManagerFamily super.from,
     required NodePath super.argument,
@@ -60,6 +63,8 @@ final class GroupManagerProvider
 
 String _$groupManagerHash() => r'a23b4e4d1add4e41c1d0d018047d8935d4794441';
 
+///グループの自身とサブツリーの幅を管理
+
 final class GroupManagerFamily extends $Family
     with $ClassFamilyOverride<GroupManager, Group, Group, Group, NodePath> {
   const GroupManagerFamily._()
@@ -71,12 +76,16 @@ final class GroupManagerFamily extends $Family
         isAutoDispose: false,
       );
 
+  ///グループの自身とサブツリーの幅を管理
+
   GroupManagerProvider call(NodePath parentPath) =>
       GroupManagerProvider._(argument: parentPath, from: this);
 
   @override
   String toString() => r'groupManagerProvider';
 }
+
+///グループの自身とサブツリーの幅を管理
 
 abstract class _$GroupManager extends $Notifier<Group> {
   late final _$args = ref.$arg as NodePath;
