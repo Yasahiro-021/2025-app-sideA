@@ -19,5 +19,9 @@ abstract class TreeSettings with _$TreeSettings {
 
     /// グループ間の垂直間隔（線が描画される場所）
     @Default(40) double groupVerticalSpacing,
+
+    @Default(0.1) double minScale,
+
+    @Default(5.0) double maxScale,
   }) = _TreeSettings;
 }

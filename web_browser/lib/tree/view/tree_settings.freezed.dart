@@ -19,7 +19,7 @@ mixin _$TreeSettings {
  double get elementHorizontalSpacing;/// グループの両端のパディング（片側ずつ）
  double get groupPadding;/// 一層の高さ
  double get layerHeight;/// グループ間の垂直間隔（線が描画される場所）
- double get groupVerticalSpacing;
+ double get groupVerticalSpacing; double get minScale; double get maxScale;
 /// Create a copy of TreeSettings
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -30,16 +30,16 @@ $TreeSettingsCopyWith<TreeSettings> get copyWith => _$TreeSettingsCopyWithImpl<T
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TreeSettings&&(identical(other.elementWidth, elementWidth) || other.elementWidth == elementWidth)&&(identical(other.elementHorizontalSpacing, elementHorizontalSpacing) || other.elementHorizontalSpacing == elementHorizontalSpacing)&&(identical(other.groupPadding, groupPadding) || other.groupPadding == groupPadding)&&(identical(other.layerHeight, layerHeight) || other.layerHeight == layerHeight)&&(identical(other.groupVerticalSpacing, groupVerticalSpacing) || other.groupVerticalSpacing == groupVerticalSpacing));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TreeSettings&&(identical(other.elementWidth, elementWidth) || other.elementWidth == elementWidth)&&(identical(other.elementHorizontalSpacing, elementHorizontalSpacing) || other.elementHorizontalSpacing == elementHorizontalSpacing)&&(identical(other.groupPadding, groupPadding) || other.groupPadding == groupPadding)&&(identical(other.layerHeight, layerHeight) || other.layerHeight == layerHeight)&&(identical(other.groupVerticalSpacing, groupVerticalSpacing) || other.groupVerticalSpacing == groupVerticalSpacing)&&(identical(other.minScale, minScale) || other.minScale == minScale)&&(identical(other.maxScale, maxScale) || other.maxScale == maxScale));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,elementWidth,elementHorizontalSpacing,groupPadding,layerHeight,groupVerticalSpacing);
+int get hashCode => Object.hash(runtimeType,elementWidth,elementHorizontalSpacing,groupPadding,layerHeight,groupVerticalSpacing,minScale,maxScale);
 
 @override
 String toString() {
-  return 'TreeSettings(elementWidth: $elementWidth, elementHorizontalSpacing: $elementHorizontalSpacing, groupPadding: $groupPadding, layerHeight: $layerHeight, groupVerticalSpacing: $groupVerticalSpacing)';
+  return 'TreeSettings(elementWidth: $elementWidth, elementHorizontalSpacing: $elementHorizontalSpacing, groupPadding: $groupPadding, layerHeight: $layerHeight, groupVerticalSpacing: $groupVerticalSpacing, minScale: $minScale, maxScale: $maxScale)';
 }
 
 
@@ -50,7 +50,7 @@ abstract mixin class $TreeSettingsCopyWith<$Res>  {
   factory $TreeSettingsCopyWith(TreeSettings value, $Res Function(TreeSettings) _then) = _$TreeSettingsCopyWithImpl;
 @useResult
 $Res call({
- double elementWidth, double elementHorizontalSpacing, double groupPadding, double layerHeight, double groupVerticalSpacing
+ double elementWidth, double elementHorizontalSpacing, double groupPadding, double layerHeight, double groupVerticalSpacing, double minScale, double maxScale
 });
 
 
@@ -67,13 +67,15 @@ class _$TreeSettingsCopyWithImpl<$Res>
 
 /// Create a copy of TreeSettings
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? elementWidth = null,Object? elementHorizontalSpacing = null,Object? groupPadding = null,Object? layerHeight = null,Object? groupVerticalSpacing = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? elementWidth = null,Object? elementHorizontalSpacing = null,Object? groupPadding = null,Object? layerHeight = null,Object? groupVerticalSpacing = null,Object? minScale = null,Object? maxScale = null,}) {
   return _then(_self.copyWith(
 elementWidth: null == elementWidth ? _self.elementWidth : elementWidth // ignore: cast_nullable_to_non_nullable
 as double,elementHorizontalSpacing: null == elementHorizontalSpacing ? _self.elementHorizontalSpacing : elementHorizontalSpacing // ignore: cast_nullable_to_non_nullable
 as double,groupPadding: null == groupPadding ? _self.groupPadding : groupPadding // ignore: cast_nullable_to_non_nullable
 as double,layerHeight: null == layerHeight ? _self.layerHeight : layerHeight // ignore: cast_nullable_to_non_nullable
 as double,groupVerticalSpacing: null == groupVerticalSpacing ? _self.groupVerticalSpacing : groupVerticalSpacing // ignore: cast_nullable_to_non_nullable
+as double,minScale: null == minScale ? _self.minScale : minScale // ignore: cast_nullable_to_non_nullable
+as double,maxScale: null == maxScale ? _self.maxScale : maxScale // ignore: cast_nullable_to_non_nullable
 as double,
   ));
 }
@@ -159,10 +161,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double elementWidth,  double elementHorizontalSpacing,  double groupPadding,  double layerHeight,  double groupVerticalSpacing)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double elementWidth,  double elementHorizontalSpacing,  double groupPadding,  double layerHeight,  double groupVerticalSpacing,  double minScale,  double maxScale)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TreeSettings() when $default != null:
-return $default(_that.elementWidth,_that.elementHorizontalSpacing,_that.groupPadding,_that.layerHeight,_that.groupVerticalSpacing);case _:
+return $default(_that.elementWidth,_that.elementHorizontalSpacing,_that.groupPadding,_that.layerHeight,_that.groupVerticalSpacing,_that.minScale,_that.maxScale);case _:
   return orElse();
 
 }
@@ -180,10 +182,10 @@ return $default(_that.elementWidth,_that.elementHorizontalSpacing,_that.groupPad
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double elementWidth,  double elementHorizontalSpacing,  double groupPadding,  double layerHeight,  double groupVerticalSpacing)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double elementWidth,  double elementHorizontalSpacing,  double groupPadding,  double layerHeight,  double groupVerticalSpacing,  double minScale,  double maxScale)  $default,) {final _that = this;
 switch (_that) {
 case _TreeSettings():
-return $default(_that.elementWidth,_that.elementHorizontalSpacing,_that.groupPadding,_that.layerHeight,_that.groupVerticalSpacing);case _:
+return $default(_that.elementWidth,_that.elementHorizontalSpacing,_that.groupPadding,_that.layerHeight,_that.groupVerticalSpacing,_that.minScale,_that.maxScale);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -200,10 +202,10 @@ return $default(_that.elementWidth,_that.elementHorizontalSpacing,_that.groupPad
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double elementWidth,  double elementHorizontalSpacing,  double groupPadding,  double layerHeight,  double groupVerticalSpacing)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double elementWidth,  double elementHorizontalSpacing,  double groupPadding,  double layerHeight,  double groupVerticalSpacing,  double minScale,  double maxScale)?  $default,) {final _that = this;
 switch (_that) {
 case _TreeSettings() when $default != null:
-return $default(_that.elementWidth,_that.elementHorizontalSpacing,_that.groupPadding,_that.layerHeight,_that.groupVerticalSpacing);case _:
+return $default(_that.elementWidth,_that.elementHorizontalSpacing,_that.groupPadding,_that.layerHeight,_that.groupVerticalSpacing,_that.minScale,_that.maxScale);case _:
   return null;
 
 }
@@ -215,7 +217,7 @@ return $default(_that.elementWidth,_that.elementHorizontalSpacing,_that.groupPad
 
 
 class _TreeSettings implements TreeSettings {
-  const _TreeSettings({this.elementWidth = 10, this.elementHorizontalSpacing = 5, this.groupPadding = 20, this.layerHeight = 15, this.groupVerticalSpacing = 40});
+  const _TreeSettings({this.elementWidth = 10, this.elementHorizontalSpacing = 5, this.groupPadding = 20, this.layerHeight = 15, this.groupVerticalSpacing = 40, this.minScale = 0.1, this.maxScale = 5.0});
   
 
 /// エレメントの幅
@@ -228,6 +230,8 @@ class _TreeSettings implements TreeSettings {
 @override@JsonKey() final  double layerHeight;
 /// グループ間の垂直間隔（線が描画される場所）
 @override@JsonKey() final  double groupVerticalSpacing;
+@override@JsonKey() final  double minScale;
+@override@JsonKey() final  double maxScale;
 
 /// Create a copy of TreeSettings
 /// with the given fields replaced by the non-null parameter values.
@@ -239,16 +243,16 @@ _$TreeSettingsCopyWith<_TreeSettings> get copyWith => __$TreeSettingsCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TreeSettings&&(identical(other.elementWidth, elementWidth) || other.elementWidth == elementWidth)&&(identical(other.elementHorizontalSpacing, elementHorizontalSpacing) || other.elementHorizontalSpacing == elementHorizontalSpacing)&&(identical(other.groupPadding, groupPadding) || other.groupPadding == groupPadding)&&(identical(other.layerHeight, layerHeight) || other.layerHeight == layerHeight)&&(identical(other.groupVerticalSpacing, groupVerticalSpacing) || other.groupVerticalSpacing == groupVerticalSpacing));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TreeSettings&&(identical(other.elementWidth, elementWidth) || other.elementWidth == elementWidth)&&(identical(other.elementHorizontalSpacing, elementHorizontalSpacing) || other.elementHorizontalSpacing == elementHorizontalSpacing)&&(identical(other.groupPadding, groupPadding) || other.groupPadding == groupPadding)&&(identical(other.layerHeight, layerHeight) || other.layerHeight == layerHeight)&&(identical(other.groupVerticalSpacing, groupVerticalSpacing) || other.groupVerticalSpacing == groupVerticalSpacing)&&(identical(other.minScale, minScale) || other.minScale == minScale)&&(identical(other.maxScale, maxScale) || other.maxScale == maxScale));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,elementWidth,elementHorizontalSpacing,groupPadding,layerHeight,groupVerticalSpacing);
+int get hashCode => Object.hash(runtimeType,elementWidth,elementHorizontalSpacing,groupPadding,layerHeight,groupVerticalSpacing,minScale,maxScale);
 
 @override
 String toString() {
-  return 'TreeSettings(elementWidth: $elementWidth, elementHorizontalSpacing: $elementHorizontalSpacing, groupPadding: $groupPadding, layerHeight: $layerHeight, groupVerticalSpacing: $groupVerticalSpacing)';
+  return 'TreeSettings(elementWidth: $elementWidth, elementHorizontalSpacing: $elementHorizontalSpacing, groupPadding: $groupPadding, layerHeight: $layerHeight, groupVerticalSpacing: $groupVerticalSpacing, minScale: $minScale, maxScale: $maxScale)';
 }
 
 
@@ -259,7 +263,7 @@ abstract mixin class _$TreeSettingsCopyWith<$Res> implements $TreeSettingsCopyWi
   factory _$TreeSettingsCopyWith(_TreeSettings value, $Res Function(_TreeSettings) _then) = __$TreeSettingsCopyWithImpl;
 @override @useResult
 $Res call({
- double elementWidth, double elementHorizontalSpacing, double groupPadding, double layerHeight, double groupVerticalSpacing
+ double elementWidth, double elementHorizontalSpacing, double groupPadding, double layerHeight, double groupVerticalSpacing, double minScale, double maxScale
 });
 
 
@@ -276,13 +280,15 @@ class __$TreeSettingsCopyWithImpl<$Res>
 
 /// Create a copy of TreeSettings
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? elementWidth = null,Object? elementHorizontalSpacing = null,Object? groupPadding = null,Object? layerHeight = null,Object? groupVerticalSpacing = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? elementWidth = null,Object? elementHorizontalSpacing = null,Object? groupPadding = null,Object? layerHeight = null,Object? groupVerticalSpacing = null,Object? minScale = null,Object? maxScale = null,}) {
   return _then(_TreeSettings(
 elementWidth: null == elementWidth ? _self.elementWidth : elementWidth // ignore: cast_nullable_to_non_nullable
 as double,elementHorizontalSpacing: null == elementHorizontalSpacing ? _self.elementHorizontalSpacing : elementHorizontalSpacing // ignore: cast_nullable_to_non_nullable
 as double,groupPadding: null == groupPadding ? _self.groupPadding : groupPadding // ignore: cast_nullable_to_non_nullable
 as double,layerHeight: null == layerHeight ? _self.layerHeight : layerHeight // ignore: cast_nullable_to_non_nullable
 as double,groupVerticalSpacing: null == groupVerticalSpacing ? _self.groupVerticalSpacing : groupVerticalSpacing // ignore: cast_nullable_to_non_nullable
+as double,minScale: null == minScale ? _self.minScale : minScale // ignore: cast_nullable_to_non_nullable
+as double,maxScale: null == maxScale ? _self.maxScale : maxScale // ignore: cast_nullable_to_non_nullable
 as double,
   ));
 }
