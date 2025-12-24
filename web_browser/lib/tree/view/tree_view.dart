@@ -4,9 +4,7 @@ import 'package:web_browser/tree/view/components/back_button/back_button.dart';
 
 /// ツリー表示画面
 /// 
-/// DBから取得したノードデータをツリー形式で表示します。
-/// ChildrenAtPathMangerProviderを通じてデータを取得するため、
-/// 引数は不要です。
+/// coreディレクトリにある情報をもとに、ツリーを表示する画面
 class TreeView extends StatelessWidget {
   const TreeView({super.key});
 
@@ -14,6 +12,7 @@ class TreeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Stack(
       children: [
+        // ツリーマップと戻るボタンを配置する
         TreeMapView(),
         Positioned(
           top: 16,
