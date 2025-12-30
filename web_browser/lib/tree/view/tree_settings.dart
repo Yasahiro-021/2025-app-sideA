@@ -6,19 +6,16 @@ part 'tree_settings.freezed.dart';
 abstract class TreeSettings with _$TreeSettings {
   const factory TreeSettings({
     /// エレメントの幅
-    @Default(10) double elementWidth,
+    @Default(100) double elementWidth,
 
-    /// エレメント間の水平間隔
-    @Default(5) double elementHorizontalSpacing,
-
-    /// グループの両端のパディング（片側ずつ）
-    @Default(20) double groupPadding,
+    //エレメントの余白
+    @Default(8) double elementPadding,
 
     /// 一層の高さ
-    @Default(15) double layerHeight,
+    @Default(100) double layerHeight,
 
     /// グループ間の垂直間隔（線が描画される場所）
-    @Default(40) double groupVerticalSpacing,
+    @Default(100) double groupVerticalSpacing,
 
     @Default(0.1) double minScale,
 

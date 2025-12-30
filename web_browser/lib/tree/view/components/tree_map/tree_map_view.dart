@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:web_browser/core/node/node_path.dart';
+import 'package:web_browser/tree/manager/group_manager.dart';
 import 'package:web_browser/tree/view/components/element/element_view.dart';
 import 'package:web_browser/tree/view/components/group/group_view.dart';
 import 'package:web_browser/tree/view/components/line_painter/line_widget.dart';
@@ -32,15 +34,31 @@ class TreeMapView extends ConsumerWidget {
       // 線を追加
       lines.add(LineWidget(path: path));
     }
-    return Stack(
-      children: [
-        // 線の配置
-        ...lines,
-        // グループの配置
-        ...groups,
-        // エレメントの配置
-        ...elements,
-      ],
+
+    double width = ref.watch(groupManagerProvider(NodePath.root)).treeWidth;
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+
+      child: Container(
+        decoration: BoxDecoration(
+          border: BoxBorder.all(color: Colors.black)
+        ),
+        child: SizedBox(
+          //ノード全体のサイズを指定
+          width: width,
+          height: 5000,
+          child: Stack(
+            children: [
+              // グループの配置
+              ...groups,
+              // エレメントの配置
+              ...elements,
+              // 線の配置
+              ...lines,
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

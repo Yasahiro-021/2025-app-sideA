@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 //使用モデル
 import 'package:web_browser/core/node/node_path.dart';
+import 'package:web_browser/tree/model/group_location.dart';
 import 'package:web_browser/tree/view/tree_settings.dart';
 //使用プロバイダ
 import 'package:web_browser/tree/manager/group_manager.dart';
@@ -16,27 +17,29 @@ class GroupView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // グループの幅と位置を取得
     final double width = ref.watch(groupManagerProvider(nodePath)).width;
-    final (double, double) position = ref.watch(
+    final GroupLocation position = ref.watch(
       groupLocationManagerProvider(nodePath),
     );
 
     //設定から高さと余白を取得
     final TreeSettings treeSettings = ref.watch(treeSettingsProvider);
     final double height = treeSettings.layerHeight;
-    final double padding = treeSettings.groupPadding;
+
+    //スキームを取得
+    final scheme = Theme.of(context).colorScheme;
 
     return Positioned(
       //座標をセット
-      left: position.$1,
-      top: position.$2,
+      left: position.x,
+      top: position.y,
 
       child: Padding(
-        padding: EdgeInsets.all(padding),
+        padding: EdgeInsets.symmetric(horizontal: 1),
         child: Container(
           width: width,
           height: height,
-          color: Colors.blue,
-          child: Text('Group: $nodePath'),
+          color: scheme.primaryContainer,
+          child: FittedBox(child: Text('Group: $nodePath')),
         ),
       ),
     );

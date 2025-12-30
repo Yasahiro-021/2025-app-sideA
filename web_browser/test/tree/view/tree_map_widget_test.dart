@@ -5,9 +5,6 @@ import 'package:web_browser/core/node/node_children.dart';
 import 'package:web_browser/core/node/node_path.dart';
 import 'package:web_browser/core/usecase/children_at_path_manager.dart';
 import 'package:web_browser/tree/manager/group_manager.dart';
-import 'package:web_browser/tree/model/node_group.dart';
-import 'package:web_browser/tree/view/components/tree_map/node/simple_node_view.dart';
-import 'package:web_browser/tree/view/components/tree_map/tree_map/tree_map.dart';
 
 void main() {
   group('TreeMap Widget Test', () {
