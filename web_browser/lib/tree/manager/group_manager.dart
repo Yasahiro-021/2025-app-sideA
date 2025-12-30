@@ -20,11 +20,10 @@ class GroupManager extends _$GroupManager {
       Group childGroup = ref.watch(groupManagerProvider(elementPath));
       childrenGroups.add(childGroup);
     }
-
-    double groupPadding = ref.watch(treeSettingsProvider).groupPadding;
+    double elementWidth = ref.watch(treeSettingsProvider).elementWidth;
     double width = 0;
     if (elements.isNotEmpty) {
-      width = elements.length + groupPadding * 2; // 両端をプラス
+      width = elements.length * elementWidth; // 両端をプラス
     }
     return Group(
       path: parentPath,
