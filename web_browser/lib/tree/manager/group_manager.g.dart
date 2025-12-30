@@ -61,7 +61,7 @@ final class GroupManagerProvider
   }
 }
 
-String _$groupManagerHash() => r'4ae92a9bff7a32371dbb72206d3a7d2d9f08dc94';
+String _$groupManagerHash() => r'a5532ec6146c98d110cc107848b48d08327e6882';
 
 ///グループの自身とサブツリーの幅を管理
 

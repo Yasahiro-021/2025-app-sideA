@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$GroupLocation {
 
- double get x; double get y; double get centerX;
+ double get x; double get y; double get centerX; double get leftEdgeX;
 /// Create a copy of GroupLocation
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $GroupLocationCopyWith<GroupLocation> get copyWith => _$GroupLocationCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GroupLocation&&(identical(other.x, x) || other.x == x)&&(identical(other.y, y) || other.y == y)&&(identical(other.centerX, centerX) || other.centerX == centerX));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GroupLocation&&(identical(other.x, x) || other.x == x)&&(identical(other.y, y) || other.y == y)&&(identical(other.centerX, centerX) || other.centerX == centerX)&&(identical(other.leftEdgeX, leftEdgeX) || other.leftEdgeX == leftEdgeX));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,x,y,centerX);
+int get hashCode => Object.hash(runtimeType,x,y,centerX,leftEdgeX);
 
 @override
 String toString() {
-  return 'GroupLocation(x: $x, y: $y, centerX: $centerX)';
+  return 'GroupLocation(x: $x, y: $y, centerX: $centerX, leftEdgeX: $leftEdgeX)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $GroupLocationCopyWith<$Res>  {
   factory $GroupLocationCopyWith(GroupLocation value, $Res Function(GroupLocation) _then) = _$GroupLocationCopyWithImpl;
 @useResult
 $Res call({
- double x, double y, double centerX
+ double x, double y, double centerX, double leftEdgeX
 });
 
 
@@ -62,11 +62,12 @@ class _$GroupLocationCopyWithImpl<$Res>
 
 /// Create a copy of GroupLocation
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? x = null,Object? y = null,Object? centerX = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? x = null,Object? y = null,Object? centerX = null,Object? leftEdgeX = null,}) {
   return _then(_self.copyWith(
 x: null == x ? _self.x : x // ignore: cast_nullable_to_non_nullable
 as double,y: null == y ? _self.y : y // ignore: cast_nullable_to_non_nullable
 as double,centerX: null == centerX ? _self.centerX : centerX // ignore: cast_nullable_to_non_nullable
+as double,leftEdgeX: null == leftEdgeX ? _self.leftEdgeX : leftEdgeX // ignore: cast_nullable_to_non_nullable
 as double,
   ));
 }
@@ -152,10 +153,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double x,  double y,  double centerX)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double x,  double y,  double centerX,  double leftEdgeX)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GroupLocation() when $default != null:
-return $default(_that.x,_that.y,_that.centerX);case _:
+return $default(_that.x,_that.y,_that.centerX,_that.leftEdgeX);case _:
   return orElse();
 
 }
@@ -173,10 +174,10 @@ return $default(_that.x,_that.y,_that.centerX);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double x,  double y,  double centerX)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double x,  double y,  double centerX,  double leftEdgeX)  $default,) {final _that = this;
 switch (_that) {
 case _GroupLocation():
-return $default(_that.x,_that.y,_that.centerX);case _:
+return $default(_that.x,_that.y,_that.centerX,_that.leftEdgeX);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -193,10 +194,10 @@ return $default(_that.x,_that.y,_that.centerX);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double x,  double y,  double centerX)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double x,  double y,  double centerX,  double leftEdgeX)?  $default,) {final _that = this;
 switch (_that) {
 case _GroupLocation() when $default != null:
-return $default(_that.x,_that.y,_that.centerX);case _:
+return $default(_that.x,_that.y,_that.centerX,_that.leftEdgeX);case _:
   return null;
 
 }
@@ -208,12 +209,13 @@ return $default(_that.x,_that.y,_that.centerX);case _:
 
 
 class _GroupLocation implements GroupLocation {
-  const _GroupLocation({required this.x, required this.y, required this.centerX});
+  const _GroupLocation({required this.x, required this.y, required this.centerX, required this.leftEdgeX});
   
 
 @override final  double x;
 @override final  double y;
 @override final  double centerX;
+@override final  double leftEdgeX;
 
 /// Create a copy of GroupLocation
 /// with the given fields replaced by the non-null parameter values.
@@ -225,16 +227,16 @@ _$GroupLocationCopyWith<_GroupLocation> get copyWith => __$GroupLocationCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GroupLocation&&(identical(other.x, x) || other.x == x)&&(identical(other.y, y) || other.y == y)&&(identical(other.centerX, centerX) || other.centerX == centerX));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GroupLocation&&(identical(other.x, x) || other.x == x)&&(identical(other.y, y) || other.y == y)&&(identical(other.centerX, centerX) || other.centerX == centerX)&&(identical(other.leftEdgeX, leftEdgeX) || other.leftEdgeX == leftEdgeX));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,x,y,centerX);
+int get hashCode => Object.hash(runtimeType,x,y,centerX,leftEdgeX);
 
 @override
 String toString() {
-  return 'GroupLocation(x: $x, y: $y, centerX: $centerX)';
+  return 'GroupLocation(x: $x, y: $y, centerX: $centerX, leftEdgeX: $leftEdgeX)';
 }
 
 
@@ -245,7 +247,7 @@ abstract mixin class _$GroupLocationCopyWith<$Res> implements $GroupLocationCopy
   factory _$GroupLocationCopyWith(_GroupLocation value, $Res Function(_GroupLocation) _then) = __$GroupLocationCopyWithImpl;
 @override @useResult
 $Res call({
- double x, double y, double centerX
+ double x, double y, double centerX, double leftEdgeX
 });
 
 
@@ -262,11 +264,12 @@ class __$GroupLocationCopyWithImpl<$Res>
 
 /// Create a copy of GroupLocation
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? x = null,Object? y = null,Object? centerX = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? x = null,Object? y = null,Object? centerX = null,Object? leftEdgeX = null,}) {
   return _then(_GroupLocation(
 x: null == x ? _self.x : x // ignore: cast_nullable_to_non_nullable
 as double,y: null == y ? _self.y : y // ignore: cast_nullable_to_non_nullable
 as double,centerX: null == centerX ? _self.centerX : centerX // ignore: cast_nullable_to_non_nullable
+as double,leftEdgeX: null == leftEdgeX ? _self.leftEdgeX : leftEdgeX // ignore: cast_nullable_to_non_nullable
 as double,
   ));
 }

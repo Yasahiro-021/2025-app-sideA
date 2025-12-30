@@ -8,5 +8,6 @@ abstract class GroupLocation with _$GroupLocation {
     required double x,
     required double y,
     required double centerX,
+    required double leftEdgeX,
   }) = _GroupLocation;
 }

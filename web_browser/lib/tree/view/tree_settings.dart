@@ -11,6 +11,9 @@ abstract class TreeSettings with _$TreeSettings {
     //エレメントの余白
     @Default(8) double elementPadding,
 
+    /// グループの余白
+    @Default(10) double groupPadding,
+
     /// 一層の高さ
     @Default(100) double layerHeight,
 

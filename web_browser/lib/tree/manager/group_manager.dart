@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:web_browser/core/node/node_children.dart';
 import 'package:web_browser/core/node/node_path.dart';
@@ -15,16 +18,18 @@ class GroupManager extends _$GroupManager {
     NodeChildren children = ref.watch(childrenAtPathMangerProvider(parentPath));
     List<NodePath> elements = children.children;
     List<Group> childrenGroups = [];
+    //要素を親に持つグループを取得
     for (var elementPath in elements) {
-      //要素を親に持つグループを取得
       Group childGroup = ref.watch(groupManagerProvider(elementPath));
       childrenGroups.add(childGroup);
     }
     double elementWidth = ref.watch(treeSettingsProvider).elementWidth;
     double width = 0;
     if (elements.isNotEmpty) {
-      width = elements.length * elementWidth; // 両端をプラス
+      final double padding = ref.watch(treeSettingsProvider).groupPadding;
+      width = elements.length * elementWidth + padding*2; // 両端をプラス
     }
+
     return Group(
       path: parentPath,
       elements: [...elements],
@@ -45,6 +50,8 @@ class GroupManager extends _$GroupManager {
       //もし子のツリー幅より自分の幅が大きければ自分の幅を採用
       treeWidth = myWidth;
     }
+
+    if (kDebugMode) log("グループ$parentPath のツリー幅は $treeWidth");
     return treeWidth;
   }
 }

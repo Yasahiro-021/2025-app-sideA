@@ -15,15 +15,18 @@ class GroupView extends ConsumerWidget {
   const GroupView({super.key, required this.nodePath});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // グループの幅と位置を取得
-    final double width = ref.watch(groupManagerProvider(nodePath)).width;
-    final GroupLocation position = ref.watch(
-      groupLocationManagerProvider(nodePath),
-    );
-
     //設定から高さと余白を取得
     final TreeSettings treeSettings = ref.watch(treeSettingsProvider);
     final double height = treeSettings.layerHeight;
+    final double padding = treeSettings.groupPadding;
+
+    // グループの幅と位置を取得
+    //余白を引く
+    final double width =
+        ref.watch(groupManagerProvider(nodePath)).width - padding * 2;
+    final GroupLocation position = ref.watch(
+      groupLocationManagerProvider(nodePath),
+    );
 
     //スキームを取得
     final scheme = Theme.of(context).colorScheme;
@@ -34,7 +37,7 @@ class GroupView extends ConsumerWidget {
       top: position.y,
 
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 1),
+        padding: EdgeInsets.symmetric(horizontal: padding),
         child: Container(
           width: width,
           height: height,
