@@ -21,8 +21,12 @@ class ElementLocationManager extends _$ElementLocationManager {
 
     // 親がいない(ルートノード)場合はy= 0,x= 子の直上に配置
     if (parentPath == null) {
-      double childX = ref.watch(groupLocationManagerProvider(nodePath)).x;
-      double x = childX + ref.watch(treeSettingsProvider).elementWidth / 2;
+      //子の中央と、自身の中央を合わせる。
+      double childCenterX = ref
+          .watch(groupLocationManagerProvider(nodePath))
+          .centerX;
+      double x =
+          childCenterX - (ref.watch(treeSettingsProvider).elementWidth / 2);
       return ElementLocation(
         x: x,
         y: 0.0,
@@ -35,8 +39,10 @@ class ElementLocationManager extends _$ElementLocationManager {
     // yは所属するグループから算出
     double yPos = ref.watch(groupLocationManagerProvider(parentPath)).y;
 
-    // グループの左端を取得。パディングを含む。
-    double leftEdgePos = ref.watch(groupLocationManagerProvider(parentPath)).x;
+    // グループの左端を取得。余白は含まず、実際に色がついている場所。
+    double leftEdgePos = ref
+        .watch(groupLocationManagerProvider(parentPath))
+        .leftEdgeX;
 
     // グループの左端を初期値とする。
     double xPos = leftEdgePos;
@@ -46,7 +52,7 @@ class ElementLocationManager extends _$ElementLocationManager {
         .children
         .indexOf(nodePath);
 
-    // index分、要素の幅を加算sする
+    // index分、要素の幅を加算する
     // 要素の幅
     double elementWidth = ref.watch(treeSettingsProvider).elementWidth;
     //加算
