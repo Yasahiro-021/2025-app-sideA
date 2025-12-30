@@ -12,8 +12,10 @@ part 'group_location_manager.g.dart';
 class GroupLocationManager extends _$GroupLocationManager {
   @override
   GroupLocation build(NodePath parentPath) {
+    //各設定を取得
     NodePath? grandPath = parentPath.parentPath;
     final double layerHeight = ref.watch(treeSettingsProvider).layerHeight;
+    final double padding = ref.watch(treeSettingsProvider).groupPadding;
     final double verticalSpacing = ref
         .watch(treeSettingsProvider)
         .groupVerticalSpacing;
@@ -30,7 +32,13 @@ class GroupLocationManager extends _$GroupLocationManager {
     if (grandPath == null) {
       //左端を中心に合わせてしまわないよう、自分の幅を半分引く
       final double x = myTreeWidth / 2 - myWidth / 2;
-      return GroupLocation(x: x, y: y, centerX: _centerXPos(x));
+
+      return GroupLocation(
+        x: x,
+        y: y,
+        centerX: _centerXPos(x),
+        leftEdgeX: x + padding,
+      );
     }
 
     //ルートノードの子でない場合、親グループのxとtreeWidthを取得し、自分が何番目の子かでxを決定する。
@@ -55,7 +63,12 @@ class GroupLocationManager extends _$GroupLocationManager {
 
     final double x = edgeX + offsetX;
     //左端へオフセットと、自身の幅の中心を足す
-    return GroupLocation(x: x, y: y, centerX: _centerXPos(x));
+    return GroupLocation(
+      x: x,
+      y: y,
+      centerX: _centerXPos(x),
+      leftEdgeX: x + padding,
+    );
   }
 
   /// グループの中央
