@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -40,7 +42,7 @@ class TreeMapView extends ConsumerWidget {
 
     double width = ref.watch(groupManagerProvider(NodePath.root)).treeWidth;
     if (kDebugMode) {
-      print("ツリー全体の幅は $width");
+      log("ツリー全体の幅は $width");
     }
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
