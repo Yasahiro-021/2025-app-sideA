@@ -15,7 +15,7 @@ const groupLocationManagerProvider = GroupLocationManagerFamily._();
 
 ///parentPathからGroupを取得し、座標(x,y)を返すUsecase
 final class GroupLocationManagerProvider
-    extends $NotifierProvider<GroupLocationManager, (double, double)> {
+    extends $NotifierProvider<GroupLocationManager, GroupLocation> {
   ///parentPathからGroupを取得し、座標(x,y)を返すUsecase
   const GroupLocationManagerProvider._({
     required GroupLocationManagerFamily super.from,
@@ -23,7 +23,7 @@ final class GroupLocationManagerProvider
   }) : super(
          retry: null,
          name: r'groupLocationManagerProvider',
-         isAutoDispose: true,
+         isAutoDispose: false,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
@@ -43,10 +43,10 @@ final class GroupLocationManagerProvider
   GroupLocationManager create() => GroupLocationManager();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue((double, double) value) {
+  Override overrideWithValue(GroupLocation value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<(double, double)>(value),
+      providerOverride: $SyncValueProvider<GroupLocation>(value),
     );
   }
 
@@ -62,7 +62,7 @@ final class GroupLocationManagerProvider
 }
 
 String _$groupLocationManagerHash() =>
-    r'10a75d6f8753b80cdf8e5a0e67d3747b6aef4e84';
+    r'9ea1fd0b61f628dbf41d882b019b54e4b9b0f03b';
 
 ///parentPathからGroupを取得し、座標(x,y)を返すUsecase
 
@@ -70,9 +70,9 @@ final class GroupLocationManagerFamily extends $Family
     with
         $ClassFamilyOverride<
           GroupLocationManager,
-          (double, double),
-          (double, double),
-          (double, double),
+          GroupLocation,
+          GroupLocation,
+          GroupLocation,
           NodePath
         > {
   const GroupLocationManagerFamily._()
@@ -81,7 +81,7 @@ final class GroupLocationManagerFamily extends $Family
         name: r'groupLocationManagerProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
-        isAutoDispose: true,
+        isAutoDispose: false,
       );
 
   ///parentPathからGroupを取得し、座標(x,y)を返すUsecase
@@ -95,21 +95,21 @@ final class GroupLocationManagerFamily extends $Family
 
 ///parentPathからGroupを取得し、座標(x,y)を返すUsecase
 
-abstract class _$GroupLocationManager extends $Notifier<(double, double)> {
+abstract class _$GroupLocationManager extends $Notifier<GroupLocation> {
   late final _$args = ref.$arg as NodePath;
   NodePath get parentPath => _$args;
 
-  (double, double) build(NodePath parentPath);
+  GroupLocation build(NodePath parentPath);
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build(_$args);
-    final ref = this.ref as $Ref<(double, double), (double, double)>;
+    final ref = this.ref as $Ref<GroupLocation, GroupLocation>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<(double, double), (double, double)>,
-              (double, double),
+              AnyNotifier<GroupLocation, GroupLocation>,
+              GroupLocation,
               Object?,
               Object?
             >;
