@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:web_browser/core/node/node_path.dart';
@@ -22,27 +23,30 @@ class TreeMapView extends ConsumerWidget {
     List<LineWidget> lines = [];
     List<GroupView> groups = [];
     List<ElementView> elements = [];
-    for (var path in state.allPaths) {
-      // グループを追加
-      groups.add(GroupView(nodePath: path));
+    for (var path in state.allPathsAndHasChildren) {
+      // もし子がいる場合はグループを追加
+      if (path.$2) {
+        groups.add(GroupView(nodePath: path.$1));
+      }
     }
-    for (var path in state.allPaths) {
+    for (var path in state.allPathsAndHasChildren) {
       // エレメントを追加
-      elements.add(ElementView(nodePath: path));
+      elements.add(ElementView(nodePath: path.$1));
     }
-    for (var path in state.allPaths) {
+    for (var path in state.allPathsAndHasChildren) {
       // 線を追加
-      lines.add(LineWidget(path: path));
+      lines.add(LineWidget(path: path.$1));
     }
 
     double width = ref.watch(groupManagerProvider(NodePath.root)).treeWidth;
+    if (kDebugMode) {
+      print("ツリー全体の幅は $width");
+    }
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
 
       child: Container(
-        decoration: BoxDecoration(
-          border: BoxBorder.all(color: Colors.black)
-        ),
+        decoration: BoxDecoration(border: BoxBorder.all(color: Colors.black)),
         child: SizedBox(
           //ノード全体のサイズを指定
           width: width,

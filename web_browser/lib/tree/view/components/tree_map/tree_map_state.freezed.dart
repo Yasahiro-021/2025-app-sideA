@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TreeMapState {
 
- Iterable<NodePath> get allPaths;
+ Iterable<(NodePath, bool)> get allPathsAndHasChildren;
 /// Create a copy of TreeMapState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $TreeMapStateCopyWith<TreeMapState> get copyWith => _$TreeMapStateCopyWithImpl<T
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TreeMapState&&const DeepCollectionEquality().equals(other.allPaths, allPaths));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TreeMapState&&const DeepCollectionEquality().equals(other.allPathsAndHasChildren, allPathsAndHasChildren));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(allPaths));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(allPathsAndHasChildren));
 
 @override
 String toString() {
-  return 'TreeMapState(allPaths: $allPaths)';
+  return 'TreeMapState(allPathsAndHasChildren: $allPathsAndHasChildren)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $TreeMapStateCopyWith<$Res>  {
   factory $TreeMapStateCopyWith(TreeMapState value, $Res Function(TreeMapState) _then) = _$TreeMapStateCopyWithImpl;
 @useResult
 $Res call({
- Iterable<NodePath> allPaths
+ Iterable<(NodePath, bool)> allPathsAndHasChildren
 });
 
 
@@ -62,10 +62,10 @@ class _$TreeMapStateCopyWithImpl<$Res>
 
 /// Create a copy of TreeMapState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? allPaths = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? allPathsAndHasChildren = null,}) {
   return _then(_self.copyWith(
-allPaths: null == allPaths ? _self.allPaths : allPaths // ignore: cast_nullable_to_non_nullable
-as Iterable<NodePath>,
+allPathsAndHasChildren: null == allPathsAndHasChildren ? _self.allPathsAndHasChildren : allPathsAndHasChildren // ignore: cast_nullable_to_non_nullable
+as Iterable<(NodePath, bool)>,
   ));
 }
 
@@ -150,10 +150,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Iterable<NodePath> allPaths)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Iterable<(NodePath, bool)> allPathsAndHasChildren)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TreeMapState() when $default != null:
-return $default(_that.allPaths);case _:
+return $default(_that.allPathsAndHasChildren);case _:
   return orElse();
 
 }
@@ -171,10 +171,10 @@ return $default(_that.allPaths);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Iterable<NodePath> allPaths)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Iterable<(NodePath, bool)> allPathsAndHasChildren)  $default,) {final _that = this;
 switch (_that) {
 case _TreeMapState():
-return $default(_that.allPaths);case _:
+return $default(_that.allPathsAndHasChildren);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -191,10 +191,10 @@ return $default(_that.allPaths);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Iterable<NodePath> allPaths)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Iterable<(NodePath, bool)> allPathsAndHasChildren)?  $default,) {final _that = this;
 switch (_that) {
 case _TreeMapState() when $default != null:
-return $default(_that.allPaths);case _:
+return $default(_that.allPathsAndHasChildren);case _:
   return null;
 
 }
@@ -206,10 +206,10 @@ return $default(_that.allPaths);case _:
 
 
 class _TreeMapState implements TreeMapState {
-  const _TreeMapState({required this.allPaths});
+  const _TreeMapState({required this.allPathsAndHasChildren});
   
 
-@override final  Iterable<NodePath> allPaths;
+@override final  Iterable<(NodePath, bool)> allPathsAndHasChildren;
 
 /// Create a copy of TreeMapState
 /// with the given fields replaced by the non-null parameter values.
@@ -221,16 +221,16 @@ _$TreeMapStateCopyWith<_TreeMapState> get copyWith => __$TreeMapStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TreeMapState&&const DeepCollectionEquality().equals(other.allPaths, allPaths));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TreeMapState&&const DeepCollectionEquality().equals(other.allPathsAndHasChildren, allPathsAndHasChildren));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(allPaths));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(allPathsAndHasChildren));
 
 @override
 String toString() {
-  return 'TreeMapState(allPaths: $allPaths)';
+  return 'TreeMapState(allPathsAndHasChildren: $allPathsAndHasChildren)';
 }
 
 
@@ -241,7 +241,7 @@ abstract mixin class _$TreeMapStateCopyWith<$Res> implements $TreeMapStateCopyWi
   factory _$TreeMapStateCopyWith(_TreeMapState value, $Res Function(_TreeMapState) _then) = __$TreeMapStateCopyWithImpl;
 @override @useResult
 $Res call({
- Iterable<NodePath> allPaths
+ Iterable<(NodePath, bool)> allPathsAndHasChildren
 });
 
 
@@ -258,10 +258,10 @@ class __$TreeMapStateCopyWithImpl<$Res>
 
 /// Create a copy of TreeMapState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? allPaths = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? allPathsAndHasChildren = null,}) {
   return _then(_TreeMapState(
-allPaths: null == allPaths ? _self.allPaths : allPaths // ignore: cast_nullable_to_non_nullable
-as Iterable<NodePath>,
+allPathsAndHasChildren: null == allPathsAndHasChildren ? _self.allPathsAndHasChildren : allPathsAndHasChildren // ignore: cast_nullable_to_non_nullable
+as Iterable<(NodePath, bool)>,
   ));
 }
 

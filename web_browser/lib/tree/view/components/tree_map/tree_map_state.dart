@@ -5,6 +5,7 @@ part 'tree_map_state.freezed.dart';
 
 @freezed
 abstract class TreeMapState with _$TreeMapState {
-  const factory TreeMapState({required Iterable<NodePath> allPaths}) =
-      _TreeMapState;
+  const factory TreeMapState({
+    required Iterable<(NodePath, bool)> allPathsAndHasChildren,
+  }) = _TreeMapState;
 }

@@ -41,7 +41,7 @@ final class TreeMapViewModelProvider
   }
 }
 
-String _$treeMapViewModelHash() => r'27f55ad25efb41e34796b224b74d18c775b12441';
+String _$treeMapViewModelHash() => r'd741e1dbd74f23e0c0c650404dbeef900d9795bb';
 
 abstract class _$TreeMapViewModel extends $Notifier<TreeMapState> {
   TreeMapState build();
