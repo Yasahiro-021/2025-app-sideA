@@ -13,14 +13,14 @@ part of 'element_location_manager.dart';
 const elementLocationManagerProvider = ElementLocationManagerFamily._();
 
 final class ElementLocationManagerProvider
-    extends $NotifierProvider<ElementLocationManager, (double, double)> {
+    extends $NotifierProvider<ElementLocationManager, ElementLocation> {
   const ElementLocationManagerProvider._({
     required ElementLocationManagerFamily super.from,
     required NodePath super.argument,
   }) : super(
          retry: null,
          name: r'elementLocationManagerProvider',
-         isAutoDispose: true,
+         isAutoDispose: false,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
@@ -40,10 +40,10 @@ final class ElementLocationManagerProvider
   ElementLocationManager create() => ElementLocationManager();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue((double, double) value) {
+  Override overrideWithValue(ElementLocation value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<(double, double)>(value),
+      providerOverride: $SyncValueProvider<ElementLocation>(value),
     );
   }
 
@@ -60,15 +60,15 @@ final class ElementLocationManagerProvider
 }
 
 String _$elementLocationManagerHash() =>
-    r'31b4c017a6cf83adb312578dd90595e5ca68322a';
+    r'706d1a551f41bcf340a2006862af71aa8336b9c4';
 
 final class ElementLocationManagerFamily extends $Family
     with
         $ClassFamilyOverride<
           ElementLocationManager,
-          (double, double),
-          (double, double),
-          (double, double),
+          ElementLocation,
+          ElementLocation,
+          ElementLocation,
           NodePath
         > {
   const ElementLocationManagerFamily._()
@@ -77,7 +77,7 @@ final class ElementLocationManagerFamily extends $Family
         name: r'elementLocationManagerProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
-        isAutoDispose: true,
+        isAutoDispose: false,
       );
 
   ElementLocationManagerProvider call(NodePath nodePath) =>
@@ -87,21 +87,21 @@ final class ElementLocationManagerFamily extends $Family
   String toString() => r'elementLocationManagerProvider';
 }
 
-abstract class _$ElementLocationManager extends $Notifier<(double, double)> {
+abstract class _$ElementLocationManager extends $Notifier<ElementLocation> {
   late final _$args = ref.$arg as NodePath;
   NodePath get nodePath => _$args;
 
-  (double, double) build(NodePath nodePath);
+  ElementLocation build(NodePath nodePath);
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build(_$args);
-    final ref = this.ref as $Ref<(double, double), (double, double)>;
+    final ref = this.ref as $Ref<ElementLocation, ElementLocation>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<(double, double), (double, double)>,
-              (double, double),
+              AnyNotifier<ElementLocation, ElementLocation>,
+              ElementLocation,
               Object?,
               Object?
             >;
