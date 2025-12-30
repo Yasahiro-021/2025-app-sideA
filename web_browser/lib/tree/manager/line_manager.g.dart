@@ -23,7 +23,7 @@ final class LineManagerProvider
   }) : super(
          retry: null,
          name: r'lineManagerProvider',
-         isAutoDispose: true,
+         isAutoDispose: false,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
@@ -61,7 +61,7 @@ final class LineManagerProvider
   }
 }
 
-String _$lineManagerHash() => r'beefc64a1067b358d317cdf2a7ac599d991a57a1';
+String _$lineManagerHash() => r'6a38b8e7a4670af5186002df7941e9f72fa8c12e';
 
 ///同一のパスを持つエレメントとグループを結ぶLineWidgetのOffsetを管理する
 
@@ -80,7 +80,7 @@ final class LineManagerFamily extends $Family
         name: r'lineManagerProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
-        isAutoDispose: true,
+        isAutoDispose: false,
       );
 
   ///同一のパスを持つエレメントとグループを結ぶLineWidgetのOffsetを管理する
