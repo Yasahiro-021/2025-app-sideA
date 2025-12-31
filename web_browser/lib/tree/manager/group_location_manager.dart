@@ -2,10 +2,12 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+//モデル
 import 'package:web_browser/core/node/node_path.dart';
-import 'package:web_browser/tree/manager/group_manager.dart';
 import 'package:web_browser/tree/model/group.dart';
 import 'package:web_browser/tree/model/group_location.dart';
+//マネージャー
+import 'package:web_browser/tree/manager/group_manager.dart';
 import 'package:web_browser/tree/view/tree_settengs_provider.dart';
 
 part 'group_location_manager.g.dart';
@@ -66,7 +68,7 @@ class GroupLocationManager extends _$GroupLocationManager {
     //左端へオフセットと、自身のツリー幅の範囲を足し、中央の座標を取得
     double x;
     x = edgeX + offsetX + (myTreeWidth / 2);
-    //中心の座標から自身の幅の半分を引いて、中央に配置するための座標を取得
+    //中心の座標から自身の幅の半分を引いて、中央に配置するための座標を計算
     x -= myWidth / 2;
     if (kDebugMode) {
       //ログ出力
