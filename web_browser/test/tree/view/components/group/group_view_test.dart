@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:hooks_riverpod/misc.dart';
 import 'package:web_browser/core/node/node_path.dart';
 import 'package:web_browser/tree/manager/group_location_manager.dart';
 import 'package:web_browser/tree/manager/group_manager.dart';
 import 'package:web_browser/tree/model/group.dart';
-
+import 'package:web_browser/tree/model/group_location.dart';
 //テスト対象
 import 'package:web_browser/tree/view/components/group/group_view.dart';
 import 'package:web_browser/tree/view/tree_settengs_provider.dart';
@@ -20,18 +19,22 @@ void main() {
       layerHeight: 50.0,
       groupPadding: 8.0,
       groupVerticalSpacing: 20.0,
+      elementWidth: 100,
+      elementPadding: 8,
+      maxScale: 5.0,
+      minScale: 0.1,
     );
     //NodePathごとにGroupデータ、位置データを用意
-    final Map<NodePath, (Group, (double, double))> testCases = {
+    final Map<NodePath, (Group, GroupLocation)> testCases = {
       NodePath.root: (
         Group(
           width: 200.0,
           path: NodePath.root,
           elements: [],
           childrenGroup: [],
-          treeWidth: 0,
+          treeWidth: 200.0,
         ),
-        (50.0, 75.0),
+        GroupLocation(x: 50.0, y: 75.0, centerX: 150.0, leftEdgeX: 58.0),
       ),
       NodePath(path: [0]): (
         Group(
@@ -39,9 +42,9 @@ void main() {
           path: NodePath(path: [0]),
           elements: [],
           childrenGroup: [],
-          treeWidth: 0,
+          treeWidth: 150.0,
         ),
-        (100.0, 150.0),
+        GroupLocation(x: 100.0, y: 150.0, centerX: 175.0, leftEdgeX: 108.0),
       ),
       NodePath(path: [0, 1]): (
         Group(
@@ -49,36 +52,33 @@ void main() {
           path: NodePath(path: [0, 1]),
           elements: [],
           childrenGroup: [],
-          treeWidth: 0,
+          treeWidth: 250.0,
         ),
-        (200.0, 300.0),
+        GroupLocation(x: 200.0, y: 300.0, centerX: 325.0, leftEdgeX: 208.0),
       ),
     };
     //テスト環境で使用するプロバイダのオーバーライドたち
-    List<Override> overrides = [];
+    
     setUpAll(() {
-      //各テストケースに対してのオーバライドを作成
-      testCases.forEach((nodePath, data) {
-        final groupData = data.$1;
-        final positionData = data.$2;
-        // groupManagerProviderのオーバーライド
-        overrides.add(
-          groupManagerProvider(nodePath).overrideWithValue(groupData),
-        );
-        // groupLocationManagerProviderのオーバーライド
-        overrides.add(
-          groupLocationManagerProvider(
-            nodePath,
-          ).overrideWithValue(positionData),
-        );
-      });
-
-      // treeSettingsProviderのオーバーライド
-      overrides.add(
-        treeSettingsProvider.overrideWithValue(treeSettingsData),
-      );
+      // オーバーライドは各テストで個別に作成する
     });
+
     testWidgets('位置が正しいか', (WidgetTester tester) async {
+      // 各テストケースのオーバーライドを作成
+      final overrides = testCases.entries
+          .expand((entry) {
+            final nodePath = entry.key;
+            final groupData = entry.value.$1;
+            final locationData = entry.value.$2;
+            return [
+              groupManagerProvider(nodePath).overrideWithValue(groupData),
+              groupLocationManagerProvider(nodePath)
+                  .overrideWithValue(locationData),
+            ];
+          })
+          .toList()
+        ..add(treeSettingsProvider.overrideWithValue(treeSettingsData));
+
       for (final entry in testCases.entries) {
         final nodePath = entry.key;
         final expectedPosition = entry.value.$2;
@@ -95,17 +95,37 @@ void main() {
         );
         //Positionedウィジェットの取得
         final positionedFinder = find.byType(Positioned);
-        expect(positionedFinder, findsOneWidget);
+        expect(positionedFinder, findsOneWidget,
+            reason: 'GroupViewがPositionedでラップされている必要があります');
         final positionedWidget = tester.widget<Positioned>(positionedFinder);
         //位置の検証
-        expect(positionedWidget.left, equals(expectedPosition.$1));
-        expect(positionedWidget.top, equals(expectedPosition.$2));
+        expect(positionedWidget.left, equals(expectedPosition.x),
+            reason: 'グループのX座標が正しい必要があります');
+        expect(positionedWidget.top, equals(expectedPosition.y),
+            reason: 'グループのY座標が正しい必要があります');
       }
     });
+
     testWidgets('表示内容が正しいか', (WidgetTester tester) async {
+      // 各テストケースのオーバーライドを作成
+      final overrides = testCases.entries
+          .expand((entry) {
+            final nodePath = entry.key;
+            final groupData = entry.value.$1;
+            final locationData = entry.value.$2;
+            return [
+              groupManagerProvider(nodePath).overrideWithValue(groupData),
+              groupLocationManagerProvider(nodePath)
+                  .overrideWithValue(locationData),
+            ];
+          })
+          .toList()
+        ..add(treeSettingsProvider.overrideWithValue(treeSettingsData));
+
       for (final entry in testCases.entries) {
         final nodePath = entry.key;
         final groupData = entry.value.$1;
+        final padding = treeSettingsData.groupPadding;
         //ウィジェットの描画
         await tester.pumpWidget(
           ProviderScope(
@@ -118,14 +138,19 @@ void main() {
           ),
         );
         //表示内容の検証
-        expect(find.text('Group: $nodePath'), findsOneWidget);
+        expect(find.text('Group: $nodePath'), findsOneWidget,
+            reason: 'グループのタイトルが表示される必要があります');
         final containerFinder = find.descendant(
           of: find.byType(GroupView),
           matching: find.byType(Container),
         );
-        expect(containerFinder, findsOneWidget);
+        expect(containerFinder, findsOneWidget,
+            reason: 'グループがコンテナでラップされている必要があります');
         final containerWidgetSize = tester.getSize(containerFinder);
-        expect(containerWidgetSize.width, equals(groupData.width));
+        // 幅は width - padding * 2
+        final expectedWidth = groupData.width - padding * 2;
+        expect(containerWidgetSize.width, equals(expectedWidth),
+            reason: 'コンテナの幅がパディングを考慮した値である必要があります');
       }
     });
   });

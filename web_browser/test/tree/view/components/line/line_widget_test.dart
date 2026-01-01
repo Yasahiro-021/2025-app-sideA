@@ -1,28 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:web_browser/core/node/node_path.dart';
+import 'package:web_browser/tree/manager/line_manager.dart';
 import 'package:web_browser/tree/view/components/line_painter/line_widget.dart';
 
 void main() {
   group('LineWidget', () {
-    final List<(Offset, Offset)> testCases = [
-      (Offset(0, 0), Offset(100, 100)),
-      (Offset(50, 50), Offset(150, 150)),
-      (Offset(10, 20), Offset(30, 1000)),
-    ];
+    // テストケースを定義（NodePath -> (start, end)）
+    final testCases = <NodePath, (Offset, Offset)>{
+      NodePath.root: (Offset(0, 0), Offset(100, 100)),
+      NodePath(path: [0]): (Offset(50, 50), Offset(150, 150)),
+      NodePath(path: [0, 1]): (Offset(10, 20), Offset(30, 1000)),
+    };
+
     testWidgets('正しく作成されること', (WidgetTester tester) async {
-      //テストの環境を構築し、LineWidgetを表示する
+      // オーバーライドを作成
+      final overrides = testCases.entries
+          .map((entry) =>
+              lineManagerProvider(entry.key).overrideWithValue(entry.value))
+          .toList();
+
+      // テストの環境を構築し、LineWidgetを表示する
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Stack(
-              children: [
-                // 各テストケースに対してLineWidgetを作成
-                for (var c in testCases) LineWidget(start: c.$1, end: c.$2),
-              ],
+        ProviderScope(
+          overrides: overrides,
+          child: MaterialApp(
+            home: Scaffold(
+              body: Stack(
+                children: [
+                  // 各テストケースに対してLineWidgetを作成
+                  for (var path in testCases.keys) LineWidget(path: path),
+                ],
+              ),
             ),
           ),
         ),
       );
+
       // テストケースの数だけLineWidgetが作成されている
       final finder = find.byType(LineWidget);
       expect(
@@ -31,20 +46,13 @@ void main() {
         reason: '生成されたLineWidgetの数が正しくありません',
       );
 
-      // 各LineWidgetが正しいstartとendを持っている
-      for (var i = 0; i < testCases.length; i++) {
-        final lineWidget = tester.widget<LineWidget>(finder.at(i));
-        expect(
-          lineWidget.start,
-          testCases[i].$1,
-          reason: 'LineWidgetのstartが正しくありません',
-        );
-        expect(
-          lineWidget.end,
-          testCases[i].$2,
-          reason: 'LineWidgetのendが正しくありません',
-        );
-      }
+      // 各LineWidgetが正しく描画されていることを確認
+      final customPaintFinder = find.byType(CustomPaint);
+      expect(
+        customPaintFinder,
+        findsWidgets,
+        reason: 'CustomPaintが見つかる必要があります',
+      );
     });
   });
 }

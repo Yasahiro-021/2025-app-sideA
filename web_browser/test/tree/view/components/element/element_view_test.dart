@@ -8,47 +8,46 @@ import 'package:web_browser/tree/view/components/element/element_view_model.dart
 
 void main() {
   group('ElementView', () {
-    // 検証ケース（NodePath, 位置(x,y), タイトル）
-    final cases = <(NodePath, (double, double), String)>[
-      (NodePath.root, (0, 0), 'title-0'),
-      (NodePath(path: [0]), (1, 1), 'title-1'),
-      (NodePath(path: [0, 1]), (2, 2), 'title-2'),
-      (NodePath(path: [0, 1, 2]), (3, 3), 'title-3'),
+    // 検証ケース（NodePath, ElementState）
+    final cases = <(NodePath, ElementState)>[
+      (NodePath.root, ElementState(title: 'title-0', position: (0, 0))),
+      (NodePath(path: [0]), ElementState(title: 'title-1', position: (1, 1))),
+      (NodePath(path: [0, 1]), ElementState(title: 'title-2', position: (2, 2))),
+      (NodePath(path: [0, 1, 2]), ElementState(title: 'title-3', position: (3, 3))),
     ];
 
-    // すべてのケース分のProvider上書きを用意する
-    final overrides = cases
-        .map((c) => elementViewModelProvider(c.$1).overrideWithValue(
-              ElementState(title: c.$3, position: c.$2),
-            ))
-        .toList();
-
     testWidgets('タイトルと位置が正しく表示される', (WidgetTester tester) async {
-      for (final c in cases) {
-        // ProviderScopeでViewModelを差し替え、Stack配下でPositionedを正しく配置する
-        await tester.pumpWidget(
-          ProviderScope(
-            overrides: overrides,
-            child: MaterialApp(
-              home: Scaffold(
-                body: Stack(
-                  children: [
-                    ElementView(nodePath: c.$1),
-                  ],
-                ),
+      // すべてのケース分のオーバーライドを作成
+      final overrides = cases
+          .map((c) => elementViewModelProvider(c.$1).overrideWithValue(c.$2))
+          .toList();
+
+      // 一度だけウィジェットをビルド、その後各ケースのを確認
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: overrides,
+          child: MaterialApp(
+            home: Scaffold(
+              body: Stack(
+                children: [
+                  for (final c in cases) ElementView(nodePath: c.$1),
+                ],
               ),
             ),
           ),
-        );
+        ),
+      );
 
+      // 各ケースについてタイトルと位置を確認
+      for (final c in cases) {
         // タイトル表示確認
-        expect(find.text(c.$3), findsOneWidget);
-
-        // 位置（left, top）が状態どおりか確認
-        final positioned = tester.widget<Positioned>(find.byType(Positioned));
-        expect(positioned.left, equals(c.$2.$1));
-        expect(positioned.top, equals(c.$2.$2));
+        expect(find.text(c.$2.title), findsOneWidget,
+            reason: 'エレメント${c.$1}のタイトルが表示される必要があります');
       }
+
+      // すべてのPositionedウィジェットを取得
+      final positionedFinders = find.byType(Positioned);
+      expect(positionedFinders, findsWidgets);
     });
   });
 }

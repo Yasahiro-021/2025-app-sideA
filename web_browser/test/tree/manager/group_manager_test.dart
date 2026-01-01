@@ -19,19 +19,20 @@ void main() {
       (NodePath(path: [0]), 2), //[0]に2つの子ノード
       (NodePath(path: [1]), 3), //[1]に3つの子ノード
       (NodePath(path: [2]), 1), //[2]に1つの子ノード
-      
+
       (NodePath(path: [0, 0]), 1), //[0,0]に1個の子ノード
       // ※rootのグループのtreeWidthは変わらない
     ];
 
     ProviderContainer testContainer = ProviderContainer();
     final double groupPadding = 2.0;
+    final double elementWidth = 10.0;
 
     setUp(() {
       final childrenAtPathOverrides = mockChildrenAtPath(createChildCount);
       final treeSettingsOverrides = [
         treeSettingsProvider.overrideWithValue(
-          TreeSettings(groupPadding: groupPadding),
+          TreeSettings(groupPadding: groupPadding, elementWidth: elementWidth),
         ),
       ];
 
@@ -44,9 +45,10 @@ void main() {
       final Group rootChildren = testContainer.read(
         groupManagerProvider(NodePath.root),
       );
+
       expect(
         rootChildren.width,
-        3 + groupPadding * 2,
+        3 * elementWidth + groupPadding * 2,
       ); // 3つの子ノード + パディング
     });
     test('自分をルートとしたサブツリーの幅を計算できる', () {
@@ -57,7 +59,7 @@ void main() {
       log("Root Group Elements Count: $rootLength");
       expect(
         rootGroup.width,
-        rootLength + groupPadding * 2,
+        rootLength * elementWidth + groupPadding * 2,
         reason: "root Width mismatch",
       );
 
@@ -70,7 +72,7 @@ void main() {
         childGroups.addAll(currentGroup.childrenGroup);
       }
 
-      expect(rootGroup.treeWidth, 18, reason: "root Tree Width mismatch");
+      expect(rootGroup.treeWidth, 72, reason: "root Tree Width mismatch");
     });
     tearDown(() {
       testContainer.dispose();
