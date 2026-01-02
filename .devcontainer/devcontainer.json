@@ -1,0 +1,15 @@
+{
+  "name": "Flutter Remote Dev",
+  "dockerComposeFile": [
+    "../docker-compose.yml",
+    "docker-compose.extend.yml"
+  ],
+  "mountWorkspaceGitRoot": false,
+  "service": "flutter",
+  "workspaceFolder": "/workspace",
+  "extensions": [
+    "Dart-Code.flutter",
+    "Dart-Code.dart-code"
+  ],
+  "remoteUser": "root"
+}

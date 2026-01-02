@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  flutter:
+    image: cirrusci/flutter:latest   # Flutter SDK入り公式イメージ
+    container_name: flutter_dev
+    volumes:
+      - .:/workspace:cached
+    working_dir: /workspace
+    tty: true
+    networks:
+      - devnet
+
+networks:
+  devnet:
+    driver: bridge

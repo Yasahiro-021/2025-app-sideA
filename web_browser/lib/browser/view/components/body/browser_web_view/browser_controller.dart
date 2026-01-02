@@ -54,8 +54,28 @@ class BrowserController {
     if (isMultiAddEnabled) {
       final currentPath = ref.read(currentPathProvider);
       final urlStr = navigationAction.request.url.toString();
+      
       final String title = navigationAction.request.url?.host ?? urlStr;
       final newNode = BrowserNode(title: title, url: urlStr);
+      final WebUri? uri = navigationAction.request.url;
+
+      // //wikipediaのURLの場合、タイトルをパスから生成する
+      // final bool isWikipediaUrl =
+      //     uri != null && (uri.host.contains('wikipedia.org'));
+      // final BrowserNode nodeToCreate = isWikipediaUrl
+      //     ? BrowserNode(
+      //     title: Uri.decodeComponent(
+      //       uri.pathSegments
+      //       .lastWhere(
+      //         (segment) => segment.isNotEmpty,
+      //         orElse: () => uri.host
+      //       )
+      //       .replaceAll('_', ' '),
+      //     ),
+      //     url: urlStr,
+      //   )
+      //     : newNode;
+
       ref
           .read(createNodeUsecaseProvider)
           .create(parentPath: currentPath, node: newNode);

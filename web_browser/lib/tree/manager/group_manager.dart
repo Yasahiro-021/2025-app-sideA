@@ -1,28 +1,57 @@
+import 'dart:developer';
+
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:web_browser/core/node/node_children.dart';
 import 'package:web_browser/core/node/node_path.dart';
 import 'package:web_browser/core/usecase/children_at_path_manager.dart';
-import 'package:web_browser/tree/model/node_group.dart';
+import 'package:web_browser/tree/model/group.dart';
+import 'package:web_browser/tree/view/tree_settengs_provider.dart';
 
 part 'group_manager.g.dart';
 
-///グループ（兄弟ノード）の幅を管理する
+///グループの自身とサブツリーの幅を管理
 @Riverpod(keepAlive: true)
 class GroupManager extends _$GroupManager {
   @override
-  NodeGroup build(NodePath parentPath) {
-    final children = ref.watch(childrenAtPathMangerProvider(parentPath));
-    int width = 0; //初期値
+  Group build(NodePath parentPath) {
+    NodeChildren children = ref.watch(childrenAtPathMangerProvider(parentPath));
+    List<NodePath> elements = children.children;
+    List<Group> childrenGroups = [];
+    //要素を親に持つグループを取得
+    for (var elementPath in elements) {
+      Group childGroup = ref.watch(groupManagerProvider(elementPath));
+      childrenGroups.add(childGroup);
+    }
+    double elementWidth = ref.watch(treeSettingsProvider).elementWidth;
+    double width = 0;
+    if (elements.isNotEmpty) {
+      final double padding = ref.watch(treeSettingsProvider).groupPadding;
+      width = elements.length * elementWidth + padding*2; // 両端をプラス
+    }
 
-    //子ノードがいない場合（Groupに入れるノードがない場合）、幅0でグループを作成
-    if (children.children.isEmpty) return NodeGroup(parentPath: parentPath, width: width);
-
-    //子ノードがいる場合、幅を計算
-    width = children.children.length; //ノード間のスペース
-    //子の幅の合計と、左右の余白
-    return NodeGroup(parentPath: parentPath, width: width + 2);
+    return Group(
+      path: parentPath,
+      elements: [...elements],
+      childrenGroup: childrenGroups,
+      width: width,
+      treeWidth: _treeWidth(childrenGroups, width),
+    );
   }
 
-  void changeState(NodeGroup newGroup) {
-    state = newGroup;
+  double _treeWidth(List<Group> childrenGroups, double myWidth) {
+    //自身をルートとするツリーの幅を計算
+    double treeWidth = 0;
+    treeWidth = childrenGroups.fold(
+      0,
+      (e, childGroup) => e += childGroup.treeWidth,
+    );
+    if (treeWidth < myWidth) {
+      //もし子のツリー幅より自分の幅が大きければ自分の幅を採用
+      treeWidth = myWidth;
+    }
+
+    if (kDebugMode) log("グループ$parentPath のツリー幅は $treeWidth");
+    return treeWidth;
   }
 }

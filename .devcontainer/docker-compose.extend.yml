@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  flutter:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - .:/workspace:cached
+      - flutter-cache:/root/.pub-cache
+    environment:
+      - DISPLAY=${DISPLAY}   # GUI系を使う場合
+    networks:
+      - devnet
+
+volumes:
+  flutter-cache:

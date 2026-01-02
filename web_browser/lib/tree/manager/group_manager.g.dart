@@ -8,15 +8,15 @@ part of 'group_manager.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-///グループ（兄弟ノード）の幅を管理する
+///グループの自身とサブツリーの幅を管理
 
 @ProviderFor(GroupManager)
 const groupManagerProvider = GroupManagerFamily._();
 
-///グループ（兄弟ノード）の幅を管理する
+///グループの自身とサブツリーの幅を管理
 final class GroupManagerProvider
-    extends $NotifierProvider<GroupManager, NodeGroup> {
-  ///グループ（兄弟ノード）の幅を管理する
+    extends $NotifierProvider<GroupManager, Group> {
+  ///グループの自身とサブツリーの幅を管理
   const GroupManagerProvider._({
     required GroupManagerFamily super.from,
     required NodePath super.argument,
@@ -43,10 +43,10 @@ final class GroupManagerProvider
   GroupManager create() => GroupManager();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(NodeGroup value) {
+  Override overrideWithValue(Group value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<NodeGroup>(value),
+      providerOverride: $SyncValueProvider<Group>(value),
     );
   }
 
@@ -61,19 +61,12 @@ final class GroupManagerProvider
   }
 }
 
-String _$groupManagerHash() => r'95cbc97dcaad671f99535fbc03df52f3983ff4c5';
+String _$groupManagerHash() => r'a5532ec6146c98d110cc107848b48d08327e6882';
 
-///グループ（兄弟ノード）の幅を管理する
+///グループの自身とサブツリーの幅を管理
 
 final class GroupManagerFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          GroupManager,
-          NodeGroup,
-          NodeGroup,
-          NodeGroup,
-          NodePath
-        > {
+    with $ClassFamilyOverride<GroupManager, Group, Group, Group, NodePath> {
   const GroupManagerFamily._()
     : super(
         retry: null,
@@ -83,7 +76,7 @@ final class GroupManagerFamily extends $Family
         isAutoDispose: false,
       );
 
-  ///グループ（兄弟ノード）の幅を管理する
+  ///グループの自身とサブツリーの幅を管理
 
   GroupManagerProvider call(NodePath parentPath) =>
       GroupManagerProvider._(argument: parentPath, from: this);
@@ -92,23 +85,23 @@ final class GroupManagerFamily extends $Family
   String toString() => r'groupManagerProvider';
 }
 
-///グループ（兄弟ノード）の幅を管理する
+///グループの自身とサブツリーの幅を管理
 
-abstract class _$GroupManager extends $Notifier<NodeGroup> {
+abstract class _$GroupManager extends $Notifier<Group> {
   late final _$args = ref.$arg as NodePath;
   NodePath get parentPath => _$args;
 
-  NodeGroup build(NodePath parentPath);
+  Group build(NodePath parentPath);
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build(_$args);
-    final ref = this.ref as $Ref<NodeGroup, NodeGroup>;
+    final ref = this.ref as $Ref<Group, Group>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<NodeGroup, NodeGroup>,
-              NodeGroup,
+              AnyNotifier<Group, Group>,
+              Group,
               Object?,
               Object?
             >;
