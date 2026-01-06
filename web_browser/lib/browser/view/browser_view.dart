@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:web_browser/browser/view/components/app_bar/browser_app_bar_view.dart';
 import 'package:web_browser/browser/view/components/bottom_bar/browser_bottom_bar_view.dart';
 import 'package:web_browser/browser/view/components/body/browser_web_view/browser_web_view_view.dart';
