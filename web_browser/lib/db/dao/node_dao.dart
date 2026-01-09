@@ -30,18 +30,6 @@ class NodeDao {
     await batch.commit(noResult: true);
   }
 
-  /// IDでノードを取得
-  Future<NodeModel?> getById(int id) async {
-    final db = await _databaseHelper.database;
-    final maps = await db.query(
-      DatabaseHelper.tableNodes,
-      where: 'id = ?',
-      whereArgs: [id],
-    );
-    if (maps.isEmpty) return null;
-    return NodeModel.fromMap(maps.first);
-  }
-
   /// ツリーIDとパスでノードを取得
   Future<NodeModel?> getByPath(int treeId, String path) async {
     final db = await _databaseHelper.database;
@@ -141,20 +129,6 @@ class NodeDao {
     return maps.map((map) => NodeModel.fromMap(map)).toList();
   }
 
-  /// ノードを更新
-  Future<int> update(NodeModel node) async {
-    if (node.id == null) {
-      throw ArgumentError('更新するノードにはIDが必要です');
-    }
-    final db = await _databaseHelper.database;
-    return await db.update(
-      DatabaseHelper.tableNodes,
-      node.toMap(),
-      where: 'id = ?',
-      whereArgs: [node.id],
-    );
-  }
-
   /// ツリーIDとパスでノードを更新
   Future<int> updateByPath(int treeId, NodeModel node) async {
     final db = await _databaseHelper.database;
@@ -163,16 +137,6 @@ class NodeDao {
       node.toMap(),
       where: 'tree_id = ? AND path = ?',
       whereArgs: [treeId, node.path],
-    );
-  }
-
-  /// IDでノードを削除
-  Future<int> delete(int id) async {
-    final db = await _databaseHelper.database;
-    return await db.delete(
-      DatabaseHelper.tableNodes,
-      where: 'id = ?',
-      whereArgs: [id],
     );
   }
 

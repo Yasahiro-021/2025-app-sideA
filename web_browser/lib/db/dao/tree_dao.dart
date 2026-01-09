@@ -45,6 +45,8 @@ class TreeDao {
     return TreeModel.fromMap(maps.first);
   }
 
+  //TODO あいまい検索の実装
+
   /// 全ツリーを取得
   Future<List<TreeModel>> getAll() async {
     final db = await _databaseHelper.database;
