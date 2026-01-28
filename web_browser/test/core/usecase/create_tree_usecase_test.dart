@@ -28,9 +28,9 @@ void main() {
   });
 
   tearDown(() {
-    container.dispose();
     // テスト間でモックの状態をリセット
     reset(mockRepository);
+    container.dispose();
   });
 
   group('CreateTreeUsecase', () {
