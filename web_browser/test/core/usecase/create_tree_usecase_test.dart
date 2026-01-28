@@ -29,6 +29,8 @@ void main() {
 
   tearDown(() {
     container.dispose();
+    // テスト間でモックの状態をリセット
+    reset(mockRepository);
   });
 
   group('CreateTreeUsecase', () {
@@ -66,7 +68,7 @@ void main() {
       verifyNever(mockRepository.createTree(any));
     });
 
-    test('異常系1: 空白のみでエラー', () async {
+    test('異常系2: 空白のみでエラー', () async {
       final usecase = container.read(createTreeUsecaseProvider.notifier);
 
       final result = await usecase.create('   ');
@@ -80,7 +82,7 @@ void main() {
       verifyNever(mockRepository.createTree(any));
     });
 
-    test('異常系1: タブや改行のみでエラー', () async {
+    test('異常系3: タブや改行のみでエラー', () async {
       final usecase = container.read(createTreeUsecaseProvider.notifier);
 
       final result = await usecase.create('\t\n  \r\n');
@@ -94,7 +96,7 @@ void main() {
       verifyNever(mockRepository.createTree(any));
     });
 
-    test('異常系2: 同名ツリーが存在する場合にエラー', () async {
+    test('異常系4: 同名ツリーが存在する場合にエラー', () async {
       // 既存のツリーをモックで返す
       final existingTree = TreeModel(
         id: 1,
@@ -189,8 +191,14 @@ void main() {
       expect(result1.treeId, 1);
       expect(result2.treeId, 2);
       expect(result3.treeId, 3);
-      expect(result1.treeId, isNot(equals(result2.treeId)));
-      expect(result2.treeId, isNot(equals(result3.treeId)));
+
+      // 各ツリーに対して正しくメソッドが呼ばれたことを確認
+      verify(mockRepository.getTreeByName('ツリー1')).called(1);
+      verify(mockRepository.createTree('ツリー1')).called(1);
+      verify(mockRepository.getTreeByName('ツリー2')).called(1);
+      verify(mockRepository.createTree('ツリー2')).called(1);
+      verify(mockRepository.getTreeByName('ツリー3')).called(1);
+      verify(mockRepository.createTree('ツリー3')).called(1);
     });
   });
 }
