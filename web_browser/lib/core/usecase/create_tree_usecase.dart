@@ -56,7 +56,7 @@ class CreateTreeUsecase extends _$CreateTreeUsecase {
     }
 
     // 3. 重複チェック
-    final repository = ref.read(treeRepositoryProviderProvider);
+    final repository = ref.read(treeRepositoryProvider);
     final existingTree = await repository.getTreeByName(trimmedName);
     if (existingTree != null) {
       return const CreateTreeResult.failure(CreateTreeError.duplicateName);

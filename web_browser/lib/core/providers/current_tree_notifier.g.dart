@@ -12,6 +12,7 @@ part of 'current_tree_notifier.dart';
 ///
 /// 複数ツリー対応において、アプリ全体で「現在どのツリーを操作しているか」を
 /// 一元管理する。各Providerはこの値を参照して適切なツリーのデータを返す。
+/// ツリーIDはSharedPreferencesに永続化される。
 
 @ProviderFor(CurrentTreeNotifier)
 const currentTreeProvider = CurrentTreeNotifierProvider._();
@@ -20,12 +21,14 @@ const currentTreeProvider = CurrentTreeNotifierProvider._();
 ///
 /// 複数ツリー対応において、アプリ全体で「現在どのツリーを操作しているか」を
 /// 一元管理する。各Providerはこの値を参照して適切なツリーのデータを返す。
+/// ツリーIDはSharedPreferencesに永続化される。
 final class CurrentTreeNotifierProvider
-    extends $NotifierProvider<CurrentTreeNotifier, int> {
+    extends $AsyncNotifierProvider<CurrentTreeNotifier, int> {
   /// 現在選択されているツリーのIDを管理するNotifier
   ///
   /// 複数ツリー対応において、アプリ全体で「現在どのツリーを操作しているか」を
   /// 一元管理する。各Providerはこの値を参照して適切なツリーのデータを返す。
+  /// ツリーIDはSharedPreferencesに永続化される。
   const CurrentTreeNotifierProvider._()
     : super(
         from: null,
@@ -43,36 +46,29 @@ final class CurrentTreeNotifierProvider
   @$internal
   @override
   CurrentTreeNotifier create() => CurrentTreeNotifier();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(int value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<int>(value),
-    );
-  }
 }
 
 String _$currentTreeNotifierHash() =>
-    r'f6bd1b80ca630c360b81628813a8e29d3bc6f3b5';
+    r'2e8eb2d52f6884435fee3cff350c3171babd6d2d';
 
 /// 現在選択されているツリーのIDを管理するNotifier
 ///
 /// 複数ツリー対応において、アプリ全体で「現在どのツリーを操作しているか」を
 /// 一元管理する。各Providerはこの値を参照して適切なツリーのデータを返す。
+/// ツリーIDはSharedPreferencesに永続化される。
 
-abstract class _$CurrentTreeNotifier extends $Notifier<int> {
-  int build();
+abstract class _$CurrentTreeNotifier extends $AsyncNotifier<int> {
+  FutureOr<int> build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<int, int>;
+    final ref = this.ref as $Ref<AsyncValue<int>, int>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
+              AnyNotifier<AsyncValue<int>, int>,
+              AsyncValue<int>,
               Object?,
               Object?
             >;

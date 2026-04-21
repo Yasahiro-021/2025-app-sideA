@@ -45,12 +45,19 @@ class TreeDao {
     return TreeModel.fromMap(maps.first);
   }
 
-  /// 全ツリーを取得
-  Future<List<TreeModel>> getAll() async {
+  //TODO あいまい検索の実装
+
+  /// ツリーを取得
+  /// 
+  /// 更新日時の新しい順でソートして返す
+  /// 
+  /// limitを指定すると、取得するツリーの数を制限できる（nullの場合は全てのツリーを取得）
+  Future<List<TreeModel>> get({int? limit}) async {
     final db = await _databaseHelper.database;
     final maps = await db.query(
       DatabaseHelper.tableTrees,
       orderBy: 'updated_at DESC',
+      limit: limit,
     );
     return maps.map((map) => TreeModel.fromMap(map)).toList();
   }

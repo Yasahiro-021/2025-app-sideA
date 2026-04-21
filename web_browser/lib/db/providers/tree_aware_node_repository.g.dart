@@ -54,7 +54,7 @@ final class TreeAwareNodeRepositoryProvider
 }
 
 String _$treeAwareNodeRepositoryHash() =>
-    r'29d99ec7268908beb0aa0276d3fec92836c52df3';
+    r'99562846abb147968344514a6f57e35425d48119';
 
 /// 現在選択されているツリーに基づいてノードを操作するリポジトリ
 ///

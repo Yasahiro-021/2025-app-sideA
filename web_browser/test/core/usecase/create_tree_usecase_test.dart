@@ -22,7 +22,7 @@ void main() {
     // Providerコンテナを作成し、TreeRepositoryをモックでオーバーライド
     container = ProviderContainer(
       overrides: [
-        treeRepositoryProviderProvider.overrideWithValue(mockRepository),
+        treeRepositoryProvider.overrideWithValue(mockRepository),
       ],
     );
   });

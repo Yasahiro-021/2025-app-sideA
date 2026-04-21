@@ -12,32 +12,32 @@ part of 'tree_repository_provider.dart';
 ///
 /// ツリーの作成・取得・更新・削除などの操作に使用
 
-@ProviderFor(treeRepositoryProvider)
-const treeRepositoryProviderProvider = TreeRepositoryProviderProvider._();
+@ProviderFor(treeRepository)
+const treeRepositoryProvider = TreeRepositoryProvider._();
 
 /// TreeRepositoryをProviderとして提供
 ///
 /// ツリーの作成・取得・更新・削除などの操作に使用
 
-final class TreeRepositoryProviderProvider
+final class TreeRepositoryProvider
     extends $FunctionalProvider<TreeRepository, TreeRepository, TreeRepository>
     with $Provider<TreeRepository> {
   /// TreeRepositoryをProviderとして提供
   ///
   /// ツリーの作成・取得・更新・削除などの操作に使用
-  const TreeRepositoryProviderProvider._()
+  const TreeRepositoryProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'treeRepositoryProviderProvider',
+        name: r'treeRepositoryProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$treeRepositoryProviderHash();
+  String debugGetCreateSourceHash() => _$treeRepositoryHash();
 
   @$internal
   @override
@@ -46,7 +46,7 @@ final class TreeRepositoryProviderProvider
 
   @override
   TreeRepository create(Ref ref) {
-    return treeRepositoryProvider(ref);
+    return treeRepository(ref);
   }
 
   /// {@macro riverpod.override_with_value}
@@ -58,5 +58,4 @@ final class TreeRepositoryProviderProvider
   }
 }
 
-String _$treeRepositoryProviderHash() =>
-    r'85f0495dfd0ff0aa6b546e518a2238eaacecf36b';
+String _$treeRepositoryHash() => r'0d3e3891fc2fe0fe656b6c77e628098f4975f332';

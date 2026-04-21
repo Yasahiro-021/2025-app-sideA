@@ -7,6 +7,6 @@ part 'tree_repository_provider.g.dart';
 /// 
 /// ツリーの作成・取得・更新・削除などの操作に使用
 @riverpod
-TreeRepository treeRepositoryProvider(Ref ref) {
+TreeRepository treeRepository(Ref ref) {
   return TreeRepository();
 }

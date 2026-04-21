@@ -28,7 +28,12 @@ class TreeRepository {
 
   /// 全ツリーを取得（更新日時の新しい順）
   Future<List<TreeModel>> getAllTrees() async {
-    return await _treeDao.getAll();
+    return await _treeDao.get();
+  }
+
+  /// 更新日時の新しい順でツリーを取得（上位n件）
+  Future<List<TreeModel>> getRecentTrees({int limit = 5}) async {
+    return await _treeDao.get(limit: limit);
   }
 
   /// ツリー名を更新
