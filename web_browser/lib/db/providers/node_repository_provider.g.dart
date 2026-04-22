@@ -12,32 +12,32 @@ part of 'node_repository_provider.dart';
 ///
 /// ノードの保存・取得・更新・削除などの操作に使用
 
-@ProviderFor(nodeRepositoryProvider)
-const nodeRepositoryProviderProvider = NodeRepositoryProviderProvider._();
+@ProviderFor(nodeRepository)
+const nodeRepositoryProvider = NodeRepositoryProvider._();
 
 /// NodeRepositoryをProviderとして提供
 ///
 /// ノードの保存・取得・更新・削除などの操作に使用
 
-final class NodeRepositoryProviderProvider
+final class NodeRepositoryProvider
     extends $FunctionalProvider<NodeRepository, NodeRepository, NodeRepository>
     with $Provider<NodeRepository> {
   /// NodeRepositoryをProviderとして提供
   ///
   /// ノードの保存・取得・更新・削除などの操作に使用
-  const NodeRepositoryProviderProvider._()
+  const NodeRepositoryProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'nodeRepositoryProviderProvider',
+        name: r'nodeRepositoryProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$nodeRepositoryProviderHash();
+  String debugGetCreateSourceHash() => _$nodeRepositoryHash();
 
   @$internal
   @override
@@ -46,7 +46,7 @@ final class NodeRepositoryProviderProvider
 
   @override
   NodeRepository create(Ref ref) {
-    return nodeRepositoryProvider(ref);
+    return nodeRepository(ref);
   }
 
   /// {@macro riverpod.override_with_value}
@@ -58,5 +58,4 @@ final class NodeRepositoryProviderProvider
   }
 }
 
-String _$nodeRepositoryProviderHash() =>
-    r'f8d51e973772bf7ae5575285ac8df9362ff2e392';
+String _$nodeRepositoryHash() => r'7fac83467bcf3f2ecfef9994c09673cee601b3a4';

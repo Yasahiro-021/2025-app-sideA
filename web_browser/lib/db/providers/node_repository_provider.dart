@@ -7,6 +7,6 @@ part 'node_repository_provider.g.dart';
 /// 
 /// ノードの保存・取得・更新・削除などの操作に使用
 @riverpod
-NodeRepository nodeRepositoryProvider(Ref ref) {
+NodeRepository nodeRepository(Ref ref) {
   return NodeRepository();
 }
