@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:web_browser/core/node/node_children.dart';
 import 'package:web_browser/core/node/node_path.dart';
-import 'package:web_browser/db/providers/tree_aware_node_repository.dart';
+import 'package:web_browser/db/providers/tree_aware_node_repository_provider.dart';
 
 part 'children_at_path_manager.g.dart';
 
@@ -20,13 +20,13 @@ class ChildrenAtPathManger extends _$ChildrenAtPathManger {
 
   Future<void> _loadFromDb() async {
     //dbから子ノードを取得してstateを更新
-    final NodeChildren node = await ref
-        .read(treeAwareNodeRepositoryProvider.notifier)
-        .getChildrenPaths(parentPath);
-    
+    final repository = await ref.read(treeAwareNodeRepositoryProvider.future);
+
+    final node = await repository.getChildrenPaths(parentPath);
+
     //子が空なら何もしない
-    if(node.children.isEmpty) return;
-    
+    if (node.children.isEmpty) return;
+
     //stateを更新。
     state = node;
   }
@@ -35,12 +35,12 @@ class ChildrenAtPathManger extends _$ChildrenAtPathManger {
     state = nodes;
   }
 
-  int get _lastIndex{
+  int get _lastIndex {
     //最後の子（一番大きいインデックス）
     List<NodePath> children = state.children;
-    if(children.isEmpty) return 0;
+    if (children.isEmpty) return 0;
     //indexはpathの最後の要素
-    int lastIndex = children.last.path.last+1;
+    int lastIndex = children.last.path.last + 1;
     return lastIndex;
   }
 
@@ -48,7 +48,6 @@ class ChildrenAtPathManger extends _$ChildrenAtPathManger {
   NodePath provideNewChildPath() {
     final NodePath newPath = parentPath.createChildPath(_lastIndex);
 
-    
     //childrenを展開し、末尾に新しいパスを追加後、stateを更新
     state = NodeChildren(children: [...state.children, newPath]);
 

@@ -1,5 +1,6 @@
 import 'package:web_browser/core/node/browser_node.dart';
 import 'package:web_browser/core/node/node_children.dart';
+import 'package:web_browser/core/tree/tree_id.dart';
 
 import '../dao/node_dao.dart';
 import '../models/node_model.dart';
@@ -136,8 +137,8 @@ class NodeRepository {
   }
 
   /// 指定ツリーの全データを削除
-  Future<void> clearAllByTreeId(int treeId) async {
-    await _nodeDao.deleteAllByTreeId(treeId);
+  Future<void> clearAllByTreeId(TreeId treeId) async {
+    await _nodeDao.deleteAllByTreeId(treeId.id);
   }
 
   /// 全データを削除（全ツリー）

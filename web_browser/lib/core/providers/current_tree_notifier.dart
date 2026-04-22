@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_browser/browser/view_model/notifiers/current_path_notifier.dart';
 import 'package:web_browser/core/node/browser_node_from_path_notifier.dart';
 import 'package:web_browser/core/node/node_path.dart';
+import 'package:web_browser/core/tree/tree_id.dart';
 
 part 'current_tree_notifier.g.dart';
 
@@ -17,13 +18,13 @@ const String _currentTreeIdKey = 'current_tree_id';
 @Riverpod(keepAlive: true)
 class CurrentTreeNotifier extends _$CurrentTreeNotifier {
   /// デフォルトツリーのID
-  static const int defaultTreeId = 1;
+  static const TreeId defaultTreeId = TreeId(1);
 
   @override
-  Future<int> build() async {
+  Future<TreeId> build() async {
     final prefs = await SharedPreferences.getInstance();
     // SharedPreferencesから値を読み込み、存在しない場合はデフォルト値を使用
-    return prefs.getInt(_currentTreeIdKey) ?? defaultTreeId;
+    return TreeId(prefs.getInt(_currentTreeIdKey) ?? defaultTreeId.id);
   }
 
   /// 現在のツリーを変更
@@ -32,7 +33,7 @@ class CurrentTreeNotifier extends _$CurrentTreeNotifier {
   /// 1. 現在のパスをルートにリセット（異なるツリーでは同じパスが存在しない可能性があるため）
   /// 2. BrowserNodeのキャッシュを無効化（新しいツリーのデータを取得するため）
   /// 3. ツリーIDを更新してSharedPreferencesに永続化
-  Future<void> setCurrentTree(int treeId) async {
+  Future<void> setCurrentTree(TreeId treeId) async {
     final currentState = await future;
     if (currentState == treeId) {
       // 同じツリーが選択された場合は何もしない
@@ -49,7 +50,7 @@ class CurrentTreeNotifier extends _$CurrentTreeNotifier {
     
     // ツリーIDをSharedPreferencesに保存して状態を更新
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(_currentTreeIdKey, treeId);
+    await prefs.setInt(_currentTreeIdKey, treeId.id);
     state = AsyncValue.data(treeId);
   }
 
