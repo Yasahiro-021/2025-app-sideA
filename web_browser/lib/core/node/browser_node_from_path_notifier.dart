@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:web_browser/core/node/node_path.dart';
 import 'package:web_browser/core/node/browser_node.dart';
-import 'package:web_browser/db/providers/tree_aware_node_repository.dart';
+import 'package:web_browser/db/providers/tree_aware_node_repository_provider.dart';
 
 part 'browser_node_from_path_notifier.g.dart';
 
@@ -15,17 +15,17 @@ class BrowserNodeFromPathNotifier extends _$BrowserNodeFromPathNotifier {
   }
 
   void _loadFromDb(NodePath path) async {
-    final node = await ref
-        .read(treeAwareNodeRepositoryProvider.notifier)
-        .getNodeByPath(path);
+    final repo = await ref.read(treeAwareNodeRepositoryProvider.future);
+    final node = await repo.getNode(path);
     if (node != null) {
       state = node;
     }
   }
 
   /// ノードを設定
-  void setNode(BrowserNode node) {
-    ref.read(treeAwareNodeRepositoryProvider.notifier).saveNode(path, node);
+  void setNode(BrowserNode node) async {
+    final repo = await ref.read(treeAwareNodeRepositoryProvider.future);
+    await repo.saveNode(path, node);
     state = node;
   }
 }
