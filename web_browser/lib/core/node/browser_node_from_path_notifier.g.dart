@@ -60,7 +60,7 @@ final class BrowserNodeFromPathNotifierProvider
 }
 
 String _$browserNodeFromPathNotifierHash() =>
-    r'9daea2684836d93f7f1310ce97061eefc56bf650';
+    r'61ef389fa8f071e7d84399d2fdc6ce7adfd556ee';
 
 final class BrowserNodeFromPathNotifierFamily extends $Family
     with

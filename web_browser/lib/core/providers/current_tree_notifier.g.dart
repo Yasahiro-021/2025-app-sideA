@@ -23,7 +23,7 @@ const currentTreeProvider = CurrentTreeNotifierProvider._();
 /// 一元管理する。各Providerはこの値を参照して適切なツリーのデータを返す。
 /// ツリーIDはSharedPreferencesに永続化される。
 final class CurrentTreeNotifierProvider
-    extends $AsyncNotifierProvider<CurrentTreeNotifier, int> {
+    extends $AsyncNotifierProvider<CurrentTreeNotifier, TreeId> {
   /// 現在選択されているツリーのIDを管理するNotifier
   ///
   /// 複数ツリー対応において、アプリ全体で「現在どのツリーを操作しているか」を
@@ -49,7 +49,7 @@ final class CurrentTreeNotifierProvider
 }
 
 String _$currentTreeNotifierHash() =>
-    r'2e8eb2d52f6884435fee3cff350c3171babd6d2d';
+    r'eab4bfe080c9cbf5534415553d53107ca2d70a34';
 
 /// 現在選択されているツリーのIDを管理するNotifier
 ///
@@ -57,18 +57,18 @@ String _$currentTreeNotifierHash() =>
 /// 一元管理する。各Providerはこの値を参照して適切なツリーのデータを返す。
 /// ツリーIDはSharedPreferencesに永続化される。
 
-abstract class _$CurrentTreeNotifier extends $AsyncNotifier<int> {
-  FutureOr<int> build();
+abstract class _$CurrentTreeNotifier extends $AsyncNotifier<TreeId> {
+  FutureOr<TreeId> build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<AsyncValue<int>, int>;
+    final ref = this.ref as $Ref<AsyncValue<TreeId>, TreeId>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<int>, int>,
-              AsyncValue<int>,
+              AnyNotifier<AsyncValue<TreeId>, TreeId>,
+              AsyncValue<TreeId>,
               Object?,
               Object?
             >;

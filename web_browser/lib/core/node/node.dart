@@ -1,3 +1,4 @@
+///古いクラス。使用は非推奨
 ///ツリー構造のノードを表す
 ///
 ///
@@ -5,6 +6,7 @@
 ///* `name`　名前
 ///* `children`　子ノードのリスト
 ///* `parent`　親ノード。
+@Deprecated('Nodeクラスは使用されていません。BrowserNodeを使用してください')
 class Node {
   final String _name;
   final List<Node> _children;

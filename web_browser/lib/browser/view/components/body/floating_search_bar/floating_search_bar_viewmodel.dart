@@ -1,4 +1,3 @@
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:web_browser/core/usecase/create_node_usecase.dart';
 import 'package:web_browser/core/node/node_path.dart';
@@ -34,29 +33,24 @@ class FloatingSearchBarViewModel {
   }
 
   /// 検索を実行
-  void performSearch(String searchWord) {
+  void performSearch(String searchWord) async {
     if (searchWord.trim().isEmpty) return;
 
     final searchUrl =
         'https://www.google.com/search?q=${Uri.encodeComponent(searchWord)}';
 
     // 新しいノードを作成
-    final BrowserNode newNode = BrowserNode(title: searchWord, url: searchUrl
-    );
+    final BrowserNode newNode = BrowserNode(title: searchWord, url: searchUrl);
 
     //現在のpath（新しいノードの親）を取得
     NodePath currentPath = ref.read(currentPathProvider);
 
     //新しいノードを追加
-    final NodePath? resultPath = ref
+    final NodePath? resultPath = await ref
         .read(createNodeUsecaseProvider)
-        .create(
-          parentPath: currentPath,
-          node: newNode,
-        );
+        .create(parentPath: currentPath, node: newNode);
     if (resultPath == null) return; //TODO 通知をストリームで流し、ポップアップ
 
-    
     // 新しいノードに遷移
     ref.read(currentPathProvider.notifier).changePath(resultPath);
 

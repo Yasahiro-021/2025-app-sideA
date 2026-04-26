@@ -6,7 +6,8 @@
 import 'dart:async' as _i3;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:web_browser/db/models/tree_model.dart' as _i4;
+import 'package:web_browser/core/tree/tree_name.dart' as _i4;
+import 'package:web_browser/db/models/tree_model.dart' as _i5;
 import 'package:web_browser/db/repositories/tree_repository.dart' as _i2;
 
 // ignore_for_file: type=lint
@@ -33,7 +34,7 @@ class MockTreeRepository extends _i1.Mock implements _i2.TreeRepository {
   }
 
   @override
-  _i3.Future<int> createTree(String? name) =>
+  _i3.Future<int> createTree(_i4.TreeName? name) =>
       (super.noSuchMethod(
             Invocation.method(#createTree, [name]),
             returnValue: _i3.Future<int>.value(0),
@@ -41,30 +42,40 @@ class MockTreeRepository extends _i1.Mock implements _i2.TreeRepository {
           as _i3.Future<int>);
 
   @override
-  _i3.Future<_i4.TreeModel?> getTreeById(int? id) =>
+  _i3.Future<_i5.TreeModel?> getTreeById(int? id) =>
       (super.noSuchMethod(
             Invocation.method(#getTreeById, [id]),
-            returnValue: _i3.Future<_i4.TreeModel?>.value(),
+            returnValue: _i3.Future<_i5.TreeModel?>.value(),
           )
-          as _i3.Future<_i4.TreeModel?>);
+          as _i3.Future<_i5.TreeModel?>);
 
   @override
-  _i3.Future<_i4.TreeModel?> getTreeByName(String? name) =>
+  _i3.Future<_i5.TreeModel?> getTreeByName(String? name) =>
       (super.noSuchMethod(
             Invocation.method(#getTreeByName, [name]),
-            returnValue: _i3.Future<_i4.TreeModel?>.value(),
+            returnValue: _i3.Future<_i5.TreeModel?>.value(),
           )
-          as _i3.Future<_i4.TreeModel?>);
+          as _i3.Future<_i5.TreeModel?>);
 
   @override
-  _i3.Future<List<_i4.TreeModel>> getAllTrees() =>
+  _i3.Future<List<_i5.TreeModel>> getAllTrees() =>
       (super.noSuchMethod(
             Invocation.method(#getAllTrees, []),
-            returnValue: _i3.Future<List<_i4.TreeModel>>.value(
-              <_i4.TreeModel>[],
+            returnValue: _i3.Future<List<_i5.TreeModel>>.value(
+              <_i5.TreeModel>[],
             ),
           )
-          as _i3.Future<List<_i4.TreeModel>>);
+          as _i3.Future<List<_i5.TreeModel>>);
+
+  @override
+  _i3.Future<List<_i5.TreeModel>> getRecentTrees({int? limit = 5}) =>
+      (super.noSuchMethod(
+            Invocation.method(#getRecentTrees, [], {#limit: limit}),
+            returnValue: _i3.Future<List<_i5.TreeModel>>.value(
+              <_i5.TreeModel>[],
+            ),
+          )
+          as _i3.Future<List<_i5.TreeModel>>);
 
   @override
   _i3.Future<void> renameTree(int? id, String? newName) =>

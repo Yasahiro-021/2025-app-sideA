@@ -3,7 +3,7 @@ import 'package:web_browser/core/node/node_path.dart';
 import 'package:web_browser/core/node/browser_node.dart';
 import 'package:web_browser/core/node/browser_node_from_path_notifier.dart';
 import 'package:web_browser/core/usecase/children_at_path_manager.dart';
-import 'package:web_browser/db/providers/tree_aware_node_repository.dart';
+import 'package:web_browser/db/providers/tree_aware_node_repository_provider.dart';
 
 part 'create_node_usecase.g.dart';
 
@@ -17,15 +17,17 @@ class CreateNodeUsecase extends _$CreateNodeUsecase {
   /// ノードを作成し、作成されたPathを返す。
   /// BrowserNodeも同時に作成され、Notifierに登録される。
   /// URLが重複する場合はnullを返す。
-  NodePath? create({required NodePath parentPath, required BrowserNode node}) {
+  Future<NodePath?> create({
+    required NodePath parentPath,
+    required BrowserNode node,
+  }) async {
     // 1. urlの重複を検知し、除外
     final children = ref.read(childrenAtPathMangerProvider(parentPath));
     final childrenNodeUrls = children.children.map((path) {
-      final existingNode =
-          ref.read(browserNodeFromPathProvider(path));
+      final existingNode = ref.read(browserNodeFromPathProvider(path));
       return existingNode.url;
     }).toSet();
-    if (childrenNodeUrls.contains(node.url))  return null;
+    if (childrenNodeUrls.contains(node.url)) return null;
 
     // 2. パスを取得
     final newPath = ref
@@ -36,7 +38,8 @@ class CreateNodeUsecase extends _$CreateNodeUsecase {
     ref.read(browserNodeFromPathProvider(newPath).notifier).setNode(newNode);
 
     // 3. DBに保存
-    ref.read(treeAwareNodeRepositoryProvider.notifier).saveNode(newPath, newNode);
+    final repo = await ref.read(treeAwareNodeRepositoryProvider.future);
+    repo.saveNode(newPath, newNode);
 
     return newPath;
   }

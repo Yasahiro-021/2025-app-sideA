@@ -9,7 +9,7 @@ class TreeModel {
   final String? updatedAt;  // 更新日時
 
   TreeModel({
-    this.id,
+    this.id = 0,
     required this.name,
     this.createdAt,
     this.updatedAt,
@@ -18,7 +18,7 @@ class TreeModel {
   /// MapからTreeModelを生成（DB読み込み用）
   factory TreeModel.fromMap(Map<String, dynamic> map) {
     return TreeModel(
-      id: map['id'] as int?,
+      id: map['id'] as int,
       name: map['name'] as String,
       createdAt: map['created_at'] as String?,
       updatedAt: map['updated_at'] as String?,
@@ -28,7 +28,7 @@ class TreeModel {
   /// TreeModelをMapに変換（DB書き込み用）
   Map<String, dynamic> toMap() {
     return {
-      if (id != null) 'id': id,
+      'id': id,
       'name': name,
       'created_at': createdAt,
       'updated_at': updatedAt,

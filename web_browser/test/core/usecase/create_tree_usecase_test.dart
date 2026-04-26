@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
+import 'package:web_browser/core/tree/tree_name.dart';
 import 'package:web_browser/core/usecase/create_tree_usecase.dart';
 import 'package:web_browser/db/providers/tree_repository_provider.dart';
 import 'package:web_browser/db/repositories/tree_repository.dart';
@@ -21,9 +22,7 @@ void main() {
 
     // Providerコンテナを作成し、TreeRepositoryをモックでオーバーライド
     container = ProviderContainer(
-      overrides: [
-        treeRepositoryProvider.overrideWithValue(mockRepository),
-      ],
+      overrides: [treeRepositoryProvider.overrideWithValue(mockRepository)],
     );
   });
 
@@ -36,10 +35,12 @@ void main() {
   group('CreateTreeUsecase', () {
     test('正常系: 有効な名前でツリーIDが返る', () async {
       // モックの動作を設定
-      when(mockRepository.getTreeByName('新しいツリー'))
-          .thenAnswer((_) async => null);
-      when(mockRepository.createTree('新しいツリー'))
-          .thenAnswer((_) async => 1);
+      when(
+        mockRepository.getTreeByName('新しいツリー'),
+      ).thenAnswer((_) async => null);
+      when(
+        mockRepository.createTree(TreeName('新しいツリー')),
+      ).thenAnswer((_) async => 1);
 
       final usecase = container.read(createTreeUsecaseProvider.notifier);
 
@@ -51,7 +52,7 @@ void main() {
 
       // モックが呼ばれたことを確認
       verify(mockRepository.getTreeByName('新しいツリー')).called(1);
-      verify(mockRepository.createTree('新しいツリー')).called(1);
+      verify(mockRepository.createTree(TreeName('新しいツリー'))).called(1);
     });
 
     test('異常系1: 空文字でエラー', () async {
@@ -104,8 +105,9 @@ void main() {
         createdAt: DateTime.now().toIso8601String(),
         updatedAt: DateTime.now().toIso8601String(),
       );
-      when(mockRepository.getTreeByName('重複テスト'))
-          .thenAnswer((_) async => existingTree);
+      when(
+        mockRepository.getTreeByName('重複テスト'),
+      ).thenAnswer((_) async => existingTree);
 
       final usecase = container.read(createTreeUsecaseProvider.notifier);
 
@@ -122,10 +124,10 @@ void main() {
 
     test('前後の空白を除去して処理される', () async {
       // モックの動作を設定（trimされた名前で呼ばれる）
-      when(mockRepository.getTreeByName('前後に空白'))
-          .thenAnswer((_) async => null);
-      when(mockRepository.createTree('前後に空白'))
-          .thenAnswer((_) async => 2);
+      when(mockRepository.getTreeByName('前後に空白')).thenAnswer((_) async => null);
+      when(
+        mockRepository.createTree(TreeName('前後に空白')),
+      ).thenAnswer((_) async => 2);
 
       final usecase = container.read(createTreeUsecaseProvider.notifier);
 
@@ -136,7 +138,7 @@ void main() {
 
       // trimされた名前でリポジトリが呼ばれたことを確認
       verify(mockRepository.getTreeByName('前後に空白')).called(1);
-      verify(mockRepository.createTree('前後に空白')).called(1);
+      verify(mockRepository.createTree(TreeName('前後に空白'))).called(1);
     });
 
     test('前後の空白を除去した結果が重複する場合はエラー', () async {
@@ -147,8 +149,9 @@ void main() {
         createdAt: DateTime.now().toIso8601String(),
         updatedAt: DateTime.now().toIso8601String(),
       );
-      when(mockRepository.getTreeByName('空白重複'))
-          .thenAnswer((_) async => existingTree);
+      when(
+        mockRepository.getTreeByName('空白重複'),
+      ).thenAnswer((_) async => existingTree);
 
       final usecase = container.read(createTreeUsecaseProvider.notifier);
 
@@ -164,20 +167,20 @@ void main() {
 
     test('異なる名前のツリーは複数作成できる', () async {
       // それぞれのツリーに対してモックを設定
-      when(mockRepository.getTreeByName('ツリー1'))
-          .thenAnswer((_) async => null);
-      when(mockRepository.createTree('ツリー1'))
-          .thenAnswer((_) async => 1);
+      when(mockRepository.getTreeByName('ツリー1')).thenAnswer((_) async => null);
+      when(
+        mockRepository.createTree(TreeName('ツリー1')),
+      ).thenAnswer((_) async => 1);
 
-      when(mockRepository.getTreeByName('ツリー2'))
-          .thenAnswer((_) async => null);
-      when(mockRepository.createTree('ツリー2'))
-          .thenAnswer((_) async => 2);
+      when(mockRepository.getTreeByName('ツリー2')).thenAnswer((_) async => null);
+      when(
+        mockRepository.createTree(TreeName('ツリー2')),
+      ).thenAnswer((_) async => 2);
 
-      when(mockRepository.getTreeByName('ツリー3'))
-          .thenAnswer((_) async => null);
-      when(mockRepository.createTree('ツリー3'))
-          .thenAnswer((_) async => 3);
+      when(mockRepository.getTreeByName('ツリー3')).thenAnswer((_) async => null);
+      when(
+        mockRepository.createTree(TreeName('ツリー3')),
+      ).thenAnswer((_) async => 3);
 
       final usecase = container.read(createTreeUsecaseProvider.notifier);
 
@@ -194,11 +197,11 @@ void main() {
 
       // 各ツリーに対して正しくメソッドが呼ばれたことを確認
       verify(mockRepository.getTreeByName('ツリー1')).called(1);
-      verify(mockRepository.createTree('ツリー1')).called(1);
+      verify(mockRepository.createTree(TreeName('ツリー1'))).called(1);
       verify(mockRepository.getTreeByName('ツリー2')).called(1);
-      verify(mockRepository.createTree('ツリー2')).called(1);
+      verify(mockRepository.createTree(TreeName('ツリー2'))).called(1);
       verify(mockRepository.getTreeByName('ツリー3')).called(1);
-      verify(mockRepository.createTree('ツリー3')).called(1);
+      verify(mockRepository.createTree(TreeName('ツリー3'))).called(1);
     });
   });
 }

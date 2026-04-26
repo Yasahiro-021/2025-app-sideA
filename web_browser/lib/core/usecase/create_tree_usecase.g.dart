@@ -41,7 +41,7 @@ final class CreateTreeUsecaseProvider
   }
 }
 
-String _$createTreeUsecaseHash() => r'd687463e25debbea343f15a2c58fc5aecbdb4ecd';
+String _$createTreeUsecaseHash() => r'116645fff2e2621d5494b3acd8bb3ac0ff87e333';
 
 abstract class _$CreateTreeUsecase extends $Notifier<CreateTreeUsecase> {
   CreateTreeUsecase build();
