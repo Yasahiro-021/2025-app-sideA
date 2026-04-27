@@ -3,12 +3,13 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
+import 'dart:async' as _i4;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:web_browser/core/tree/tree_name.dart' as _i4;
-import 'package:web_browser/db/models/tree_model.dart' as _i5;
-import 'package:web_browser/db/repositories/tree_repository.dart' as _i2;
+import 'package:web_browser/core/tree/tree_id.dart' as _i2;
+import 'package:web_browser/core/tree/tree_name.dart' as _i5;
+import 'package:web_browser/db/models/tree_model.dart' as _i6;
+import 'package:web_browser/db/repositories/tree_repository.dart' as _i3;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -25,91 +26,98 @@ import 'package:web_browser/db/repositories/tree_repository.dart' as _i2;
 // ignore_for_file: subtype_of_sealed_class
 // ignore_for_file: invalid_use_of_internal_member
 
+class _FakeTreeId_0 extends _i1.SmartFake implements _i2.TreeId {
+  _FakeTreeId_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
 /// A class which mocks [TreeRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockTreeRepository extends _i1.Mock implements _i2.TreeRepository {
+class MockTreeRepository extends _i1.Mock implements _i3.TreeRepository {
   MockTreeRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<int> createTree(_i4.TreeName? name) =>
+  _i4.Future<_i2.TreeId> createTree(_i5.TreeName? name) =>
       (super.noSuchMethod(
             Invocation.method(#createTree, [name]),
-            returnValue: _i3.Future<int>.value(0),
+            returnValue: _i4.Future<_i2.TreeId>.value(
+              _FakeTreeId_0(this, Invocation.method(#createTree, [name])),
+            ),
           )
-          as _i3.Future<int>);
+          as _i4.Future<_i2.TreeId>);
 
   @override
-  _i3.Future<_i5.TreeModel?> getTreeById(int? id) =>
+  _i4.Future<_i6.TreeModel?> getTreeById(int? id) =>
       (super.noSuchMethod(
             Invocation.method(#getTreeById, [id]),
-            returnValue: _i3.Future<_i5.TreeModel?>.value(),
+            returnValue: _i4.Future<_i6.TreeModel?>.value(),
           )
-          as _i3.Future<_i5.TreeModel?>);
+          as _i4.Future<_i6.TreeModel?>);
 
   @override
-  _i3.Future<_i5.TreeModel?> getTreeByName(String? name) =>
+  _i4.Future<_i6.TreeModel?> getTreeByName(String? name) =>
       (super.noSuchMethod(
             Invocation.method(#getTreeByName, [name]),
-            returnValue: _i3.Future<_i5.TreeModel?>.value(),
+            returnValue: _i4.Future<_i6.TreeModel?>.value(),
           )
-          as _i3.Future<_i5.TreeModel?>);
+          as _i4.Future<_i6.TreeModel?>);
 
   @override
-  _i3.Future<List<_i5.TreeModel>> getAllTrees() =>
+  _i4.Future<List<_i6.TreeModel>> getAllTrees() =>
       (super.noSuchMethod(
             Invocation.method(#getAllTrees, []),
-            returnValue: _i3.Future<List<_i5.TreeModel>>.value(
-              <_i5.TreeModel>[],
+            returnValue: _i4.Future<List<_i6.TreeModel>>.value(
+              <_i6.TreeModel>[],
             ),
           )
-          as _i3.Future<List<_i5.TreeModel>>);
+          as _i4.Future<List<_i6.TreeModel>>);
 
   @override
-  _i3.Future<List<_i5.TreeModel>> getRecentTrees({int? limit = 5}) =>
+  _i4.Future<List<_i6.TreeModel>> getRecentTrees({int? limit = 5}) =>
       (super.noSuchMethod(
             Invocation.method(#getRecentTrees, [], {#limit: limit}),
-            returnValue: _i3.Future<List<_i5.TreeModel>>.value(
-              <_i5.TreeModel>[],
+            returnValue: _i4.Future<List<_i6.TreeModel>>.value(
+              <_i6.TreeModel>[],
             ),
           )
-          as _i3.Future<List<_i5.TreeModel>>);
+          as _i4.Future<List<_i6.TreeModel>>);
 
   @override
-  _i3.Future<void> renameTree(int? id, String? newName) =>
+  _i4.Future<void> renameTree(int? id, String? newName) =>
       (super.noSuchMethod(
             Invocation.method(#renameTree, [id, newName]),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
           )
-          as _i3.Future<void>);
+          as _i4.Future<void>);
 
   @override
-  _i3.Future<void> touchTree(int? id) =>
+  _i4.Future<void> touchTree(int? id) =>
       (super.noSuchMethod(
             Invocation.method(#touchTree, [id]),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
           )
-          as _i3.Future<void>);
+          as _i4.Future<void>);
 
   @override
-  _i3.Future<void> deleteTree(int? id) =>
+  _i4.Future<void> deleteTree(int? id) =>
       (super.noSuchMethod(
             Invocation.method(#deleteTree, [id]),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
           )
-          as _i3.Future<void>);
+          as _i4.Future<void>);
 
   @override
-  _i3.Future<void> clearAll() =>
+  _i4.Future<void> clearAll() =>
       (super.noSuchMethod(
             Invocation.method(#clearAll, []),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
           )
-          as _i3.Future<void>);
+          as _i4.Future<void>);
 }

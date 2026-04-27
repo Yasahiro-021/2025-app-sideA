@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:web_browser/core/providers/current_tree_notifier.dart';
 import 'package:web_browser/browser/view/components/app_bar/tree_button/tree_button_viewmodel.dart';
 
 /// ツリー画面への遷移ボタン
@@ -13,7 +14,7 @@ class TreeButtonView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // カラースキームの取得
     final colors = Theme.of(context).colorScheme;
-    
+
     // ViewModelの取得
     final viewModel = ref.watch(treeButtonViewModelProvider);
 
@@ -39,8 +40,13 @@ class TreeButtonView extends ConsumerWidget {
               ),
             ),
             tooltip: 'ツリー画面へ移動',
-            onPressed: () {
-              context.go('/browser/tree', extra: viewModel.rootNodeAsNode);
+            onPressed: () async {
+              final treeId = await ref.read(currentTreeProvider.future);
+              if (!context.mounted) return;
+              context.go(
+                '/browser/${treeId.id}/tree',
+                extra: viewModel.rootNodeAsNode,
+              );
             },
           ),
         ],
