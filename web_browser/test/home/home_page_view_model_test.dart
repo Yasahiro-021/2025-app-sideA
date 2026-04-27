@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:web_browser/core/tree/tree_id.dart';
+import 'package:web_browser/core/tree/tree_name.dart';
 import 'package:web_browser/db/models/tree_model.dart';
 import 'package:web_browser/db/providers/tree_repository_provider.dart';
 import 'package:web_browser/db/repositories/tree_repository.dart';
@@ -18,7 +20,7 @@ void main() {
 
     setUp(() {
       mockTreeRepository = MockTreeRepository();
-      
+
       // Riverpodコンテナにモック化されたプロバイダーを指定
       container = ProviderContainer(
         overrides: [
@@ -33,10 +35,10 @@ void main() {
 
     test('build()が正しくHomePageStateを返す', () {
       // Arrange
-      when(() => mockTreeRepository.getAllTrees())
-          .thenAnswer((_) async => []);
-      when(() => mockTreeRepository.getRecentTrees(limit: 5))
-          .thenAnswer((_) async => []);
+      when(() => mockTreeRepository.getAllTrees()).thenAnswer((_) async => []);
+      when(
+        () => mockTreeRepository.getRecentTrees(limit: 5),
+      ).thenAnswer((_) async => []);
 
       // Act
       final state = container.read(homePageViewModelProvider);
@@ -63,10 +65,12 @@ void main() {
           updatedAt: '2025-03-19 12:00:00',
         ),
       ];
-      when(() => mockTreeRepository.getAllTrees())
-          .thenAnswer((_) async => treeModels);
-      when(() => mockTreeRepository.getRecentTrees(limit: 5))
-          .thenAnswer((_) async => []);
+      when(
+        () => mockTreeRepository.getAllTrees(),
+      ).thenAnswer((_) async => treeModels);
+      when(
+        () => mockTreeRepository.getRecentTrees(limit: 5),
+      ).thenAnswer((_) async => []);
 
       // Act
       final state = container.read(homePageViewModelProvider);
@@ -82,26 +86,14 @@ void main() {
     test('_getRecentTreeHistory()が最新5件を返す', () async {
       // Arrange
       final treeModels = [
-        TreeModel(
-          id: 1,
-          name: 'ツリー1',
-          updatedAt: '2025-03-19 15:00:00',
-        ),
-        TreeModel(
-          id: 2,
-          name: 'ツリー2',
-          updatedAt: '2025-03-19 14:00:00',
-        ),
-        TreeModel(
-          id: 3,
-          name: 'ツリー3',
-          updatedAt: '2025-03-19 13:00:00',
-        ),
+        TreeModel(id: 1, name: 'ツリー1', updatedAt: '2025-03-19 15:00:00'),
+        TreeModel(id: 2, name: 'ツリー2', updatedAt: '2025-03-19 14:00:00'),
+        TreeModel(id: 3, name: 'ツリー3', updatedAt: '2025-03-19 13:00:00'),
       ];
-      when(() => mockTreeRepository.getAllTrees())
-          .thenAnswer((_) async => []);
-      when(() => mockTreeRepository.getRecentTrees(limit: 5))
-          .thenAnswer((_) async => treeModels);
+      when(() => mockTreeRepository.getAllTrees()).thenAnswer((_) async => []);
+      when(
+        () => mockTreeRepository.getRecentTrees(limit: 5),
+      ).thenAnswer((_) async => treeModels);
 
       // Act
       final state = container.read(homePageViewModelProvider);
@@ -113,28 +105,23 @@ void main() {
       expect(recentHistories[0].date, DateTime.parse('2025-03-19 15:00:00'));
     });
 
-    test('updatedAtがnullの場合は空文字列を使用', () async {
+    test('updatedAtがnullの場合はFormatExceptionが発生する', () async {
       // Arrange
-      final treeModels = [
-        TreeModel(
-          id: 1,
-          name: 'ツリー1',
-          updatedAt: null,
-        ),
-      ];
-      when(() => mockTreeRepository.getAllTrees())
-          .thenAnswer((_) async => treeModels);
-      when(() => mockTreeRepository.getRecentTrees(limit: 5))
-          .thenAnswer((_) async => []);
+      final treeModels = [TreeModel(id: 1, name: 'ツリー1', updatedAt: null)];
+      when(
+        () => mockTreeRepository.getAllTrees(),
+      ).thenAnswer((_) async => treeModels);
+      when(
+        () => mockTreeRepository.getRecentTrees(limit: 5),
+      ).thenAnswer((_) async => []);
 
-      // Act & Assert
+      // Act
       final state = container.read(homePageViewModelProvider);
-      
-      // nullが渡された場合の処理を確認
-      // 実装では問題が発生する可能性があるため、この挙動をテストして仕様を確認
+
+      // Assert
       expect(
         () async => await state.historyList,
-        returnsNormally,
+        throwsA(isA<FormatException>()),
       );
     });
 
@@ -147,10 +134,12 @@ void main() {
         updatedAt: '2025-03-19 15:30:00',
       );
       final treeModels = [treeModel];
-      when(() => mockTreeRepository.getAllTrees())
-          .thenAnswer((_) async => treeModels);
-      when(() => mockTreeRepository.getRecentTrees(limit: 5))
-          .thenAnswer((_) async => []);
+      when(
+        () => mockTreeRepository.getAllTrees(),
+      ).thenAnswer((_) async => treeModels);
+      when(
+        () => mockTreeRepository.getRecentTrees(limit: 5),
+      ).thenAnswer((_) async => []);
 
       // Act
       final state = container.read(homePageViewModelProvider);
@@ -165,26 +154,14 @@ void main() {
     test('複数ツリーの取得時にソート順序が保たれる', () async {
       // Arrange
       final treeModels = [
-        TreeModel(
-          id: 1,
-          name: 'ツリー1',
-          updatedAt: '2025-03-19 10:00:00',
-        ),
-        TreeModel(
-          id: 2,
-          name: 'ツリー2',
-          updatedAt: '2025-03-19 20:00:00',
-        ),
-        TreeModel(
-          id: 3,
-          name: 'ツリー3',
-          updatedAt: '2025-03-19 15:00:00',
-        ),
+        TreeModel(id: 1, name: 'ツリー1', updatedAt: '2025-03-19 10:00:00'),
+        TreeModel(id: 2, name: 'ツリー2', updatedAt: '2025-03-19 20:00:00'),
+        TreeModel(id: 3, name: 'ツリー3', updatedAt: '2025-03-19 15:00:00'),
       ];
-      when(() => mockTreeRepository.getAllTrees())
-          .thenAnswer((_) async => []);
-      when(() => mockTreeRepository.getRecentTrees(limit: 5))
-          .thenAnswer((_) async => treeModels);
+      when(() => mockTreeRepository.getAllTrees()).thenAnswer((_) async => []);
+      when(
+        () => mockTreeRepository.getRecentTrees(limit: 5),
+      ).thenAnswer((_) async => treeModels);
 
       // Act
       final state = container.read(homePageViewModelProvider);
@@ -203,10 +180,10 @@ void main() {
 
     test('getAllTrees()が呼び出される', () async {
       // Arrange
-      when(() => mockTreeRepository.getAllTrees())
-          .thenAnswer((_) async => []);
-      when(() => mockTreeRepository.getRecentTrees(limit: 5))
-          .thenAnswer((_) async => []);
+      when(() => mockTreeRepository.getAllTrees()).thenAnswer((_) async => []);
+      when(
+        () => mockTreeRepository.getRecentTrees(limit: 5),
+      ).thenAnswer((_) async => []);
 
       // Act
       final state = container.read(homePageViewModelProvider);
@@ -218,10 +195,10 @@ void main() {
 
     test('getRecentTrees(limit: 5)が呼び出される', () async {
       // Arrange
-      when(() => mockTreeRepository.getAllTrees())
-          .thenAnswer((_) async => []);
-      when(() => mockTreeRepository.getRecentTrees(limit: 5))
-          .thenAnswer((_) async => []);
+      when(() => mockTreeRepository.getAllTrees()).thenAnswer((_) async => []);
+      when(
+        () => mockTreeRepository.getRecentTrees(limit: 5),
+      ).thenAnswer((_) async => []);
 
       // Act
       final state = container.read(homePageViewModelProvider);
@@ -233,10 +210,10 @@ void main() {
 
     test('ビューモデルが同じhistoryListを返す', () {
       // Arrange
-      when(() => mockTreeRepository.getAllTrees())
-          .thenAnswer((_) async => []);
-      when(() => mockTreeRepository.getRecentTrees(limit: 5))
-          .thenAnswer((_) async => []);
+      when(() => mockTreeRepository.getAllTrees()).thenAnswer((_) async => []);
+      when(
+        () => mockTreeRepository.getRecentTrees(limit: 5),
+      ).thenAnswer((_) async => []);
 
       // Act
       final state1 = container.read(homePageViewModelProvider);
@@ -244,6 +221,27 @@ void main() {
 
       // Assert
       expect(state1, state2);
+    });
+
+    test('prepBrowseがcreateTreeを呼び出してTreeIdを返す', () async {
+      // Arrange
+      const treeName = TreeName('新規ツリー');
+      const expectedTreeId = TreeId(42);
+      when(() => mockTreeRepository.getAllTrees()).thenAnswer((_) async => []);
+      when(
+        () => mockTreeRepository.getRecentTrees(limit: 5),
+      ).thenAnswer((_) async => []);
+      when(
+        () => mockTreeRepository.createTree(treeName),
+      ).thenAnswer((_) async => expectedTreeId);
+
+      // Act
+      final state = container.read(homePageViewModelProvider);
+      final actualTreeId = await state.prepBrowse(treeName);
+
+      // Assert
+      expect(actualTreeId, expectedTreeId);
+      verify(() => mockTreeRepository.createTree(treeName)).called(1);
     });
   });
 }
