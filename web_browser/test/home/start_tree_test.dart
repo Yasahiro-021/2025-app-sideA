@@ -182,8 +182,18 @@ void main() {
       );
 
       // Assert
-      expect(find.byType(ElevatedButton), findsOneWidget);
-      expect(find.byType(Align), findsOneWidget);
+      final searchButton = find.widgetWithText(ElevatedButton, 'Search');
+      final rightAlign = find.byWidgetPredicate(
+        (widget) =>
+            widget is Align && widget.alignment == Alignment.centerRight,
+      );
+
+      expect(searchButton, findsOneWidget);
+      expect(rightAlign, findsOneWidget);
+      expect(
+        find.descendant(of: rightAlign, matching: searchButton),
+        findsOneWidget,
+      );
     });
 
     testWidgets('TextFieldコントローラーが初期化されている', (tester) async {

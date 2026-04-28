@@ -10,19 +10,19 @@ part of 'tree_button_viewmodel.dart';
 // ignore_for_file: type=lint, type=warning
 /// TreeButtonのViewModel
 ///
-/// ルートノードの状態を管理し、ツリー画面への遷移に必要なデータを提供する
+/// TreeButtonViewに必要な情報を処理する。
 
 @ProviderFor(TreeButtonViewModel)
 const treeButtonViewModelProvider = TreeButtonViewModelProvider._();
 
 /// TreeButtonのViewModel
 ///
-/// ルートノードの状態を管理し、ツリー画面への遷移に必要なデータを提供する
+/// TreeButtonViewに必要な情報を処理する。
 final class TreeButtonViewModelProvider
     extends $NotifierProvider<TreeButtonViewModel, TreeButtonViewModel> {
   /// TreeButtonのViewModel
   ///
-  /// ルートノードの状態を管理し、ツリー画面への遷移に必要なデータを提供する
+  /// TreeButtonViewに必要な情報を処理する。
   const TreeButtonViewModelProvider._()
     : super(
         from: null,
@@ -51,11 +51,11 @@ final class TreeButtonViewModelProvider
 }
 
 String _$treeButtonViewModelHash() =>
-    r'0e7e790aefdf06bff83005ab6a768b013f0fe56b';
+    r'e820d3037bd7f7c7bec38e407d4648357ac24dd6';
 
 /// TreeButtonのViewModel
 ///
-/// ルートノードの状態を管理し、ツリー画面への遷移に必要なデータを提供する
+/// TreeButtonViewに必要な情報を処理する。
 
 abstract class _$TreeButtonViewModel extends $Notifier<TreeButtonViewModel> {
   TreeButtonViewModel build();

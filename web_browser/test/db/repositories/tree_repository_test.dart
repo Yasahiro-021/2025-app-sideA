@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:web_browser/core/tree/tree_id.dart';
 import 'package:web_browser/core/tree/tree_name.dart';
 import 'package:web_browser/db/dao/tree_dao.dart';
 import 'package:web_browser/db/models/tree_model.dart';
@@ -65,7 +66,7 @@ void main() {
   test('createTreeはTreeModelを作成してDAOへ渡す', () async {
     final id = await repository.createTree(TreeName('新規ツリー'));
 
-    expect(id, 7);
+    expect(id, TreeId(7));
     final model = dao.inserted!;
     expect(model.name, '新規ツリー');
   });
