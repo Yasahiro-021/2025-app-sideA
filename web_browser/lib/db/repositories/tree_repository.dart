@@ -1,3 +1,4 @@
+import 'package:web_browser/core/tree/tree_id.dart';
 import 'package:web_browser/core/tree/tree_name.dart';
 
 import '../dao/tree_dao.dart';
@@ -15,9 +16,10 @@ class TreeRepository {
   /// 新しいツリーを作成
   ///
   /// 作成されたツリーのIDを返す
-  Future<int> createTree(TreeName name) async {
+  Future<TreeId> createTree(TreeName name) async {
     final tree = TreeModel(name: name.name);
-    return await _dao.insert(tree);
+    final int treeId = await _dao.insert(tree);
+    return TreeId(treeId);
   }
 
   /// IDでツリーを取得
