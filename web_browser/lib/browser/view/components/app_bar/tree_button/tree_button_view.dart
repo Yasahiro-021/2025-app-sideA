@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:web_browser/core/providers/current_tree_notifier.dart';
 import 'package:web_browser/browser/view/components/app_bar/tree_button/tree_button_viewmodel.dart';
 import 'package:web_browser/core/tree/tree_id.dart';
 
@@ -41,10 +42,11 @@ class TreeButtonView extends ConsumerWidget {
             ),
             tooltip: 'ツリー画面へ移動',
             onPressed: () async {
-              final TreeId treeId = await viewModel.currentTreeId;
+              final treeId = await ref.read(currentTreeProvider.future);
               if (!context.mounted) return;
               context.go(
                 '/browser/${treeId.id}/tree',
+                extra: viewModel.rootNodeAsNode,
               );
             },
           ),
