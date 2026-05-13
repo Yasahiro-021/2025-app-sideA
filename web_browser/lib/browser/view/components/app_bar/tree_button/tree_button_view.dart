@@ -46,7 +46,6 @@ class TreeButtonView extends ConsumerWidget {
               if (!context.mounted) return;
               context.go(
                 '/browser/${treeId.id}/tree',
-                extra: viewModel.rootNodeAsNode,
               );
             },
           ),
