@@ -16,7 +16,7 @@ mixin _$HomePageState implements DiagnosticableTreeMixin {
 
 /// 検索履歴のリスト
  Future<List<History>> get historyList;/// 直近の履歴のリスト
- Future<List<History>> get recentHistoryList;
+ Future<List<History>> get recentHistoryList; Future<TreeId> Function(TreeName) get prepBrowse;
 /// Create a copy of HomePageState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,21 +28,21 @@ $HomePageStateCopyWith<HomePageState> get copyWith => _$HomePageStateCopyWithImp
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'HomePageState'))
-    ..add(DiagnosticsProperty('historyList', historyList))..add(DiagnosticsProperty('recentHistoryList', recentHistoryList));
+    ..add(DiagnosticsProperty('historyList', historyList))..add(DiagnosticsProperty('recentHistoryList', recentHistoryList))..add(DiagnosticsProperty('prepBrowse', prepBrowse));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomePageState&&(identical(other.historyList, historyList) || other.historyList == historyList)&&(identical(other.recentHistoryList, recentHistoryList) || other.recentHistoryList == recentHistoryList));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomePageState&&(identical(other.historyList, historyList) || other.historyList == historyList)&&(identical(other.recentHistoryList, recentHistoryList) || other.recentHistoryList == recentHistoryList)&&(identical(other.prepBrowse, prepBrowse) || other.prepBrowse == prepBrowse));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,historyList,recentHistoryList);
+int get hashCode => Object.hash(runtimeType,historyList,recentHistoryList,prepBrowse);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'HomePageState(historyList: $historyList, recentHistoryList: $recentHistoryList)';
+  return 'HomePageState(historyList: $historyList, recentHistoryList: $recentHistoryList, prepBrowse: $prepBrowse)';
 }
 
 
@@ -53,7 +53,7 @@ abstract mixin class $HomePageStateCopyWith<$Res>  {
   factory $HomePageStateCopyWith(HomePageState value, $Res Function(HomePageState) _then) = _$HomePageStateCopyWithImpl;
 @useResult
 $Res call({
- Future<List<History>> historyList, Future<List<History>> recentHistoryList
+ Future<List<History>> historyList, Future<List<History>> recentHistoryList, Future<TreeId> Function(TreeName) prepBrowse
 });
 
 
@@ -70,11 +70,12 @@ class _$HomePageStateCopyWithImpl<$Res>
 
 /// Create a copy of HomePageState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? historyList = null,Object? recentHistoryList = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? historyList = null,Object? recentHistoryList = null,Object? prepBrowse = null,}) {
   return _then(_self.copyWith(
 historyList: null == historyList ? _self.historyList : historyList // ignore: cast_nullable_to_non_nullable
 as Future<List<History>>,recentHistoryList: null == recentHistoryList ? _self.recentHistoryList : recentHistoryList // ignore: cast_nullable_to_non_nullable
-as Future<List<History>>,
+as Future<List<History>>,prepBrowse: null == prepBrowse ? _self.prepBrowse : prepBrowse // ignore: cast_nullable_to_non_nullable
+as Future<TreeId> Function(TreeName),
   ));
 }
 
@@ -159,10 +160,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Future<List<History>> historyList,  Future<List<History>> recentHistoryList)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Future<List<History>> historyList,  Future<List<History>> recentHistoryList,  Future<TreeId> Function(TreeName) prepBrowse)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HomePageState() when $default != null:
-return $default(_that.historyList,_that.recentHistoryList);case _:
+return $default(_that.historyList,_that.recentHistoryList,_that.prepBrowse);case _:
   return orElse();
 
 }
@@ -180,10 +181,10 @@ return $default(_that.historyList,_that.recentHistoryList);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Future<List<History>> historyList,  Future<List<History>> recentHistoryList)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Future<List<History>> historyList,  Future<List<History>> recentHistoryList,  Future<TreeId> Function(TreeName) prepBrowse)  $default,) {final _that = this;
 switch (_that) {
 case _HomePageState():
-return $default(_that.historyList,_that.recentHistoryList);case _:
+return $default(_that.historyList,_that.recentHistoryList,_that.prepBrowse);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -200,10 +201,10 @@ return $default(_that.historyList,_that.recentHistoryList);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Future<List<History>> historyList,  Future<List<History>> recentHistoryList)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Future<List<History>> historyList,  Future<List<History>> recentHistoryList,  Future<TreeId> Function(TreeName) prepBrowse)?  $default,) {final _that = this;
 switch (_that) {
 case _HomePageState() when $default != null:
-return $default(_that.historyList,_that.recentHistoryList);case _:
+return $default(_that.historyList,_that.recentHistoryList,_that.prepBrowse);case _:
   return null;
 
 }
@@ -215,13 +216,14 @@ return $default(_that.historyList,_that.recentHistoryList);case _:
 
 
 class _HomePageState with DiagnosticableTreeMixin implements HomePageState {
-  const _HomePageState({required this.historyList, required this.recentHistoryList});
+  const _HomePageState({required this.historyList, required this.recentHistoryList, required this.prepBrowse});
   
 
 /// 検索履歴のリスト
 @override final  Future<List<History>> historyList;
 /// 直近の履歴のリスト
 @override final  Future<List<History>> recentHistoryList;
+@override final  Future<TreeId> Function(TreeName) prepBrowse;
 
 /// Create a copy of HomePageState
 /// with the given fields replaced by the non-null parameter values.
@@ -234,21 +236,21 @@ _$HomePageStateCopyWith<_HomePageState> get copyWith => __$HomePageStateCopyWith
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'HomePageState'))
-    ..add(DiagnosticsProperty('historyList', historyList))..add(DiagnosticsProperty('recentHistoryList', recentHistoryList));
+    ..add(DiagnosticsProperty('historyList', historyList))..add(DiagnosticsProperty('recentHistoryList', recentHistoryList))..add(DiagnosticsProperty('prepBrowse', prepBrowse));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomePageState&&(identical(other.historyList, historyList) || other.historyList == historyList)&&(identical(other.recentHistoryList, recentHistoryList) || other.recentHistoryList == recentHistoryList));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomePageState&&(identical(other.historyList, historyList) || other.historyList == historyList)&&(identical(other.recentHistoryList, recentHistoryList) || other.recentHistoryList == recentHistoryList)&&(identical(other.prepBrowse, prepBrowse) || other.prepBrowse == prepBrowse));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,historyList,recentHistoryList);
+int get hashCode => Object.hash(runtimeType,historyList,recentHistoryList,prepBrowse);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'HomePageState(historyList: $historyList, recentHistoryList: $recentHistoryList)';
+  return 'HomePageState(historyList: $historyList, recentHistoryList: $recentHistoryList, prepBrowse: $prepBrowse)';
 }
 
 
@@ -259,7 +261,7 @@ abstract mixin class _$HomePageStateCopyWith<$Res> implements $HomePageStateCopy
   factory _$HomePageStateCopyWith(_HomePageState value, $Res Function(_HomePageState) _then) = __$HomePageStateCopyWithImpl;
 @override @useResult
 $Res call({
- Future<List<History>> historyList, Future<List<History>> recentHistoryList
+ Future<List<History>> historyList, Future<List<History>> recentHistoryList, Future<TreeId> Function(TreeName) prepBrowse
 });
 
 
@@ -276,11 +278,12 @@ class __$HomePageStateCopyWithImpl<$Res>
 
 /// Create a copy of HomePageState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? historyList = null,Object? recentHistoryList = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? historyList = null,Object? recentHistoryList = null,Object? prepBrowse = null,}) {
   return _then(_HomePageState(
 historyList: null == historyList ? _self.historyList : historyList // ignore: cast_nullable_to_non_nullable
 as Future<List<History>>,recentHistoryList: null == recentHistoryList ? _self.recentHistoryList : recentHistoryList // ignore: cast_nullable_to_non_nullable
-as Future<List<History>>,
+as Future<List<History>>,prepBrowse: null == prepBrowse ? _self.prepBrowse : prepBrowse // ignore: cast_nullable_to_non_nullable
+as Future<TreeId> Function(TreeName),
   ));
 }
 

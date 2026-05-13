@@ -1,4 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:web_browser/core/tree/tree_id.dart';
+import 'package:web_browser/core/tree/tree_name.dart';
 import 'package:web_browser/db/models/tree_model.dart';
 import 'package:web_browser/db/providers/tree_repository_provider.dart';
 import 'package:web_browser/home/home_page_state.dart';
@@ -12,6 +14,7 @@ class HomePageViewModel extends _$HomePageViewModel {
     return HomePageState(
       historyList: _getTreeHistory(),
       recentHistoryList: _getRecentTreeHistory(),
+      prepBrowse: _prepBrowse,
     );
   }
 
@@ -45,5 +48,12 @@ class HomePageViewModel extends _$HomePageViewModel {
     String updatedAt = treeModel.updatedAt ?? '';
     String name = treeModel.name;
     return History(name: name, date: DateTime.parse(updatedAt));
+  }
+
+  ///サーチワードから新しいツリーを作成し、そのツリーIDを返す
+  Future<TreeId> _prepBrowse(TreeName treeName) async{
+    //リポジトリでツリーを作成して、戻り値のIDを取得する。
+    final TreeId treeId = await ref.read(treeRepositoryProvider).createTree(treeName);
+    return treeId;
   }
 }

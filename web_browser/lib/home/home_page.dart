@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:web_browser/home/home_page_state.dart';
+import 'package:web_browser/core/tree/tree_id.dart';
+import 'package:web_browser/core/tree/tree_name.dart';
 import 'package:web_browser/home/model/history.dart';
 import 'package:web_browser/home/home_page_view_model.dart';
 
@@ -124,9 +125,22 @@ class HistoryView extends ConsumerWidget {
 }
 
 ///新しく検索を始める際の表示
-class StartTree extends StatelessWidget {
-  StartTree({super.key});
-  final _controller = TextEditingController();
+class StartTree extends ConsumerStatefulWidget {
+  const StartTree({super.key});
+
+  @override
+  ConsumerState<StartTree> createState() => _StartTreeState();
+}
+
+class _StartTreeState extends ConsumerState<StartTree> {
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -150,7 +164,19 @@ class StartTree extends StatelessWidget {
           Align(
             alignment: Alignment.centerRight,
             child: ElevatedButton(
-              onPressed: () => context.go('/browser'),
+              onPressed: () async {
+                final String searchWord = _controller.text;
+
+                final TreeId treeId = await ref
+                    .read(homePageViewModelProvider)
+                    .prepBrowse(TreeName(searchWord));
+
+                // 画面遷移前にウィジェットがまだ存在しているか確認する
+                if (!context.mounted) return;
+
+                // ブラウザ画面へ遷移する
+                context.go('/browser/${treeId.id}');
+              },
               child: Text("Search"),
             ),
           ),
