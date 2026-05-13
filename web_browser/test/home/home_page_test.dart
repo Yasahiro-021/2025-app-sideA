@@ -5,6 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:web_browser/core/tree/tree_id.dart';
+import 'package:web_browser/core/tree/tree_name.dart';
 import 'package:web_browser/home/home_page_state.dart';
 import 'package:web_browser/home/model/history.dart';
 import 'package:web_browser/home/home_page.dart';
@@ -14,11 +16,11 @@ import 'home_page_test.mocks.dart';
 
 /// ViewModelプロバイダーをモック化
 @GenerateMocks([HomePageViewModel])
-
+Future<TreeId> _dummyPrepBrowse(TreeName _) async => const TreeId(1);
 
 void main() {
   group('HomePage Widget Tests', () {
-    late  MockHomePageViewModel mockViewModel;
+    late MockHomePageViewModel mockViewModel;
 
     setUp(() {
       mockViewModel = MockHomePageViewModel();
@@ -30,6 +32,7 @@ void main() {
       final homePageState = HomePageState(
         historyList: Future.value([]),
         recentHistoryList: Future.value([]),
+        prepBrowse: _dummyPrepBrowse,
       );
       when(() => mockViewModel.build()).thenReturn(() => homePageState);
 
@@ -39,9 +42,7 @@ void main() {
           overrides: [
             homePageViewModelProvider.overrideWith(() => mockViewModel),
           ],
-          child: MaterialApp(
-            home: const HomePage(),
-          ),
+          child: MaterialApp(home: const HomePage()),
         ),
       );
 
@@ -55,6 +56,7 @@ void main() {
       final homePageState = HomePageState(
         historyList: Future.value([]),
         recentHistoryList: Future.value([]),
+        prepBrowse: _dummyPrepBrowse,
       );
       when(() => mockViewModel.build()).thenReturn(() => homePageState);
 
@@ -64,9 +66,7 @@ void main() {
           overrides: [
             homePageViewModelProvider.overrideWith(() => mockViewModel),
           ],
-          child: MaterialApp(
-            home: const HomePage(),
-          ),
+          child: MaterialApp(home: const HomePage()),
         ),
       );
 
@@ -80,8 +80,9 @@ void main() {
       final homePageState = HomePageState(
         historyList: Future.value([]),
         recentHistoryList: Future.value([]),
+        prepBrowse: _dummyPrepBrowse,
       );
-      when(() => mockViewModel.build()).thenReturn(()=> homePageState);
+      when(() => mockViewModel.build()).thenReturn(() => homePageState);
 
       // Act
       await tester.pumpWidget(
@@ -89,9 +90,7 @@ void main() {
           overrides: [
             homePageViewModelProvider.overrideWith(() => mockViewModel),
           ],
-          child: MaterialApp(
-            home: HomePage(),
-          ),
+          child: MaterialApp(home: HomePage()),
         ),
       );
 
@@ -106,8 +105,9 @@ void main() {
       final homePageState = HomePageState(
         historyList: neverComplete.future,
         recentHistoryList: Future.value([]),
+        prepBrowse: _dummyPrepBrowse,
       );
-      when(() => mockViewModel.build()).thenReturn(()=> homePageState);
+      when(() => mockViewModel.build()).thenReturn(() => homePageState);
 
       // Act
       await tester.pumpWidget(
@@ -115,9 +115,7 @@ void main() {
           overrides: [
             homePageViewModelProvider.overrideWith(() => mockViewModel),
           ],
-          child: MaterialApp(
-            home: HomePage(),
-          ),
+          child: MaterialApp(home: HomePage()),
         ),
       );
 
@@ -130,8 +128,9 @@ void main() {
       final homePageState = HomePageState(
         historyList: Future.value([]),
         recentHistoryList: Future.value([]),
+        prepBrowse: _dummyPrepBrowse,
       );
-      when(() => mockViewModel.build()).thenReturn(()=> homePageState);
+      when(() => mockViewModel.build()).thenReturn(() => homePageState);
 
       // Act
       await tester.pumpWidget(
@@ -139,9 +138,7 @@ void main() {
           overrides: [
             homePageViewModelProvider.overrideWith(() => mockViewModel),
           ],
-          child: MaterialApp(
-            home: HomePage(),
-          ),
+          child: MaterialApp(home: HomePage()),
         ),
       );
 
@@ -162,8 +159,9 @@ void main() {
       final homePageState = HomePageState(
         historyList: Future.value(histories),
         recentHistoryList: Future.value([]),
+        prepBrowse: _dummyPrepBrowse,
       );
-      when(() => mockViewModel.build()).thenReturn(()=> homePageState);
+      when(() => mockViewModel.build()).thenReturn(() => homePageState);
 
       // Act
       await tester.pumpWidget(
@@ -171,9 +169,7 @@ void main() {
           overrides: [
             homePageViewModelProvider.overrideWith(() => mockViewModel),
           ],
-          child: MaterialApp(
-            home: HomePage(),
-          ),
+          child: MaterialApp(home: HomePage()),
         ),
       );
 
@@ -189,8 +185,9 @@ void main() {
       final homePageState = HomePageState(
         historyList: Future.value([]),
         recentHistoryList: Future.value([]),
+        prepBrowse: _dummyPrepBrowse,
       );
-      when(() => mockViewModel.build()).thenReturn(()=> homePageState);
+      when(() => mockViewModel.build()).thenReturn(() => homePageState);
 
       // Act
       await tester.pumpWidget(
@@ -198,9 +195,7 @@ void main() {
           overrides: [
             homePageViewModelProvider.overrideWith(() => mockViewModel),
           ],
-          child: MaterialApp(
-            home: HomePage(),
-          ),
+          child: MaterialApp(home: HomePage()),
         ),
       );
 
@@ -214,8 +209,9 @@ void main() {
       final homePageState = HomePageState(
         historyList: Future.value([]),
         recentHistoryList: Future.value([]),
+        prepBrowse: _dummyPrepBrowse,
       );
-      when(() => mockViewModel.build()).thenReturn(()=> homePageState);
+      when(() => mockViewModel.build()).thenReturn(() => homePageState);
 
       // Act
       await tester.pumpWidget(
@@ -223,9 +219,7 @@ void main() {
           overrides: [
             homePageViewModelProvider.overrideWith(() => mockViewModel),
           ],
-          child: MaterialApp(
-            home: HomePage(),
-          ),
+          child: MaterialApp(home: HomePage()),
         ),
       );
 
@@ -238,8 +232,9 @@ void main() {
       final homePageState = HomePageState(
         historyList: Future.value([]),
         recentHistoryList: Future.value([]),
+        prepBrowse: _dummyPrepBrowse,
       );
-      when(() => mockViewModel.build()).thenReturn(()=> homePageState);
+      when(() => mockViewModel.build()).thenReturn(() => homePageState);
 
       // Act
       await tester.pumpWidget(
@@ -247,9 +242,7 @@ void main() {
           overrides: [
             homePageViewModelProvider.overrideWith(() => mockViewModel),
           ],
-          child: MaterialApp(
-            home: HomePage(),
-          ),
+          child: MaterialApp(home: HomePage()),
         ),
       );
 
@@ -262,8 +255,9 @@ void main() {
       final homePageState = HomePageState(
         historyList: Future.value([]),
         recentHistoryList: Future.value([]),
+        prepBrowse: _dummyPrepBrowse,
       );
-      when(() => mockViewModel.build()).thenReturn(()=> homePageState);
+      when(() => mockViewModel.build()).thenReturn(() => homePageState);
 
       // Act
       await tester.pumpWidget(
@@ -271,9 +265,7 @@ void main() {
           overrides: [
             homePageViewModelProvider.overrideWith(() => mockViewModel),
           ],
-          child: MaterialApp(
-            home: HomePage(),
-          ),
+          child: MaterialApp(home: HomePage()),
         ),
       );
 
